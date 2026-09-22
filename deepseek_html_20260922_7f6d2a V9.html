@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monitor de Territorios · Congregación Ofelia</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#eef2f7;color:#12233b}
+  h1,h2,h3{margin:0}
+  .topbar{background:linear-gradient(90deg,#1f3a5f,#2b5486);color:#fff;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+  .brand h1{font-size:19px;letter-spacing:.4px}
+  .brand p{margin:2px 0 0;font-size:12.5px;opacity:.75}
+  .controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .controls label{font-size:12.5px;display:flex;align-items:center;gap:7px;opacity:.9}
+  input[type=month],input[type=date],input[type=text],select,textarea{
+    font:inherit;font-size:13px;padding:6px 9px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;color:#12233b}
+  .switch{display:flex;background:rgba(255,255,255,.14);border-radius:9px;padding:3px}
+  .switch button{background:none;border:0;color:#fff;font:inherit;font-size:12.5px;padding:6px 13px;border-radius:7px;cursor:pointer;opacity:.7}
+  .switch button.active{background:#fff;color:#1f3a5f;opacity:1;font-weight:600}
+
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;padding:16px 22px 0}
+  .kpi{background:#fff;border-radius:14px;padding:13px 15px;box-shadow:0 1px 3px rgba(18,35,59,.08);border-left:5px solid #2b5486}
+  .kpi span{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:#6b7c93;font-weight:600}
+  .kpi strong{font-size:26px;line-height:1.25}
+  .kpi small{color:#8494a8;font-size:11.5px}
+
+  main{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:16px;padding:16px 22px}
+  @media(max-width:1050px){main{grid-template-columns:1fr}}
+
+  .card{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(18,35,59,.09);padding:14px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px;font-size:12px;color:#41566f}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  svg#mapa{width:100%;height:auto;display:block;touch-action:manipulation}
+  .tile{cursor:pointer}
+  .tile rect{transition:fill .25s, stroke .15s}
+  .tile:hover rect{stroke:#0b1b2e;stroke-width:3;filter:brightness(1.03)}
+  .zona-titulo{font-size:18px;font-weight:800;letter-spacing:1.4px;pointer-events:none}
+
+  .panel{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(18,35,59,.09);padding:16px;max-height:calc(100vh - 120px);overflow:auto;position:sticky;top:16px}
+  .panel h2{font-size:17px}
+  .pill{display:inline-block;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:99px;color:#fff}
+  .badge{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:6px;color:#fff;margin-bottom:6px}
+  .meta{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:14px 0}
+  .meta div{background:#f4f7fb;border-radius:10px;padding:9px 11px}
+  .meta span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:#6b7c93;font-weight:700}
+  .meta strong{font-size:14px}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{text-align:left;color:#6b7c93;font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid #e6edf5;padding:6px 5px}
+  td{padding:7px 5px;border-bottom:1px solid #eef3f9;vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  .obs{color:#5a6b80;font-style:italic}
+  .barra{height:8px;background:#e6edf5;border-radius:99px;overflow:hidden;margin-top:5px}
+  .barra i{display:block;height:100%;background:#2fb36b;border-radius:99px}
+  .grow{display:flex;justify-content:space-between;font-size:13px;margin-top:12px}
+
+  details.card{margin:0 22px 16px}
+  details.card summary{cursor:pointer;font-weight:700;font-size:14px;padding:4px 2px;color:#1f3a5f}
+  .formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:12px;align-items:end}
+  .formgrid label{display:block;font-size:11.5px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+  .formgrid input,.formgrid select,.formgrid textarea{width:100%}
+  .btn{background:#2b5486;color:#fff;border:0;border-radius:9px;padding:9px 16px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+  .btn:hover{background:#1f3a5f}
+  .btn.sec{background:#e6edf5;color:#1f3a5f}
+  .btn.danger{background:#d9534f;color:#fff}
+  .btn.danger:hover{background:#b53c38}
+  .btn.data{background:#2fb36b;color:#fff}
+  .btn.data:hover{background:#259a5a}
+  .btn.mini{font-size:12px;padding:7px 12px}
+  .hint{font-size:11.5px;color:#8494a8;margin-top:6px}
+  #tablaRegistros td:nth-child(1){white-space:nowrap}
+  .vacio{text-align:center;padding:30px 10px;color:#8494a8;font-size:13px}
+
+  .filtros{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-top:12px;padding:12px 14px;background:#f4f7fb;border-radius:12px}
+  .filtros label{font-size:10.5px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px}
+  .filtros select,.filtros input[type=month]{display:block;margin-top:5px;font-size:13px;padding:6px 9px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;color:#12233b;min-width:170px;font-family:inherit}
+  .filtros select:focus,.filtros input:focus{outline:2px solid #2b5486;outline-offset:-1px;border-color:#2b5486}
+  .contador{font-size:12.5px;color:#41566f;font-weight:600;margin-left:auto;background:#fff;padding:6px 12px;border-radius:99px;border:1px solid #dbe4ee}
+
+  .prog-toolbar{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-top:12px;padding:12px 14px;background:#f4f7fb;border-radius:12px}
+  .prog-toolbar label{font-size:11px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px}
+  .prog-toolbar input[type=date]{display:block;margin-top:4px;font-size:13px;padding:6px 9px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;font-family:inherit}
+
+  .prog-sheet-wrap{margin-top:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;background:#f8fafc;padding:16px;border-radius:12px}
+  .prog-sheet{background:#fff;max-width:1100px;margin:0 auto;border:1px solid #cbd6e2;border-radius:6px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);font-family:Arial,Helvetica,sans-serif}
+  .prog-header{background:#1f3a5f;color:#fff;text-align:center;padding:18px 16px 14px}
+  .prog-cong{font-size:20px;font-weight:800;letter-spacing:1.5px;margin-bottom:18px}
+  .prog-title{font-size:15px;font-weight:700;letter-spacing:.5px;margin-bottom:5px}
+  .prog-sub{font-size:13px;font-weight:600;letter-spacing:.5px}
+  .prog-table{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
+  .prog-table th{background:#4a6b8a;color:#fff;padding:9px 8px;font-size:11.5px;font-weight:700;letter-spacing:.5px;text-align:center;border:1px solid #3a5a78}
+  .prog-table td{padding:0;border:1px solid #d8e0e8;vertical-align:middle;height:36px}
+  .prog-table tr:nth-child(even) td{background:#eaf0f7}
+  .prog-table tr:nth-child(odd) td{background:#fff}
+  .prog-table input.cell{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:8px 8px;text-align:center;font-family:inherit;font-weight:500}
+  .prog-table input.cell.edit-lugar,.prog-table input.cell.edit-conductor,.prog-table input.cell.edit-terr{text-align:left}
+  .prog-table input.cell:focus{outline:2px solid #2b5486;outline-offset:-2px;background:#fffbe6;border-radius:0}
+  .prog-table td.cell-fijo{text-align:center;font-weight:600;color:#1f3a5f;padding:8px}
+
+  .aviso-datos{background:#e7f3ff;border-left:4px solid #2b5486;padding:10px 12px;border-radius:8px;color:#1f3a5f;font-size:12.5px;margin-top:12px;line-height:1.5}
+  .aviso-datos strong{display:block;margin-bottom:3px}
+
+  .modal-overlay{position:fixed;inset:0;background:rgba(11,27,46,.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px}
+  .modal-overlay.show{display:flex}
+  .modal{background:#fff;border-radius:16px;max-width:680px;width:100%;max-height:90vh;overflow:auto;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+  .modal h3{font-size:17px;margin-bottom:8px}
+  .modal p{font-size:13px;color:#5a6b80;margin:8px 0}
+  .modal textarea{width:100%;min-height:200px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;line-height:1.4;resize:vertical;padding:10px;border-radius:10px;border:1px solid #cbd6e2;background:#f8fafc}
+  .modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .modal-close{position:sticky;top:0;float:right;background:#e6edf5;border:0;border-radius:8px;width:32px;height:32px;font-size:16px;cursor:pointer;color:#1f3a5f;font-weight:700}
+
+  @media (max-width: 720px){
+    .topbar{padding:12px 14px;gap:10px}
+    .brand h1{font-size:15px;line-height:1.25}
+    .brand p{font-size:11px}
+    .controls{width:100%;justify-content:space-between;gap:8px}
+    .controls label{font-size:11px}
+    .controls input[type=month]{font-size:12px;padding:5px 8px}
+    .switch button{font-size:11px;padding:5px 10px}
+
+    .kpis{padding:12px 12px 0;gap:8px;grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
+    .kpi{padding:10px 12px;border-left-width:4px;border-radius:12px}
+    .kpi strong{font-size:20px}
+    .kpi small{font-size:10.5px}
+    .kpi span{font-size:10px}
+
+    main{padding:12px 12px;gap:12px}
+    .card{padding:12px;border-radius:12px}
+    details.card{margin:0 12px 12px}
+
+    .legend{font-size:11px;gap:8px}
+    .legend i{width:10px;height:10px}
+    .zona-titulo{font-size:12px;letter-spacing:.6px}
+
+    .panel{position:static;max-height:none;padding:12px}
+    .panel h2{font-size:15px}
+    .meta{gap:6px}
+    .meta div{padding:7px 9px}
+    .meta span{font-size:9.5px}
+    .meta strong{font-size:12.5px}
+    table{font-size:11.5px}
+    th{font-size:9.5px;padding:5px 4px}
+    td{padding:6px 4px}
+
+    .prog-toolbar{padding:10px 12px;gap:8px}
+    .prog-toolbar label{font-size:10.5px;width:100%}
+    .prog-toolbar input[type=date]{width:100%}
+    .prog-toolbar .btn{font-size:12px;padding:8px 12px;flex:1 1 auto;min-width:0}
+    .prog-toolbar .hint{display:none}
+
+    .prog-sheet-wrap{padding:8px;margin-top:10px}
+    .prog-sheet{border-radius:5px}
+    .prog-header{padding:14px 10px 12px}
+    .prog-cong{font-size:14px;letter-spacing:1px;margin-bottom:12px}
+    .prog-title{font-size:11px;letter-spacing:.3px}
+    .prog-sub{font-size:10px}
+    .prog-table{font-size:10.5px;min-width:720px}
+    .prog-table th{font-size:9.5px;padding:6px 4px}
+    .prog-table input.cell{font-size:10.5px;padding:6px 5px}
+    .prog-table td.cell-fijo{padding:6px 4px;font-size:10.5px}
+
+    .filtros{padding:10px 12px;gap:8px}
+    .filtros label{font-size:10px;flex:1 1 45%}
+    .filtros select,.filtros input[type=month]{min-width:0;width:100%;font-size:12px}
+    .filtros .btn{width:100%}
+    .contador{margin-left:0;width:100%;text-align:center;font-size:11.5px}
+
+    .formgrid{grid-template-columns:1fr}
+    .formgrid .btn{width:100%}
+
+    .modal{padding:16px;max-height:95vh}
+    .modal textarea{min-height:160px;font-size:11px}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <h1>CONGREGACIÓN OFELIA · Monitor de Territorios</h1>
+    <p>Predicación de casa en casa · control mensual de cobertura</p>
+  </div>
+  <div class="controls">
+    <label>Mes <input type="month" id="mesInput"></label>
+    <div class="switch">
+      <button data-view="estado" class="active">Por estado</button>
+      <button data-view="grupo">Por grupo</button>
+    </div>
+  </div>
+</header>
+
+<section class="kpis" id="kpis"></section>
+
+<main>
+  <section class="card">
+    <div class="legend" id="legend"></div>
+    <svg id="mapa" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"></svg>
+  </section>
+  <aside class="panel" id="panel"></aside>
+</main>
+
+<details class="card" open>
+  <summary>📋 Programa de predicación de casa en casa</summary>
+
+  <div class="prog-toolbar">
+    <label>Semana del <input type="date" id="progInicio"></label>
+    <button class="btn" id="btnSugerirProg" type="button">🔄 Sugerir</button>
+    <button class="btn sec" id="btnAnadirFila" type="button">➕ Añadir fila</button>
+    <button class="btn sec" id="btnExportPNG" type="button">📷 PNG</button>
+    <span class="hint" style="margin-left:auto">Toca cualquier celda para editarla</span>
+  </div>
+
+  <datalist id="listaConductores"></datalist>
+
+  <div class="prog-sheet-wrap">
+    <div id="progSheet" class="prog-sheet">
+      <div class="prog-header">
+        <div class="prog-cong">CONGREGACIÓN OFELIA</div>
+        <div class="prog-title">PROGRAMA DE PREDICACIÓN DE CASA EN CASA</div>
+        <div class="prog-sub">SEMANA DEL <span id="progRango">—</span></div>
+      </div>
+      <table class="prog-table">
+        <thead>
+          <tr>
+            <th style="width:70px">FECHA</th>
+            <th style="width:110px">DÍA</th>
+            <th style="width:80px">HORA</th>
+            <th>LUGAR</th>
+            <th>CONDUCTOR</th>
+            <th>TERRITORIO</th>
+          </tr>
+        </thead>
+        <tbody id="progBody"></tbody>
+      </table>
+    </div>
+  </div>
+</details>
+
+<details class="card" open>
+  <summary>➕ Registrar una salida de predicación</summary>
+
+  <datalist id="listaConductoresRegistro">
+    <option value="Jorge Silva">
+    <option value="Rolando Mosquera">
+    <option value="Patricio Jaramillo">
+    <option value="Eduardo Cárdenas">
+    <option value="Adrián Noboa">
+    <option value="Nelson Almeida">
+    <option value="Mateo Ruales">
+    <option value="Andres Paredes">
+    <option value="Cesar Prado">
+    <option value="Alberto Vázquez">
+    <option value="David Leon">
+    <option value="Marcelo Taipe">
+    <option value="Emilio Basantes">
+    <option value="Carlos Salazar">
+  </datalist>
+
+  <form id="formRegistro" class="formgrid">
+    <div><label>Fecha</label><input type="date" id="fFecha" required></div>
+    <div>
+      <label>Conductor</label>
+      <input type="text" id="fConductor" list="listaConductoresRegistro"
+             placeholder="Escribe o elige de la lista" autocomplete="off" required>
+    </div>
+    <div><label>Grupo</label><select id="fGrupo"></select></div>
+    <div><label>Territorios asignados</label><input type="text" id="fAsignados" placeholder="Ej: 1, 8, 9"></div>
+    <div><label>Territorios COMPLETADOS</label><input type="text" id="fCompletos" placeholder="Ej: 8, 9"></div>
+    <div><label>Territorios PARCIALES</label><input type="text" id="fParciales" placeholder="Ej: 2"></div>
+    <div style="grid-column:1/-1"><label>Observación</label><input type="text" id="fObs" placeholder="Detalle opcional"></div>
+    <div><button class="btn" type="submit">Guardar registro</button></div>
+    <div><button class="btn danger" type="button" id="btnReset">🗑 Borrar todos los datos</button></div>
+    <div><button class="btn sec" type="button" id="btnExport">Exportar CSV</button></div>
+  </form>
+
+  <div class="aviso-datos">
+    <strong>📱 Cómo pasar los datos entre dispositivos (funciona en iPhone)</strong>
+    Los registros viven en el navegador de cada dispositivo. Usa los botones de abajo para transferirlos:
+  </div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+    <button class="btn data" id="btnExportJSON" type="button">💾 Exportar datos</button>
+    <button class="btn data" id="btnImportJSON" type="button">📥 Importar datos</button>
+    <input type="file" id="inputImportJSON" accept=".json,application/json,text/plain" style="display:none">
+  </div>
+  <p class="hint">En iPhone, exportar te abre el menú de Compartir (guarda en Archivos, WhatsApp o Correo). Importar te abre una ventana para pegar el texto o elegir un archivo.</p>
+</details>
+
+<details class="card" open>
+  <summary>🗂️ Registro completo</summary>
+  <div class="filtros">
+    <label>Conductor
+      <select id="filtroConductor"><option value="">Todos</option></select>
+    </label>
+    <label>Grupo
+      <select id="filtroGrupo">
+        <option value="">Todos</option>
+        <option value="1">Grupo 1</option>
+        <option value="2">Grupo 2</option>
+        <option value="3">Grupo 3</option>
+        <option value="4">Grupo 4</option>
+        <option value="5">Grupo 5</option>
+      </select>
+    </label>
+    <label>Mes
+      <input type="month" id="filtroMes">
+    </label>
+    <button class="btn sec" type="button" id="btnLimpiarFiltros">Limpiar filtros</button>
+    <span class="contador" id="contadorRegistros"></span>
+  </div>
+  <div style="overflow:auto;margin-top:10px">
+    <table id="tablaRegistros"></table>
+  </div>
+</details>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" type="button" id="modalClose">✕</button>
+    <h3 id="modalTitle">—</h3>
+    <div id="modalBody"></div>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   1. CONFIGURACIÓN DE GRUPOS
+   ============================================================ */
+const GRUPOS = [
+  { id:1, nombre:'Grupo 1', color:'#f2c14e', x: 20, y: 20, w:340, h:290, cols:4,  territorios:16 },
+  { id:2, nombre:'Grupo 2', color:'#2fb36b', x: 20, y:330, w:460, h:250, cols:6,  territorios:18 },
+  { id:3, nombre:'Grupo 3', color:'#e0417a', x: 20, y:600, w:740, h:180, cols:10, territorios:20 },
+  { id:4, nombre:'Grupo 4', color:'#3d8ee0', x:380, y: 20, w:380, h:290, cols:5,  territorios:10 },
+  { id:5, nombre:'Grupo 5', color:'#9b7fd4', x:780, y: 20, w:400, h:760, cols:4,  territorios:20 },
+];
+
+/* Lista de conductores sugeridos (para el datalist del registro) */
+const CONDUCTORES_SUGERIDOS = [
+  'Jorge Silva','Rolando Mosquera','Patricio Jaramillo','Eduardo Cárdenas',
+  'Adrián Noboa','Nelson Almeida','Mateo Ruales','Andres Paredes',
+  'Cesar Prado','Alberto Vázquez','David Leon','Marcelo Taipe',
+  'Emilio Basantes','Carlos Salazar'
+];
+
+const REGISTROS_BASE = [];
+
+const ESTADOS = {
+  completado:{ fill:'#2fb36b', label:'Completado este mes' },
+  parcial:   { fill:'#f0a02a', label:'Predicado parcialmente' },
+  pendiente: { fill:'#7fb3e8', label:'Pendiente (cubierto hace < 30 días)' },
+  vencido:   { fill:'#d9534f', label:'Vencido (+ 30 días sin completarse)' },
+  sin_datos: { fill:'#c9d2dd', label:'Sin registro de predicación' },
+};
+const ORDEN_ESTADO = { vencido:0, sin_datos:1, parcial:2, pendiente:3, completado:4 };
+
+const STORAGE = 'ofelia_registros_v1';
+let registros = cargar();
+let mesActual = mesPorDefecto();
+let vista = 'estado';
+let seleccion = null;
+
+function cargar(){
+  try{ const raw = localStorage.getItem(STORAGE); if(raw) return JSON.parse(raw); }catch(e){}
+  return JSON.parse(JSON.stringify(REGISTROS_BASE));
+}
+function guardar(){ try{ localStorage.setItem(STORAGE, JSON.stringify(registros)); }catch(e){} }
+function mesPorDefecto(){
+  if(!registros.length) return new Date().toISOString().slice(0,7);
+  return registros.map(r=>r.fecha.slice(0,7)).sort().pop();
+}
+function fechaRef(){
+  const hoy = new Date().toISOString().slice(0,10);
+  const max = registros.length ? registros.map(r=>r.fecha).sort().pop() : hoy;
+  return max > hoy ? max : hoy;
+}
+const DIAS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+function diaDe(f){ return DIAS[new Date(f+'T00:00:00').getDay()]; }
+function fmt(f){ if(!f) return '—'; return new Date(f+'T00:00:00').toLocaleDateString('es-EC',{day:'2-digit',month:'short',year:'numeric'}); }
+function diasEntre(a,b){ return Math.round((new Date(b+'T00:00:00') - new Date(a+'T00:00:00'))/86400000); }
+function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function nums(str){ return String(str||'').split(/[,\s;]+/).map(x=>parseInt(x,10)).filter(x=>!isNaN(x)); }
+
+function historial(g,t){
+  return registros
+    .filter(r => r.grupo===g && (r.completos.includes(t) || r.parciales.includes(t)))
+    .sort((a,b)=> a.fecha.localeCompare(b.fecha));
+}
+function estadoTerritorio(g,t,mes){
+  const h = historial(g,t);
+  if(!h.length) return { estado:'sin_datos', ultima:null, dias:null };
+  const delMes = h.filter(r => r.fecha.slice(0,7) === mes);
+  const completosMes = delMes.filter(r => r.completos.includes(t));
+  if(completosMes.length) return { estado:'completado', ultima: completosMes[completosMes.length-1].fecha, dias:0 };
+  const parcialesMes = delMes.filter(r => r.parciales.includes(t));
+  if(parcialesMes.length) return { estado:'parcial', ultima: parcialesMes[parcialesMes.length-1].fecha, dias:0 };
+  const completos = h.filter(r => r.completos.includes(t));
+  const ultimaReg = h[h.length-1].fecha;
+  if(!completos.length){
+    return { estado:'parcial', ultima:ultimaReg, dias: diasEntre(ultimaReg, fechaRef()) };
+  }
+  const ultima = completos[completos.length-1].fecha;
+  const dias = diasEntre(ultima, fechaRef());
+  return { estado: dias > 30 ? 'vencido' : 'pendiente', ultima, dias };
+}
+function resumenMes(mes){
+  const r = { total:0, completado:0, parcial:0, pendiente:0, vencido:0, sin_datos:0 };
+  GRUPOS.forEach(g=>{
+    for(let t=1;t<=g.territorios;t++){
+      const e = estadoTerritorio(g.id,t,mes).estado;
+      r.total++; r[e]++;
+    }
+  });
+  return r;
+}
+
+function layoutGrupo(g){
+  const n = g.territorios, cols = g.cols;
+  const rows = Math.ceil(n/cols);
+  const head = 30, pad = 8;
+  const cw = (g.w - pad*(cols+1)) / cols;
+  const ch = (g.h - head - pad*(rows+1)) / rows;
+  const out = [];
+  for(let i=0;i<n;i++){
+    const r = Math.floor(i/cols), c = i%cols;
+    out.push({ t:i+1, x:g.x+pad+c*(cw+pad), y:g.y+head+pad+r*(ch+pad), w:cw, h:ch });
+  }
+  return out;
+}
+function renderMapa(){
+  const svg = document.getElementById('mapa');
+  let html = `<defs><filter id="sombra" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#0b1b2e" flood-opacity="0.18"/>
+  </filter></defs>`;
+  GRUPOS.forEach(g=>{
+    html += `<rect x="${g.x}" y="${g.y}" width="${g.w}" height="${g.h}" rx="16"
+              fill="${g.color}" fill-opacity="0.08" stroke="${g.color}" stroke-width="2.5" stroke-opacity="0.55"/>`;
+    html += `<text class="zona-titulo" x="${g.x+16}" y="${g.y+23}" fill="${g.color}">${g.nombre.toUpperCase()}</text>`;
+    layoutGrupo(g).forEach(tl=>{
+      const est = estadoTerritorio(g.id, tl.t, mesActual);
+      const enGrupo = vista === 'grupo';
+      const fill = enGrupo ? g.color : ESTADOS[est.estado].fill;
+      const claro = enGrupo || !(est.estado === 'sin_datos' || est.estado === 'pendiente');
+      const fs = Math.min(30, Math.min(tl.w, tl.h) * 0.42);
+      const sel = seleccion && seleccion.g === g.id && seleccion.t === tl.t;
+      html += `<g class="tile" data-g="${g.id}" data-t="${tl.t}">
+        <rect x="${tl.x}" y="${tl.y}" width="${tl.w}" height="${tl.h}" rx="9"
+          fill="${fill}" filter="url(#sombra)"
+          stroke="${sel ? '#0b1b2e' : (enGrupo ? 'rgba(0,0,0,.25)' : 'rgba(255,255,255,.65)')}"
+          stroke-width="${sel ? 3.5 : 1.5}"/>
+        <text x="${tl.x+tl.w/2}" y="${tl.y+tl.h/2}" font-size="${fs}" font-weight="800"
+          text-anchor="middle" dominant-baseline="central" pointer-events="none"
+          fill="${claro ? '#ffffff' : '#1c2b3d'}">${tl.t}</text>
+        ${enGrupo ? `<circle cx="${tl.x+tl.w-11}" cy="${tl.y+11}" r="7"
+            fill="${ESTADOS[est.estado].fill}" stroke="#fff" stroke-width="1.8" pointer-events="none"/>` : ''}
+      </g>`;
+    });
+  });
+  svg.innerHTML = html;
+}
+function renderLeyenda(){
+  const items = vista === 'grupo'
+    ? GRUPOS.map(g=>`<span><i style="background:${g.color}"></i>${g.nombre} (${g.territorios} terr.)</span>`).join('')
+    : Object.entries(ESTADOS).map(([k,v])=>`<span><i style="background:${v.fill}"></i>${v.label}</span>`).join('');
+  document.getElementById('legend').innerHTML = items;
+}
+function renderKPIs(){
+  const r = resumenMes(mesActual);
+  const pct = r.total ? Math.round(r.completado / r.total * 100) : 0;
+  const nombreMes = new Date(mesActual+'-01T00:00:00').toLocaleDateString('es-EC',{month:'long',year:'numeric'});
+  document.getElementById('kpis').innerHTML = `
+    <div class="kpi" style="border-color:#2b5486"><span>Periodo</span><strong style="font-size:17px;text-transform:capitalize">${nombreMes}</strong><small>${r.total} territorios en total</small></div>
+    <div class="kpi" style="border-color:#2fb36b"><span>Completados</span><strong>${r.completado}</strong><small>${pct}% de cobertura del mes</small></div>
+    <div class="kpi" style="border-color:#f0a02a"><span>Parciales</span><strong>${r.parcial}</strong><small>Requieren repaso</small></div>
+    <div class="kpi" style="border-color:#d9534f"><span>Vencidos +30d</span><strong>${r.vencido}</strong><small>Prioridad alta</small></div>
+    <div class="kpi" style="border-color:#c9d2dd"><span>Sin registro</span><strong>${r.sin_datos}</strong><small>Nunca predicados</small></div>
+  `;
+}
+function renderPanel(){
+  const p = document.getElementById('panel');
+  if(!seleccion){ p.innerHTML = panelResumen(); return; }
+  const g = GRUPOS.find(x=>x.id===seleccion.g);
+  const t = seleccion.t;
+  const est = estadoTerritorio(g.id, t, mesActual);
+  const h = historial(g.id, t).slice().reverse();
+  const completos = historial(g.id,t).filter(r=>r.completos.includes(t)).length;
+  let filas = h.map(r=>`
+    <tr>
+      <td><strong>${fmt(r.fecha)}</strong><br><span class="obs">${diaDe(r.fecha)}</span></td>
+      <td>${esc(r.conductor)}</td>
+      <td>${r.completos.includes(t)
+            ? '<span style="color:#2fb36b;font-weight:700">Completo</span>'
+            : '<span style="color:#f0a02a;font-weight:700">Parcial</span>'}</td>
+      <td class="obs">${esc(r.obs || '—')}</td>
+    </tr>`).join('');
+  if(!filas) filas = `<tr><td colspan="4" class="obs">Sin registros de predicación para este territorio.</td></tr>`;
+  p.innerHTML = `
+    <span class="badge" style="background:${g.color}">${g.nombre}</span>
+    <h2>Territorio ${t}</h2>
+    <div style="margin-top:10px">
+      <span class="pill" style="background:${ESTADOS[est.estado].fill}">${ESTADOS[est.estado].label}</span>
+    </div>
+    <div class="meta">
+      <div><span>Última cobertura</span><strong>${est.ultima ? fmt(est.ultima) : 'Nunca'}</strong></div>
+      <div><span>Días desde entonces</span><strong>${est.dias === null ? '—' : est.dias + ' días'}</strong></div>
+      <div><span>Veces completado</span><strong>${completos}</strong></div>
+      <div><span>Salidas registradas</span><strong>${h.length}</strong></div>
+    </div>
+    <h3 style="font-size:13px;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px">Historial de predicación</h3>
+    <table style="margin-top:6px">
+      <thead><tr><th>Fecha</th><th>Conductor</th><th>Resultado</th><th>Observación</th></tr></thead>
+      <tbody>${filas}</tbody>
+    </table>
+    ${est.estado === 'vencido' || est.estado === 'sin_datos'
+      ? `<p class="hint" style="color:#d9534f;font-weight:600;margin-top:12px">⚠ Este territorio debería incluirse en el programa de esta semana.</p>` : ''}
+  `;
+}
+function panelResumen(){
+  let rows = GRUPOS.map(g=>{
+    let comp = 0, tot = g.territorios;
+    for(let t=1;t<=tot;t++) if(estadoTerritorio(g.id,t,mesActual).estado === 'completado') comp++;
+    const pct = Math.round(comp/tot*100);
+    return `<div class="grow"><span><strong style="color:${g.color}">■</strong> ${g.nombre}</span>
+              <span>${comp}/${tot} · ${pct}%</span></div>
+            <div class="barra"><i style="width:${pct}%;background:${g.color}"></i></div>`;
+  }).join('');
+  const vacio = !registros.length
+    ? `<p class="hint" style="background:#fff8e6;border-left:4px solid #f0a02a;padding:10px;border-radius:8px;color:#7a5b1c;margin-top:12px">
+        ℹ️ Aún no hay registros en este dispositivo. Si registraste en otro dispositivo, usa <strong>“📥 Importar datos”</strong>.
+       </p>` : '';
+  return `
+    <h2>Resumen del mes</h2>
+    <p class="hint" style="margin-top:6px">Toca cualquier territorio del mapa para ver quién lo predicó, cuándo y con qué observaciones.</p>
+    ${vacio}
+    <div style="margin-top:14px">${rows}</div>
+    <h3 style="font-size:13px;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px;margin-top:20px">Cómo leer los colores</h3>
+    <table style="margin-top:6px"><tbody>
+      ${Object.entries(ESTADOS).map(([k,v])=>`<tr><td style="width:22px"><i style="display:inline-block;width:14px;height:14px;border-radius:4px;background:${v.fill}"></i></td><td>${v.label}</td></tr>`).join('')}
+    </tbody></table>
+    <p class="hint" style="margin-top:14px">Fecha de referencia: <strong>${fmt(fechaRef())}</strong></p>
+  `;
+}
+
+/* ============================================================
+   8. PROGRAMA SEMANAL (5 sábados)
+   ============================================================ */
+const PLANTILLA_SEMANAL = [
+  { dia:'LUNES',     hora:'08:50', lugar:'FAMILIA RUALES' },
+  { dia:'MARTES',    hora:'08:50', lugar:'FAMILIA MOXLEY' },
+  { dia:'MIÉRCOLES', hora:'08:50', lugar:'FAMILIA CASTRO' },
+  { dia:'JUEVES',    hora:'08:50', lugar:'HERMANA AYMACAÑA' },
+  { dia:'VIERNES',   hora:'08:50', lugar:'SALÓN DEL REINO' },
+  { dia:'SÁBADO',    hora:'09:15', lugar:'GRUPO 1 · FAMILIA CASTRO',   grupoPreferido:1 },
+  { dia:'SÁBADO',    hora:'09:15', lugar:'GRUPO 2 · FAMILIA RUALES',   grupoPreferido:2 },
+  { dia:'SÁBADO',    hora:'09:15', lugar:'GRUPO 3 · FAMILIA RUALES',   grupoPreferido:3 },
+  { dia:'SÁBADO',    hora:'09:15', lugar:'GRUPO 4 · HERMANA AYMACAÑA', grupoPreferido:4 },
+  { dia:'SÁBADO',    hora:'09:15', lugar:'GRUPO 5 · FAMILIA MOXLEY',   grupoPreferido:5 },
+  { dia:'DOMINGO',   hora:'10:45', lugar:'SALÓN DEL REINO' },
+];
+const DIAS_OFFSET = { 'LUNES':0, 'MARTES':1, 'MIÉRCOLES':2, 'JUEVES':3, 'VIERNES':4, 'SÁBADO':5, 'DOMINGO':6 };
+const CONDUCTOR_DEFAULT = {
+  'LUNES':'JORGE SILVA','MARTES':'ROLANDO MOSQUERA','MIÉRCOLES':'PATRICIO JARAMILLO',
+  'JUEVES':'EDUARDO CÁRDENAS','VIERNES':'ADRIÁN NOBOA','SÁBADO':'JORGE SILVA','DOMINGO':'ALBERTO VÁSQUEZ',
+};
+let programaSemanal = [];
+
+function norm(s){ return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase(); }
+function addDays(f,n){ const d=new Date(f+'T00:00:00'); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
+function lunesDeSemana(fechaStr){
+  const d = new Date(fechaStr+'T00:00:00');
+  const dow = d.getDay();
+  const diff = dow === 0 ? -6 : 1 - dow;
+  d.setDate(d.getDate() + diff);
+  return d.toISOString().slice(0,10);
+}
+function fmtRango(a,b){
+  const da = new Date(a+'T00:00:00'), db = new Date(b+'T00:00:00');
+  const ma = da.toLocaleDateString('es-EC',{month:'long'}).toUpperCase();
+  const mb = db.toLocaleDateString('es-EC',{month:'long'}).toUpperCase();
+  const ya = da.getFullYear(), yb = db.getFullYear();
+  if(ma===mb && ya===yb) return `${da.getDate()} AL ${db.getDate()} DE ${ma} DEL ${ya}`;
+  return `${da.getDate()} DE ${ma} AL ${db.getDate()} DE ${mb} DEL ${yb}`;
+}
+function sugerirConductor(dia){
+  const counts = {};
+  registros.forEach(r=>{
+    const nombreDia = DIAS[new Date(r.fecha+'T00:00:00').getDay()];
+    if(norm(nombreDia) === norm(dia)){
+      counts[r.conductor] = (counts[r.conductor]||0) + 1;
+    }
+  });
+  const best = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
+  return best ? best[0].toUpperCase() : (CONDUCTOR_DEFAULT[dia] || '');
+}
+function tomarTerritoriosDeGrupo(grupoId, usados, max){
+  const g = GRUPOS.find(x=>x.id===grupoId);
+  if(!g) return [];
+  const arr = [];
+  for(let t=1;t<=g.territorios;t++){
+    if(usados.has(`${grupoId}-${t}`)) continue;
+    const est = estadoTerritorio(grupoId, t, mesActual);
+    if(est.estado !== 'completado') arr.push({ t, estado: est.estado, dias: est.dias ?? 9999 });
+  }
+  arr.sort((a,b)=> ORDEN_ESTADO[a.estado]-ORDEN_ESTADO[b.estado] || b.dias-a.dias || a.t-b.t);
+  const tomados = [];
+  const lim = Math.min(max, arr.length);
+  for(let i=0;i<lim;i++){ tomados.push(arr[i].t); usados.add(`${grupoId}-${arr[i].t}`); }
+  return tomados;
+}
+function elegirGrupoConMasPendientes(usados){
+  let mejor = null, mejorCount = 0;
+  GRUPOS.forEach(g=>{
+    let count = 0;
+    for(let t=1;t<=g.territorios;t++){
+      if(usados.has(`${g.id}-${t}`)) continue;
+      if(estadoTerritorio(g.id, t, mesActual).estado !== 'completado') count++;
+    }
+    if(count > mejorCount){ mejor = g.id; mejorCount = count; }
+  });
+  return mejor;
+}
+function sugerirPrograma(fechaInicio){
+  const usados = new Set();
+  const items = [];
+  PLANTILLA_SEMANAL.forEach((p)=>{
+    const fecha = addDays(fechaInicio, DIAS_OFFSET[p.dia]);
+    const conductor = sugerirConductor(p.dia);
+    let grupoElegido = null, territorios = [];
+    if(p.grupoPreferido){
+      const tomados = tomarTerritoriosDeGrupo(p.grupoPreferido, usados, 4);
+      if(tomados.length){ grupoElegido = p.grupoPreferido; territorios = tomados; }
+    }
+    if(!territorios.length){
+      const g = elegirGrupoConMasPendientes(usados);
+      if(g !== null){
+        const tomados = tomarTerritoriosDeGrupo(g, usados, 4);
+        grupoElegido = g; territorios = tomados;
+      }
+    }
+    const terrTexto = territorios.length
+      ? `${territorios.join(', ')}${grupoElegido ? ' DEL GRUPO ' + grupoElegido : ''}`
+      : '';
+    items.push({ fecha, dia:p.dia, hora:p.hora, lugar:p.lugar, conductor, grupo:grupoElegido, territorios, terrTexto });
+  });
+  return items;
+}
+function actualizarRangoProg(){
+  const el = document.getElementById('progRango');
+  if(!el) return;
+  if(!programaSemanal.length){ el.textContent = '—'; return; }
+  const min = programaSemanal.map(x=>x.fecha).sort()[0];
+  const max = programaSemanal.map(x=>x.fecha).sort().pop();
+  el.textContent = fmtRango(min, max);
+}
+function actualizarDatalistConductores(){
+  const dl = document.getElementById('listaConductores');
+  if(!dl) return;
+  const set = new Set([...CONDUCTORES_SUGERIDOS, ...Object.values(CONDUCTOR_DEFAULT)]);
+  registros.forEach(r=>set.add(r.conductor));
+  dl.innerHTML = [...set].sort().map(c=>`<option value="${esc(c)}">`).join('');
+}
+function renderProgramaSemanal(){
+  const tbody = document.getElementById('progBody');
+  if(!tbody) return;
+  if(!programaSemanal.length){ tbody.innerHTML=''; actualizarRangoProg(); return; }
+  tbody.innerHTML = programaSemanal.map((r,i)=>{
+    const fechaCorta = new Date(r.fecha+'T00:00:00').getDate();
+    return `<tr data-idx="${i}">
+      <td class="cell-fijo">${fechaCorta}</td>
+      <td class="cell-fijo">${r.dia}</td>
+      <td><input type="text" class="cell edit-hora" data-field="hora" value="${esc(r.hora)}"></td>
+      <td><input type="text" class="cell edit-lugar" data-field="lugar" value="${esc(r.lugar)}"></td>
+      <td><input type="text" class="cell edit-conductor" data-field="conductor" list="listaConductores" value="${esc(r.conductor)}"></td>
+      <td><input type="text" class="cell edit-terr" data-field="terrTexto" value="${esc(r.terrTexto)}"></td>
+    </tr>`;
+  }).join('');
+  actualizarRangoProg();
+}
+
+function actualizarOpcionesConductores(){
+  const sel = document.getElementById('filtroConductor');
+  const actual = sel.value;
+  const conductores = [...new Set([...CONDUCTORES_SUGERIDOS, ...registros.map(r=>r.conductor)])].sort();
+  sel.innerHTML = '<option value="">Todos</option>' +
+    conductores.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  if(conductores.includes(actual)) sel.value = actual;
+}
+function renderTabla(){
+  const fc = document.getElementById('filtroConductor').value;
+  const fg = document.getElementById('filtroGrupo').value;
+  const fm = document.getElementById('filtroMes').value;
+  let filtrados = registros.slice().sort((a,b)=> b.fecha.localeCompare(a.fecha));
+  if(fc) filtrados = filtrados.filter(r => r.conductor === fc);
+  if(fg) filtrados = filtrados.filter(r => String(r.grupo) === fg);
+  if(fm) filtrados = filtrados.filter(r => r.fecha.slice(0,7) === fm);
+  const filas = filtrados.map(r=>`
+    <tr>
+      <td>${fmt(r.fecha)}<br><span class="obs">${diaDe(r.fecha)}</span></td>
+      <td>${esc(r.conductor)}</td>
+      <td>Grupo ${r.grupo}</td>
+      <td>${esc(r.asignados || '—')}</td>
+      <td>${r.completos.length ? r.completos.join(', ') : '—'}</td>
+      <td>${r.parciales.length ? r.parciales.join(', ') : '—'}</td>
+      <td class="obs">${esc(r.obs || '')}</td>
+    </tr>`).join('');
+  document.getElementById('tablaRegistros').innerHTML = `
+    <thead><tr><th>Fecha</th><th>Conductor</th><th>Grupo</th><th>Asignados</th><th>Completados</th><th>Parciales</th><th>Observación</th></tr></thead>
+    <tbody>${filas || '<tr><td colspan="7" class="vacio">Sin registros que coincidan con los filtros.</td></tr>'}</tbody>`;
+  const cnt = document.getElementById('contadorRegistros');
+  if(cnt){
+    const fa = (fc?1:0) + (fg?1:0) + (fm?1:0);
+    cnt.textContent = fa ? `${filtrados.length} de ${registros.length} registros`
+                         : `${registros.length} registro${registros.length===1?'':'s'}`;
+  }
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+function abrirModal({ title, bodyHTML, actions }){
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = bodyHTML;
+  const act = document.getElementById('modalActions');
+  act.innerHTML = '';
+  (actions||[]).forEach(a=>{
+    const b = document.createElement('button');
+    b.className = 'btn ' + (a.className || '');
+    b.type = 'button';
+    b.textContent = a.label;
+    b.addEventListener('click', ()=> a.onClick && a.onClick());
+    act.appendChild(b);
+  });
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function cerrarModal(){ document.getElementById('modalOverlay').classList.remove('show'); }
+document.getElementById('modalClose').addEventListener('click', cerrarModal);
+document.getElementById('modalOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'modalOverlay') cerrarModal();
+});
+
+/* ============================================================
+   EXPORTAR / IMPORTAR (iPhone-friendly)
+   ============================================================ */
+function payloadActual(){
+  return {
+    app: 'ofelia_monitor',
+    version: 1,
+    exportado: new Date().toISOString(),
+    total: registros.length,
+    registros: registros
+  };
+}
+function textoJSON(){ return JSON.stringify(payloadActual(), null, 2); }
+function nombreArchivo(){ return `ofelia_datos_${new Date().toISOString().slice(0,10)}.json`; }
+
+document.getElementById('btnExportJSON').addEventListener('click', async ()=>{
+  const texto = textoJSON();
+  const nombre = nombreArchivo();
+  try{
+    const file = new File([texto], nombre, { type:'application/json' });
+    if(navigator.canShare && navigator.canShare({ files:[file] })){
+      await navigator.share({
+        files:[file],
+        title:'Datos Monitor Ofelia',
+        text:'Respaldo de registros de predicación'
+      });
+      return;
+    }
+  }catch(err){
+    if(err && err.name === 'AbortError') return;
+  }
+  abrirModal({
+    title:'💾 Exportar datos',
+    bodyHTML:`
+      <p>Selecciona todo el texto y cópialo (o pulsa “Copiar”), luego guárdalo donde quieras.</p>
+      <textarea id="exportText" readonly>${esc(texto)}</textarea>
+      <p class="hint">Total: <strong>${registros.length}</strong> registro(s).</p>
+    `,
+    actions:[
+      { label:'📋 Copiar todo', className:'data', onClick: async ()=>{
+          const ta = document.getElementById('exportText');
+          ta.select(); ta.setSelectionRange(0, 999999);
+          try{ await navigator.clipboard.writeText(ta.value); alert('✔ Copiado al portapapeles.'); }
+          catch(e){ document.execCommand('copy'); alert('✔ Copiado.'); }
+        }},
+      { label:'⬇️ Descargar archivo', className:'sec', onClick: ()=>{
+          const blob = new Blob([texto], { type:'application/json' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = nombre;
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        }},
+      { label:'Cerrar', className:'sec', onClick: cerrarModal }
+    ]
+  });
+});
+
+function aplicarImportacion(nuevos){
+  if(!Array.isArray(nuevos)) throw new Error('Formato inválido');
+  abrirModal({
+    title:'📥 Importar datos',
+    bodyHTML:`
+      <p>El archivo contiene <strong>${nuevos.length}</strong> registro(s).
+      Actualmente tienes <strong>${registros.length}</strong>.</p>
+      <p>¿Qué quieres hacer?</p>
+    `,
+    actions:[
+      { label:`🔁 Reemplazar todo`, className:'danger', onClick: ()=>{
+          registros = nuevos; finalizarImportacion();
+        }},
+      { label:`➕ Combinar (sin duplicar)`, className:'data', onClick: ()=>{
+          const key = r => `${r.fecha}|${r.conductor}|${r.grupo}|${(r.completos||[]).join(',')}|${(r.parciales||[]).join(',')}`;
+          const existentes = new Set(registros.map(key));
+          let añadidos = 0;
+          nuevos.forEach(r=>{
+            if(!existentes.has(key(r))){ registros.push(r); existentes.add(key(r)); añadidos++; }
+          });
+          alert(`✔ ${añadidos} registro(s) añadido(s).`);
+          finalizarImportacion();
+        }},
+      { label:'Cancelar', className:'sec', onClick: cerrarModal }
+    ]
+  });
+}
+function finalizarImportacion(){
+  guardar();
+  mesActual = registros.length ? registros.map(r=>r.fecha.slice(0,7)).sort().pop()
+                               : new Date().toISOString().slice(0,7);
+  document.getElementById('mesInput').value = mesActual;
+  seleccion = null;
+  cerrarModal();
+  renderTodo();
+}
+function parsearTextoImportado(texto){
+  const data = JSON.parse(texto);
+  return Array.isArray(data) ? data : (data.registros || []);
+}
+
+document.getElementById('btnImportJSON').addEventListener('click', ()=>{
+  abrirModal({
+    title:'📥 Importar datos',
+    bodyHTML:`
+      <p><strong>Opción A:</strong> Pega aquí el texto JSON que exportaste desde otro dispositivo.</p>
+      <textarea id="importText" placeholder='Pega aquí el contenido…'></textarea>
+      <p><strong>Opción B:</strong> Si tienes el archivo .json guardado en Archivos/iCloud, ábrelo con el botón de abajo.</p>
+      <input type="file" id="importFileInline" accept=".json,application/json,text/plain" style="margin-top:6px">
+    `,
+    actions:[
+      { label:'📥 Importar desde texto pegado', className:'data', onClick: ()=>{
+          const t = document.getElementById('importText').value.trim();
+          if(!t){ alert('Pega primero el contenido JSON.'); return; }
+          try{
+            const nuevos = parsearTextoImportado(t);
+            cerrarModal();
+            aplicarImportacion(nuevos);
+          }catch(e){ alert('El texto no es un JSON válido.'); }
+        }},
+      { label:'Cerrar', className:'sec', onClick: cerrarModal }
+    ]
+  });
+  const fileInput = document.getElementById('importFileInline');
+  fileInput.addEventListener('change', e=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = evt=>{
+      try{
+        const nuevos = parsearTextoImportado(evt.target.result);
+        cerrarModal();
+        aplicarImportacion(nuevos);
+      }catch(err){ alert('No se pudo leer el archivo.'); }
+    };
+    reader.readAsText(file);
+  });
+});
+
+/* ============================================================
+   RENDER GLOBAL + EVENTOS
+   ============================================================ */
+function renderTodo(){
+  renderKPIs();
+  renderLeyenda();
+  renderMapa();
+  renderPanel();
+  actualizarDatalistConductores();
+  renderProgramaSemanal();
+  actualizarOpcionesConductores();
+  renderTabla();
+}
+
+document.getElementById('mesInput').addEventListener('change', e=>{
+  mesActual = e.target.value || mesActual;
+  seleccion = null;
+  renderTodo();
+});
+document.querySelectorAll('.switch button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('.switch button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    vista = b.dataset.view;
+    renderLeyenda(); renderMapa();
+  });
+});
+document.getElementById('mapa').addEventListener('click', e=>{
+  const tile = e.target.closest('.tile');
+  if(!tile){ seleccion = null; renderPanel(); renderMapa(); return; }
+  const g = +tile.dataset.g, t = +tile.dataset.t;
+  seleccion = (seleccion && seleccion.g===g && seleccion.t===t) ? null : {g,t};
+  renderMapa(); renderPanel();
+});
+['filtroConductor','filtroGrupo','filtroMes'].forEach(id=>{
+  document.getElementById(id).addEventListener('change', renderTabla);
+});
+document.getElementById('btnLimpiarFiltros').addEventListener('click', ()=>{
+  document.getElementById('filtroConductor').value = '';
+  document.getElementById('filtroGrupo').value = '';
+  document.getElementById('filtroMes').value = '';
+  renderTabla();
+});
+
+const selGrupo = document.getElementById('fGrupo');
+selGrupo.innerHTML = GRUPOS.map(g=>`<option value="${g.id}">${g.nombre} (${g.territorios} terr.)</option>`).join('');
+document.getElementById('fFecha').value = new Date().toISOString().slice(0,10);
+
+document.getElementById('formRegistro').addEventListener('submit', e=>{
+  e.preventDefault();
+  const fecha = document.getElementById('fFecha').value;
+  const conductor = document.getElementById('fConductor').value.trim();
+  const grupo = +document.getElementById('fGrupo').value;
+  if(!fecha || !conductor) return;
+  registros.push({
+    fecha, conductor, grupo,
+    asignados: document.getElementById('fAsignados').value.trim(),
+    completos: nums(document.getElementById('fCompletos').value),
+    parciales: nums(document.getElementById('fParciales').value),
+    obs: document.getElementById('fObs').value.trim()
+  });
+  guardar();
+  ['fConductor','fAsignados','fCompletos','fParciales','fObs'].forEach(id=>document.getElementById(id).value='');
+  mesActual = registros.map(r=>r.fecha.slice(0,7)).sort().pop();
+  document.getElementById('mesInput').value = mesActual;
+  seleccion = null;
+  renderTodo();
+});
+
+document.getElementById('btnReset').addEventListener('click', ()=>{
+  if(!confirm('⚠️ ¿Borrar TODOS los registros de este dispositivo? Esta acción no se puede deshacer.')) return;
+  registros = [];
+  guardar();
+  mesActual = new Date().toISOString().slice(0,7);
+  document.getElementById('mesInput').value = mesActual;
+  seleccion = null;
+  document.getElementById('filtroConductor').value = '';
+  document.getElementById('filtroGrupo').value = '';
+  document.getElementById('filtroMes').value = '';
+  renderTodo();
+});
+
+document.getElementById('btnExport').addEventListener('click', ()=>{
+  if(!registros.length){ alert('No hay registros para exportar.'); return; }
+  const head = 'Fecha,Dia,Conductor,Grupo,Asignados,Completados,Parciales,Observacion';
+  const rows = registros.map(r=>[
+    r.fecha, diaDe(r.fecha), r.conductor, r.grupo,
+    `"${r.asignados||''}"`, `"${r.completos.join(' ')}"`, `"${r.parciales.join(' ')}"`,
+    `"${(r.obs||'').replace(/"/g,'""')}"`
+  ].join(','));
+  const blob = new Blob(['\uFEFF'+[head,...rows].join('\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'registro_predicacion_ofelia.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+});
+
+document.getElementById('progInicio').addEventListener('change', e=>{
+  const inicio = lunesDeSemana(e.target.value || new Date().toISOString().slice(0,10));
+  programaSemanal = sugerirPrograma(inicio);
+  renderProgramaSemanal();
+});
+document.getElementById('btnSugerirProg').addEventListener('click', ()=>{
+  const inicio = lunesDeSemana(document.getElementById('progInicio').value || new Date().toISOString().slice(0,10));
+  programaSemanal = sugerirPrograma(inicio);
+  renderProgramaSemanal();
+});
+document.getElementById('btnAnadirFila').addEventListener('click', ()=>{
+  const last = programaSemanal[programaSemanal.length-1];
+  if(!last) return;
+  programaSemanal.push({
+    fecha: last.fecha, dia: last.dia, hora: last.hora,
+    lugar:'', conductor:'', grupo:null, territorios:[], terrTexto:''
+  });
+  renderProgramaSemanal();
+});
+document.getElementById('progBody').addEventListener('input', e=>{
+  const inp = e.target.closest('input[data-field]');
+  if(!inp) return;
+  const idx = +inp.closest('tr').dataset.idx;
+  programaSemanal[idx][inp.dataset.field] = inp.value;
+});
+document.getElementById('btnExportPNG').addEventListener('click', async ()=>{
+  if(typeof html2canvas === 'undefined'){
+    alert('La librería de exportación aún está cargando. Espera unos segundos.');
+    return;
+  }
+  const sheet = document.getElementById('progSheet');
+  const canvas = await html2canvas(sheet, {
+    backgroundColor:'#ffffff', scale:2, useCORS:true, logging:false,
+    onclone: (clonedDoc)=>{
+      const cloned = clonedDoc.getElementById('progSheet');
+      if(!cloned) return;
+      cloned.querySelectorAll('input.cell').forEach(inp => {
+        const isLeft = inp.classList.contains('edit-lugar') ||
+                       inp.classList.contains('edit-conductor') ||
+                       inp.classList.contains('edit-terr');
+        const div = clonedDoc.createElement('div');
+        div.textContent = inp.value || '';
+        div.style.cssText = [
+          'width:100%','padding:8px','box-sizing:border-box',
+          'font-family:Arial,Helvetica,sans-serif','font-size:12.5px','font-weight:500',
+          'color:#12233b','line-height:1.25','white-space:nowrap',
+          'overflow:hidden','text-overflow:ellipsis',
+          'text-align:' + (isLeft ? 'left' : 'center')
+        ].join(';');
+        inp.parentNode.replaceChild(div, inp);
+      });
+    }
+  });
+  const dataUrl = canvas.toDataURL('image/png');
+  const nombre = `programa_ofelia_${document.getElementById('progInicio').value}.png`;
+  try{
+    const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+    const file = new File([blob], nombre, { type:'image/png' });
+    if(navigator.canShare && navigator.canShare({ files:[file] })){
+      await navigator.share({ files:[file], title:'Programa Ofelia' });
+      return;
+    }
+  }catch(err){
+    if(err && err.name === 'AbortError') return;
+  }
+  const a = document.createElement('a');
+  a.href = dataUrl;
+  a.download = nombre;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+});
+
+(function initPrograma(){
+  const inp = document.getElementById('progInicio');
+  if(!inp) return;
+  const hoy = new Date().toISOString().slice(0,10);
+  inp.value = lunesDeSemana(hoy);
+  programaSemanal = sugerirPrograma(inp.value);
+})();
+
+document.getElementById('mesInput').value = mesActual;
+renderTodo();
+</script>
+</body>
+</html>
