@@ -110,7 +110,7 @@
 
   .modal-overlay{position:fixed;inset:0;background:rgba(11,27,46,.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px}
   .modal-overlay.show{display:flex}
-  .modal{background:#fff;border-radius:16px;max-width:680px;width:100%;max-height:90vh;overflow:auto;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+  .modal{background:#fff;border-radius:16px;max-width:760px;width:100%;max-height:90vh;overflow:auto;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
   .modal h3{font-size:17px;margin-bottom:8px}
   .modal p{font-size:13px;color:#5a6b80;margin:8px 0}
   .modal textarea{width:100%;min-height:200px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;line-height:1.4;resize:vertical;padding:10px;border-radius:10px;border:1px solid #cbd6e2;background:#f8fafc}
@@ -127,6 +127,12 @@
   .combo-list button{display:block;width:100%;text-align:left;background:none;border:0;padding:10px 12px;border-radius:7px;font:inherit;font-size:13px;color:#12233b;cursor:pointer;-webkit-tap-highlight-color:rgba(43,84,134,.15)}
   .combo-list button:hover,.combo-list button:active{background:#e6edf5}
   .combo-list .sin-resultados{padding:12px;color:#8494a8;font-size:12px;text-align:center}
+
+  /* Tabs de grupo e info */
+  .tab-grupo{background:#f4f7fb;border:2px solid #cbd6e2;border-radius:8px;padding:6px 12px;font:inherit;font-size:12px;font-weight:700;color:#1f3a5f;cursor:pointer;transition:all .15s}
+  .tab-grupo.active{background:#1f3a5f;color:#fff;border-color:#1f3a5f}
+  .btn-copiar-num{background:#e6edf5;border:0;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:13px;font-weight:700;color:#1f3a5f}
+  .btn-copiar-num:active{background:#cbd6e2}
 
   @media (max-width: 720px){
     .topbar{padding:12px 14px;gap:10px}
@@ -225,6 +231,7 @@
     <div class="prog-toolbar">
       <label>Semana del <input type="date" id="progInicio"></label>
       <button class="btn" id="btnSugerirProg" type="button">🔄 Sugerir</button>
+      <button class="btn sec" id="btnVerTerritorios" type="button">🗂️ Ver territorios</button>
       <button class="btn sec" id="btnAnadirFila" type="button">➕ Añadir fila</button>
       <button class="btn sec" id="btnExportPNG" type="button">📷 PNG</button>
       <span class="hint" style="margin-left:auto">Toca cualquier celda para editarla</span>
@@ -334,7 +341,7 @@
 
 <script>
 /* ============================================================
-   1. CONFIGURACIÓN DE GRUPOS Y CONDUCTORES
+   1. CONFIGURACIÓN
    ============================================================ */
 const GRUPOS = [
   { id:1, nombre:'Grupo 1', color:'#f2c14e', x: 20, y: 20, w:340, h:290, cols:4,  territorios:16 },
@@ -389,20 +396,14 @@ function diasEntre(a,b){ return Math.round((new Date(b+'T00:00:00') - new Date(a
 function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function nums(str){ return String(str||'').split(/[,\s;]+/).map(x=>parseInt(x,10)).filter(x=>!isNaN(x)); }
 
-/* Normaliza un nombre: sin acentos, minúsculas, sin espacios extra.
-   Sirve para comparar "Adrián Noboa" con "ADRIAN NOBOA" como iguales. */
 function norm(s){
   return String(s||'')
     .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .toLowerCase()
-    .replace(/\s+/g,' ')
-    .trim();
+    .toLowerCase().replace(/\s+/g,' ').trim();
 }
 
-/* Devuelve la lista canónica de conductores, sin duplicados.
-   Prioriza la forma "bonita" de CONDUCTORES_SUGERIDOS. */
 function listaConductoresCanonica(){
-  const mapa = new Map(); // norm -> nombre bonito
+  const mapa = new Map();
   CONDUCTORES_SUGERIDOS.forEach(n => mapa.set(norm(n), n));
   registros.forEach(r => {
     const k = norm(r.conductor);
@@ -429,6 +430,33 @@ function estadoTerritorio(g,t,mes){
   const dias = diasEntre(ultima, fechaRef());
   return { estado: dias > 30 ? 'vencido' : 'pendiente', ultima, dias };
 }
+
+/* --- Nuevas funciones de estadísticas --- */
+function vecesAsignado(g, t){
+  let n = 0;
+  registros.forEach(r => {
+    if (r.grupo !== g) return;
+    if (nums(r.asignados).includes(t)) n++;
+  });
+  return n;
+}
+function vecesCompletado(g, t){
+  return historial(g, t).filter(r => r.completos.includes(t)).length;
+}
+function vecesParcial(g, t){
+  return historial(g, t).filter(r => r.parciales.includes(t)).length;
+}
+function ultimaAsignacion(g, t){
+  let fecha = null;
+  registros.forEach(r => {
+    if (r.grupo !== g) return;
+    if (nums(r.asignados).includes(t)){
+      if (!fecha || r.fecha > fecha) fecha = r.fecha;
+    }
+  });
+  return fecha;
+}
+
 function resumenMes(mes){
   const r = { total:0, completado:0, parcial:0, pendiente:0, vencido:0, sin_datos:0 };
   GRUPOS.forEach(g=>{
@@ -440,6 +468,9 @@ function resumenMes(mes){
   return r;
 }
 
+/* ============================================================
+   2. MAPA
+   ============================================================ */
 function layoutGrupo(g){
   const n = g.territorios, cols = g.cols;
   const rows = Math.ceil(n/cols);
@@ -495,6 +526,10 @@ function renderKPIs(){
     <div class="kpi" style="border-color:#c9d2dd"><span>Sin registro</span><strong>${r.sin_datos}</strong><small>Nunca predicados</small></div>
   `;
 }
+
+/* ============================================================
+   3. PANEL LATERAL
+   ============================================================ */
 function renderPanel(){
   const p = document.getElementById('panel');
   if(!seleccion){ p.innerHTML = panelResumen(); return; }
@@ -502,7 +537,11 @@ function renderPanel(){
   const t = seleccion.t;
   const est = estadoTerritorio(g.id, t, mesActual);
   const h = historial(g.id, t).slice().reverse();
-  const completos = historial(g.id,t).filter(r=>r.completos.includes(t)).length;
+  const vA = vecesAsignado(g.id, t);
+  const vC = vecesCompletado(g.id, t);
+  const vP = vecesParcial(g.id, t);
+  const uA = ultimaAsignacion(g.id, t);
+
   let filas = h.map(r=>`
     <tr>
       <td><strong>${fmt(r.fecha)}</strong><br><span class="obs">${diaDe(r.fecha)}</span></td>
@@ -518,8 +557,10 @@ function renderPanel(){
     <div class="meta">
       <div><span>Última cobertura</span><strong>${est.ultima ? fmt(est.ultima) : 'Nunca'}</strong></div>
       <div><span>Días desde entonces</span><strong>${est.dias === null ? '—' : est.dias + ' días'}</strong></div>
-      <div><span>Veces completado</span><strong>${completos}</strong></div>
-      <div><span>Salidas registradas</span><strong>${h.length}</strong></div>
+      <div><span>Veces asignado</span><strong>${vA}</strong></div>
+      <div><span>Veces completado</span><strong>${vC}</strong></div>
+      <div><span>Veces parcial</span><strong>${vP}</strong></div>
+      <div><span>Última asignación</span><strong>${uA ? fmt(uA) : '—'}</strong></div>
     </div>
     <h3 style="font-size:13px;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px">Historial de predicación</h3>
     <table style="margin-top:6px"><thead><tr><th>Fecha</th><th>Conductor</th><th>Resultado</th><th>Observación</th></tr></thead><tbody>${filas}</tbody></table>
@@ -548,7 +589,7 @@ function panelResumen(){
 }
 
 /* ============================================================
-   8. PROGRAMA SEMANAL
+   4. PROGRAMA SEMANAL — CON FALLBACK A COMPLETADOS ANTIGUOS
    ============================================================ */
 const PLANTILLA_SEMANAL = [
   { dia:'LUNES',     hora:'08:50', lugar:'FAMILIA RUALES' },
@@ -564,10 +605,9 @@ const PLANTILLA_SEMANAL = [
   { dia:'DOMINGO',   hora:'10:45', lugar:'SALÓN DEL REINO' },
 ];
 const DIAS_OFFSET = { 'LUNES':0, 'MARTES':1, 'MIÉRCOLES':2, 'JUEVES':3, 'VIERNES':4, 'SÁBADO':5, 'DOMINGO':6 };
-// Nombres por defecto con la forma "bonita" (coincide con CONDUCTORES_SUGERIDOS)
 const CONDUCTOR_DEFAULT = {
   'LUNES':'Jorge Silva','MARTES':'Rolando Mosquera','MIÉRCOLES':'Patricio Jaramillo',
-  'JUEVES':'Eduardo Cárdenas','VIERNES':'Adrián Noboa','SÁBADO':'Jorge Silva','DOMINGO':'Alberto Vázquez',
+  'JUEVES':'Eduardo Cárdenas','VIERNES':'Adrián Noboa','SÁBADO':'Jorge Silva','DOMINGO':'Alberto Vásquez',
 };
 let programaSemanal = [];
 
@@ -588,9 +628,8 @@ function fmtRango(a,b){
   return `${da.getDate()} DE ${ma} AL ${db.getDate()} DE ${mb} DEL ${yb}`;
 }
 
-/* Sugerencia de conductor: agrupa por forma normalizada y devuelve la forma "bonita" */
 function sugerirConductor(dia){
-  const counts = {}; // norm -> {count, nombre}
+  const counts = {};
   registros.forEach(r=>{
     const nombreDia = DIAS[new Date(r.fecha+'T00:00:00').getDay()];
     if(norm(nombreDia) === norm(dia)){
@@ -601,12 +640,16 @@ function sugerirConductor(dia){
   });
   const best = Object.entries(counts).sort((a,b)=> b[1].count - a[1].count)[0];
   if(best){
-    // Buscar la forma "bonita" en la lista de sugeridos
     const canon = CONDUCTORES_SUGERIDOS.find(n => norm(n) === best[0]);
     return canon || best[1].nombre;
   }
   return CONDUCTOR_DEFAULT[dia] || '';
 }
+
+/* *** CAMBIO CLAVE *** 
+   Ahora incluye TODOS los territorios disponibles (no solo pendientes),
+   priorizando: vencido > sin_datos > parcial > pendiente > completado.
+   Entre los completados, se prefieren los de MAYOR antigüedad (dias desc). */
 function tomarTerritoriosDeGrupo(grupoId, usados, max){
   const g = GRUPOS.find(x=>x.id===grupoId);
   if(!g) return [];
@@ -614,26 +657,45 @@ function tomarTerritoriosDeGrupo(grupoId, usados, max){
   for(let t=1;t<=g.territorios;t++){
     if(usados.has(`${grupoId}-${t}`)) continue;
     const est = estadoTerritorio(grupoId, t, mesActual);
-    if(est.estado !== 'completado') arr.push({ t, estado: est.estado, dias: est.dias ?? 9999 });
+    arr.push({
+      t,
+      estado: est.estado,
+      prio: ORDEN_ESTADO[est.estado],
+      dias: est.dias ?? 99999
+    });
   }
-  arr.sort((a,b)=> ORDEN_ESTADO[a.estado]-ORDEN_ESTADO[b.estado] || b.dias-a.dias || a.t-b.t);
+  // Ordenar: prioridad asc (vencido primero), luego dias desc (más antiguo primero)
+  arr.sort((a,b)=> a.prio - b.prio || b.dias - a.dias || a.t - b.t);
   const tomados = [];
   const lim = Math.min(max, arr.length);
   for(let i=0;i<lim;i++){ tomados.push(arr[i].t); usados.add(`${grupoId}-${arr[i].t}`); }
   return tomados;
 }
-function elegirGrupoConMasPendientes(usados){
-  let mejor = null, mejorCount = 0;
-  GRUPOS.forEach(g=>{
-    let count = 0;
+
+/* Devuelve el grupo con más territorios pendientes; si no hay ninguno,
+   devuelve el grupo con más territorios disponibles (completados). */
+function elegirGrupoParaAsignar(usados){
+  const info = GRUPOS.map(g=>{
+    let pendientes = 0, total = 0;
     for(let t=1;t<=g.territorios;t++){
       if(usados.has(`${g.id}-${t}`)) continue;
-      if(estadoTerritorio(g.id, t, mesActual).estado !== 'completado') count++;
+      total++;
+      const est = estadoTerritorio(g.id, t, mesActual).estado;
+      if(est !== 'completado') pendientes++;
     }
-    if(count > mejorCount){ mejor = g.id; mejorCount = count; }
+    return { id: g.id, pendientes, total };
   });
-  return mejor;
+  const conPendientes = info.filter(x => x.pendientes > 0);
+  if(conPendientes.length){
+    return conPendientes.sort((a,b)=> b.pendientes - a.pendientes)[0].id;
+  }
+  const conDisponibles = info.filter(x => x.total > 0);
+  if(conDisponibles.length){
+    return conDisponibles.sort((a,b)=> b.total - a.total)[0].id;
+  }
+  return null;
 }
+
 function sugerirPrograma(fechaInicio){
   const usados = new Set();
   const items = [];
@@ -641,12 +703,13 @@ function sugerirPrograma(fechaInicio){
     const fecha = addDays(fechaInicio, DIAS_OFFSET[p.dia]);
     const conductor = sugerirConductor(p.dia);
     let grupoElegido = null, territorios = [];
+
     if(p.grupoPreferido){
       const tomados = tomarTerritoriosDeGrupo(p.grupoPreferido, usados, 4);
       if(tomados.length){ grupoElegido = p.grupoPreferido; territorios = tomados; }
     }
     if(!territorios.length){
-      const g = elegirGrupoConMasPendientes(usados);
+      const g = elegirGrupoParaAsignar(usados);
       if(g !== null){
         const tomados = tomarTerritoriosDeGrupo(g, usados, 4);
         grupoElegido = g; territorios = tomados;
@@ -657,6 +720,7 @@ function sugerirPrograma(fechaInicio){
   });
   return items;
 }
+
 function actualizarRangoProg(){
   const el = document.getElementById('progRango');
   if(!el) return;
@@ -684,15 +748,13 @@ function renderProgramaSemanal(){
 }
 
 /* ============================================================
-   9. FILTRO Y TABLA DE REGISTROS
+   5. TABLA DE REGISTROS
    ============================================================ */
 function actualizarOpcionesConductores(){
   const sel = document.getElementById('filtroConductor');
   const actual = sel.value;
   const conductores = listaConductoresCanonica();
-  sel.innerHTML = '<option value="">Todos</option>' +
-    conductores.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
-  // Restaurar la selección por forma normalizada
+  sel.innerHTML = '<option value="">Todos</option>' + conductores.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
   const actualNorm = norm(actual);
   const match = conductores.find(c => norm(c) === actualNorm);
   if(match) sel.value = match;
@@ -703,13 +765,9 @@ function renderTabla(){
   const fg = document.getElementById('filtroGrupo').value;
   const fm = document.getElementById('filtroMes').value;
   let filtrados = registros.slice().sort((a,b)=> b.fecha.localeCompare(a.fecha));
-  if(fc){
-    const fcNorm = norm(fc);
-    filtrados = filtrados.filter(r => norm(r.conductor) === fcNorm);
-  }
+  if(fc){ const fcNorm = norm(fc); filtrados = filtrados.filter(r => norm(r.conductor) === fcNorm); }
   if(fg) filtrados = filtrados.filter(r => String(r.grupo) === fg);
   if(fm) filtrados = filtrados.filter(r => r.fecha.slice(0,7) === fm);
-
   const filas = filtrados.map(r=>`
     <tr>
       <td>${fmt(r.fecha)}<br><span class="obs">${diaDe(r.fecha)}</span></td>
@@ -731,7 +789,7 @@ function renderTabla(){
 }
 
 /* ============================================================
-   COMBOBOX PERSONALIZADO DE CONDUCTORES
+   6. COMBOBOX CONDUCTOR
    ============================================================ */
 function initComboConductor(){
   const input = document.getElementById('fConductor');
@@ -771,7 +829,7 @@ function initComboConductor(){
 }
 
 /* ============================================================
-   MODAL
+   7. MODAL GENÉRICO
    ============================================================ */
 function abrirModal({ title, bodyHTML, actions }){
   document.getElementById('modalTitle').textContent = title;
@@ -795,7 +853,120 @@ document.getElementById('modalOverlay').addEventListener('click', (e)=>{
 });
 
 /* ============================================================
-   EXPORTAR / IMPORTAR JSON
+   8. MODAL DE INFORMACIÓN DE TERRITORIOS
+   ============================================================ */
+function abrirModalInfoTerritorios(grupoInicial){
+  let grupoActivo = grupoInicial || 1;
+
+  function construirHTML(){
+    const tabs = GRUPOS.map(g =>
+      `<button type="button" class="tab-grupo ${g.id===grupoActivo?'active':''}" data-grupo="${g.id}">${g.nombre}</button>`
+    ).join('');
+
+    const g = GRUPOS.find(x => x.id === grupoActivo);
+    const filas = [];
+    for (let t = 1; t <= g.territorios; t++){
+      const est = estadoTerritorio(grupoActivo, t, mesActual);
+      const vA = vecesAsignado(grupoActivo, t);
+      const vC = vecesCompletado(grupoActivo, t);
+      const uA = ultimaAsignacion(grupoActivo, t);
+      filas.push({ t, est, vA, vC, uA });
+    }
+    // Orden: más antiguo primero (más días desde última cobertura)
+    filas.sort((a, b) => {
+      const da = a.est.dias ?? 99999;
+      const db = b.est.dias ?? 99999;
+      return db - da;
+    });
+
+    const filasHTML = filas.map(f => {
+      const color = ESTADOS[f.est.estado].fill;
+      const label = ESTADOS[f.est.estado].label;
+      return `<tr>
+        <td style="text-align:center"><strong>${f.t}</strong></td>
+        <td><span class="pill" style="background:${color};font-size:10px;padding:3px 8px">${label}</span></td>
+        <td>${f.est.ultima ? fmt(f.est.ultima) : '—'}</td>
+        <td>${f.est.dias === null ? '—' : f.est.dias + ' d'}</td>
+        <td>${f.uA ? fmt(f.uA) : '—'}</td>
+        <td style="text-align:center">${f.vA}</td>
+        <td style="text-align:center">${f.vC}</td>
+        <td style="text-align:center"><button type="button" class="btn-copiar-num" data-num="${f.t}" title="Copiar número">📋</button></td>
+      </tr>`;
+    }).join('');
+
+    return `
+      <p class="hint" style="margin-bottom:10px">Ordenados del territorio <strong>más antiguo</strong> al más reciente. Usa 📋 para copiar el número y luego pégalo en la celda "Territorio" del programa semanal.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">${tabs}</div>
+      <div style="overflow:auto;max-height:48vh">
+        <table style="font-size:12px">
+          <thead><tr>
+            <th style="text-align:center">Nº</th>
+            <th>Estado</th>
+            <th>Última cobertura</th>
+            <th>Antigüedad</th>
+            <th>Última asignación</th>
+            <th style="text-align:center">Veces asig.</th>
+            <th style="text-align:center">Veces comp.</th>
+            <th></th>
+          </tr></thead>
+          <tbody>${filasHTML}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function actualizarContenido(){
+    document.getElementById('modalBody').innerHTML = construirHTML();
+
+    document.querySelectorAll('.tab-grupo').forEach(b => {
+      b.addEventListener('click', ()=>{
+        grupoActivo = +b.dataset.grupo;
+        actualizarContenido();
+      });
+    });
+
+    document.querySelectorAll('.btn-copiar-num').forEach(b => {
+      b.addEventListener('click', async ()=>{
+        const n = b.dataset.num;
+        try{
+          await navigator.clipboard.writeText(n);
+        }catch(e){
+          const ta = document.createElement('textarea');
+          ta.value = n;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+        b.textContent = '✓';
+        b.style.background = '#2fb36b';
+        b.style.color = '#fff';
+        setTimeout(()=>{
+          b.textContent = '📋';
+          b.style.background = '';
+          b.style.color = '';
+        }, 1200);
+      });
+    });
+  }
+
+  document.getElementById('modalTitle').textContent = '🗂️ Información de territorios';
+  actualizarContenido();
+
+  const act = document.getElementById('modalActions');
+  act.innerHTML = '';
+  const btnCerrar = document.createElement('button');
+  btnCerrar.className = 'btn sec';
+  btnCerrar.textContent = 'Cerrar';
+  btnCerrar.type = 'button';
+  btnCerrar.addEventListener('click', cerrarModal);
+  act.appendChild(btnCerrar);
+
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+/* ============================================================
+   9. EXPORTAR / IMPORTAR JSON
    ============================================================ */
 function payloadActual(){
   return { app:'ofelia_monitor', version:1, exportado:new Date().toISOString(), total:registros.length, registros:registros };
@@ -894,7 +1065,7 @@ document.getElementById('btnImportJSON').addEventListener('click', ()=>{
 });
 
 /* ============================================================
-   RENDER GLOBAL + EVENTOS
+   10. RENDER GLOBAL + EVENTOS
    ============================================================ */
 function renderTodo(){
   renderKPIs();
@@ -985,6 +1156,9 @@ document.getElementById('btnSugerirProg').addEventListener('click', ()=>{
   const inicio = lunesDeSemana(document.getElementById('progInicio').value || new Date().toISOString().slice(0,10));
   programaSemanal = sugerirPrograma(inicio);
   renderProgramaSemanal();
+});
+document.getElementById('btnVerTerritorios').addEventListener('click', ()=>{
+  abrirModalInfoTerritorios(1);
 });
 document.getElementById('btnAnadirFila').addEventListener('click', ()=>{
   const last = programaSemanal[programaSemanal.length-1];
