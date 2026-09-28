@@ -357,13 +357,37 @@ const CONDUCTORES_SUGERIDOS = [
   'Emilio Basantes','Carlos Salazar'
 ];
 
-/* *** NUEVO: Conductores fijos por grupo para los sábados *** */
 const CONDUCTOR_POR_GRUPO_SABADO = {
   1: 'Jorge Silva',
   2: 'Mateo Ruales',
   3: 'Nelson Almeida',
   4: 'Rolando Mosquera',
   5: 'Patricio Jaramillo',
+};
+
+const PUNTO_BASE_POR_DIA = {
+  'LUNES':     { g:2, t:6,  casa:'FAMILIA RUALES' },
+  'MARTES':    { g:5, t:1,  casa:'FAMILIA MOXLEY' },
+  'MIÉRCOLES': { g:1, t:2,  casa:'FAMILIA CASTRO' },
+  'JUEVES':    { g:4, t:2,  casa:'HERMANA AYMACAÑA' },
+  'VIERNES':   { g:2, t:10, casa:'SALÓN DEL REINO' },
+  'DOMINGO':   { g:2, t:10, casa:'SALÓN DEL REINO' },
+};
+
+const CASA_BASE_GRUPO_SABADO = {
+  1: { g:1, t:2 },
+  2: { g:2, t:6 },
+  3: null,
+  4: null,
+  5: { g:5, t:1 },
+};
+
+const AFINIDAD_ENTRE_GRUPOS = {
+  1: {1:0, 2:1, 3:4, 4:2, 5:6},
+  2: {1:1, 2:0, 3:1, 4:3, 5:4},
+  3: {1:4, 2:1, 3:0, 4:2, 5:3},
+  4: {1:2, 2:3, 3:2, 4:0, 5:4},
+  5: {1:6, 2:4, 3:3, 4:4, 5:0},
 };
 
 const REGISTROS_BASE = [];
@@ -590,7 +614,78 @@ function panelResumen(){
 }
 
 /* ============================================================
-   4. PROGRAMA SEMANAL
+   4. PROXIMIDAD GEOGRÁFICA
+   ============================================================ */
+const _centroidesCache = {};
+function centroideTerritorio(grupoId, t){
+  const key = `${grupoId}-${t}`;
+  if (_centroidesCache[key]) return _centroidesCache[key];
+  const g = GRUPOS.find(x=>x.id===grupoId);
+  if (!g) return null;
+  const layout = layoutGrupo(g);
+  const tl = layout.find(x=>x.t===t);
+  if (!tl) return null;
+  const c = { x: tl.x + tl.w/2, y: tl.y + tl.h/2 };
+  _centroidesCache[key] = c;
+  return c;
+}
+
+function distanciaTerritorio(gA, tA, gB, tB){
+  if (gA === gB) {
+    const a = centroideTerritorio(gA, tA);
+    const b = centroideTerritorio(gB, tB);
+    if (!a || !b) return 999999;
+    return Math.hypot(a.x - b.x, a.y - b.y);
+  }
+  return (AFINIDAD_ENTRE_GRUPOS[gA]?.[gB] ?? 10) * 10000;
+}
+
+function elegirGrupoCercanoConPendientes(puntoBase, usados){
+  if (!puntoBase) return elegirGrupoParaAsignar(usados);
+  const afinidad = AFINIDAD_ENTRE_GRUPOS[puntoBase.g] || {};
+  const gruposOrdenados = GRUPOS.slice().sort((a,b)=> (afinidad[a.id] ?? 10) - (afinidad[b.id] ?? 10));
+  for (const g of gruposOrdenados){
+    let pendientes = 0;
+    for (let t = 1; t <= g.territorios; t++){
+      if (usados.has(`${g.id}-${t}`)) continue;
+      if (estadoTerritorio(g.id, t, mesActual).estado !== 'completado') pendientes++;
+    }
+    if (pendientes > 0) return g.id;
+  }
+  for (const g of gruposOrdenados){
+    let disp = 0;
+    for (let t = 1; t <= g.territorios; t++){
+      if (!usados.has(`${g.id}-${t}`)) disp++;
+    }
+    if (disp > 0) return g.id;
+  }
+  return puntoBase.g;
+}
+
+function elegirGrupoParaAsignar(usados){
+  const info = GRUPOS.map(g=>{
+    let pendientes = 0, total = 0;
+    for(let t=1;t<=g.territorios;t++){
+      if(usados.has(`${g.id}-${t}`)) continue;
+      total++;
+      const est = estadoTerritorio(g.id, t, mesActual).estado;
+      if(est !== 'completado') pendientes++;
+    }
+    return { id: g.id, pendientes, total };
+  });
+  const conPendientes = info.filter(x => x.pendientes > 0);
+  if(conPendientes.length){
+    return conPendientes.sort((a,b)=> b.pendientes - a.pendientes)[0].id;
+  }
+  const conDisponibles = info.filter(x => x.total > 0);
+  if(conDisponibles.length){
+    return conDisponibles.sort((a,b)=> b.total - a.total)[0].id;
+  }
+  return null;
+}
+
+/* ============================================================
+   5. PROGRAMA SEMANAL
    ============================================================ */
 const PLANTILLA_SEMANAL = [
   { dia:'LUNES',     hora:'08:50', lugar:'FAMILIA RUALES' },
@@ -647,54 +742,78 @@ function sugerirConductor(dia){
   return CONDUCTOR_DEFAULT[dia] || '';
 }
 
-/* Conductor para sábado: si hay grupo asignado, usar el del mapa;
-   si no, usar sugerirConductor('SÁBADO') como fallback. */
 function conductorParaSabado(grupoId){
   if(grupoId && CONDUCTOR_POR_GRUPO_SABADO[grupoId]) return CONDUCTOR_POR_GRUPO_SABADO[grupoId];
   return sugerirConductor('SÁBADO');
 }
 
-function tomarTerritoriosDeGrupo(grupoId, usados, max){
+function rankEstado(estado){
+  return {
+    vencido:    0.0,
+    sin_datos:  0.1,
+    parcial:    0.3,
+    pendiente:  0.7,
+    completado: 1.0
+  }[estado] ?? 1.0;
+}
+
+function tomarTerritoriosDeGrupo(grupoId, usados, max, puntoBase){
   const g = GRUPOS.find(x=>x.id===grupoId);
   if(!g) return [];
-  const arr = [];
-  for(let t=1;t<=g.territorios;t++){
+
+  const candidatos = [];
+  for(let t=1; t<=g.territorios; t++){
     if(usados.has(`${grupoId}-${t}`)) continue;
     const est = estadoTerritorio(grupoId, t, mesActual);
-    arr.push({
+    candidatos.push({
       t,
       estado: est.estado,
-      prio: ORDEN_ESTADO[est.estado],
+      estadoRank: rankEstado(est.estado),
       dias: est.dias ?? 99999
     });
   }
-  arr.sort((a,b)=> a.prio - b.prio || b.dias - a.dias || a.t - b.t);
-  const tomados = [];
-  const lim = Math.min(max, arr.length);
-  for(let i=0;i<lim;i++){ tomados.push(arr[i].t); usados.add(`${grupoId}-${arr[i].t}`); }
-  return tomados;
-}
+  if(!candidatos.length) return [];
 
-function elegirGrupoParaAsignar(usados){
-  const info = GRUPOS.map(g=>{
-    let pendientes = 0, total = 0;
-    for(let t=1;t<=g.territorios;t++){
-      if(usados.has(`${g.id}-${t}`)) continue;
-      total++;
-      const est = estadoTerritorio(g.id, t, mesActual).estado;
-      if(est !== 'completado') pendientes++;
+  const escala = Math.max(g.w, g.h);
+  const seleccionados = [];
+
+  while(seleccionados.length < max && candidatos.length > 0){
+    let elegido;
+
+    if(seleccionados.length === 0){
+      elegido = candidatos.slice().sort((a,b)=>
+        a.estadoRank - b.estadoRank ||
+        b.dias - a.dias ||
+        a.t - b.t
+      )[0];
+    } else {
+      let mejor = null, mejorScore = Infinity;
+      for(const c of candidatos){
+        let distMin = Infinity;
+        for(const s of seleccionados){
+          const d = distanciaTerritorio(grupoId, c.t, grupoId, s);
+          if(d < distMin) distMin = d;
+        }
+        const distNorm = Math.min(distMin / escala, 1);
+        const edadNorm = 1 - Math.min(c.dias / 90, 1);
+
+        const score =
+            3.0 * distNorm +
+            1.5 * c.estadoRank +
+            0.8 * edadNorm;
+
+        if(score < mejorScore){ mejorScore = score; mejor = c; }
+      }
+      elegido = mejor;
     }
-    return { id: g.id, pendientes, total };
-  });
-  const conPendientes = info.filter(x => x.pendientes > 0);
-  if(conPendientes.length){
-    return conPendientes.sort((a,b)=> b.pendientes - a.pendientes)[0].id;
+
+    if(!elegido) break;
+    seleccionados.push(elegido.t);
+    usados.add(`${grupoId}-${elegido.t}`);
+    candidatos.splice(candidatos.indexOf(elegido), 1);
   }
-  const conDisponibles = info.filter(x => x.total > 0);
-  if(conDisponibles.length){
-    return conDisponibles.sort((a,b)=> b.total - a.total)[0].id;
-  }
-  return null;
+
+  return seleccionados;
 }
 
 function sugerirPrograma(fechaInicio){
@@ -706,31 +825,39 @@ function sugerirPrograma(fechaInicio){
     let conductor = null;
     let grupoElegido = null, territorios = [];
 
-    // 1) Intentar con el grupo preferido (sábados)
+    let puntoBase = null;
+    if (esSabado && p.grupoPreferido){
+      puntoBase = CASA_BASE_GRUPO_SABADO[p.grupoPreferido] || null;
+    } else if (!esSabado){
+      puntoBase = PUNTO_BASE_POR_DIA[p.dia] || null;
+    }
+
     if(p.grupoPreferido){
-      const tomados = tomarTerritoriosDeGrupo(p.grupoPreferido, usados, 4);
+      const tomados = tomarTerritoriosDeGrupo(p.grupoPreferido, usados, 4, puntoBase);
       if(tomados.length){ grupoElegido = p.grupoPreferido; territorios = tomados; }
     }
-    // 2) Fallback: elegir otro grupo
     if(!territorios.length){
-      const g = elegirGrupoParaAsignar(usados);
+      const g = puntoBase
+        ? elegirGrupoCercanoConPendientes(puntoBase, usados)
+        : elegirGrupoParaAsignar(usados);
       if(g !== null){
-        const tomados = tomarTerritoriosDeGrupo(g, usados, 4);
+        const tomados = tomarTerritoriosDeGrupo(g, usados, 4, puntoBase);
         grupoElegido = g; territorios = tomados;
       }
     }
 
-    // 3) Determinar conductor
     if(esSabado){
-      // Sábados: conductor fijo por grupo
       conductor = conductorParaSabado(grupoElegido);
     } else {
-      // Otros días: lógica basada en historial
       conductor = sugerirConductor(p.dia);
     }
 
-    const terrTexto = territorios.length ? `${territorios.join(', ')}${grupoElegido ? ' DEL GRUPO ' + grupoElegido : ''}` : '';
-    items.push({ fecha, dia:p.dia, hora:p.hora, lugar:p.lugar, conductor, grupo:grupoElegido, territorios, terrTexto });
+    /* *** CAMBIO: ordenar territorios ascendentemente antes de mostrarlos *** */
+    const territoriosOrdenados = territorios.slice().sort((a,b)=> a - b);
+    const terrTexto = territoriosOrdenados.length
+      ? `${territoriosOrdenados.join(', ')}${grupoElegido ? ' DEL GRUPO ' + grupoElegido : ''}`
+      : '';
+    items.push({ fecha, dia:p.dia, hora:p.hora, lugar:p.lugar, conductor, grupo:grupoElegido, territorios:territoriosOrdenados, terrTexto });
   });
   return items;
 }
@@ -762,7 +889,7 @@ function renderProgramaSemanal(){
 }
 
 /* ============================================================
-   5. TABLA DE REGISTROS
+   6. TABLA DE REGISTROS
    ============================================================ */
 function actualizarOpcionesConductores(){
   const sel = document.getElementById('filtroConductor');
@@ -803,7 +930,7 @@ function renderTabla(){
 }
 
 /* ============================================================
-   6. COMBOBOX CONDUCTOR
+   7. COMBOBOX CONDUCTOR
    ============================================================ */
 function initComboConductor(){
   const input = document.getElementById('fConductor');
@@ -843,7 +970,7 @@ function initComboConductor(){
 }
 
 /* ============================================================
-   7. MODAL GENÉRICO
+   8. MODAL GENÉRICO
    ============================================================ */
 function abrirModal({ title, bodyHTML, actions }){
   document.getElementById('modalTitle').textContent = title;
@@ -867,7 +994,7 @@ document.getElementById('modalOverlay').addEventListener('click', (e)=>{
 });
 
 /* ============================================================
-   8. MODAL DE INFORMACIÓN DE TERRITORIOS
+   9. MODAL DE INFORMACIÓN DE TERRITORIOS
    ============================================================ */
 function abrirModalInfoTerritorios(grupoInicial){
   let grupoActivo = grupoInicial || 1;
@@ -976,7 +1103,7 @@ function abrirModalInfoTerritorios(grupoInicial){
 }
 
 /* ============================================================
-   9. EXPORTAR / IMPORTAR JSON
+   10. EXPORTAR / IMPORTAR JSON
    ============================================================ */
 function payloadActual(){
   return { app:'ofelia_monitor', version:1, exportado:new Date().toISOString(), total:registros.length, registros:registros };
@@ -1075,7 +1202,7 @@ document.getElementById('btnImportJSON').addEventListener('click', ()=>{
 });
 
 /* ============================================================
-   10. RENDER GLOBAL + EVENTOS
+   11. RENDER GLOBAL + EVENTOS
    ============================================================ */
 function renderTodo(){
   renderKPIs();
