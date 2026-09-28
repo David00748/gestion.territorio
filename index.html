@@ -128,7 +128,6 @@
   .combo-list button:hover,.combo-list button:active{background:#e6edf5}
   .combo-list .sin-resultados{padding:12px;color:#8494a8;font-size:12px;text-align:center}
 
-  /* Tabs de grupo e info */
   .tab-grupo{background:#f4f7fb;border:2px solid #cbd6e2;border-radius:8px;padding:6px 12px;font:inherit;font-size:12px;font-weight:700;color:#1f3a5f;cursor:pointer;transition:all .15s}
   .tab-grupo.active{background:#1f3a5f;color:#fff;border-color:#1f3a5f}
   .btn-copiar-num{background:#e6edf5;border:0;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:13px;font-weight:700;color:#1f3a5f}
@@ -358,6 +357,15 @@ const CONDUCTORES_SUGERIDOS = [
   'Emilio Basantes','Carlos Salazar'
 ];
 
+/* *** NUEVO: Conductores fijos por grupo para los sábados *** */
+const CONDUCTOR_POR_GRUPO_SABADO = {
+  1: 'Jorge Silva',
+  2: 'Mateo Ruales',
+  3: 'Nelson Almeida',
+  4: 'Rolando Mosquera',
+  5: 'Patricio Jaramillo',
+};
+
 const REGISTROS_BASE = [];
 
 const ESTADOS = {
@@ -405,6 +413,7 @@ function norm(s){
 function listaConductoresCanonica(){
   const mapa = new Map();
   CONDUCTORES_SUGERIDOS.forEach(n => mapa.set(norm(n), n));
+  Object.values(CONDUCTOR_POR_GRUPO_SABADO).forEach(n => mapa.set(norm(n), n));
   registros.forEach(r => {
     const k = norm(r.conductor);
     if(k && !mapa.has(k)) mapa.set(k, r.conductor);
@@ -431,21 +440,13 @@ function estadoTerritorio(g,t,mes){
   return { estado: dias > 30 ? 'vencido' : 'pendiente', ultima, dias };
 }
 
-/* --- Nuevas funciones de estadísticas --- */
 function vecesAsignado(g, t){
   let n = 0;
-  registros.forEach(r => {
-    if (r.grupo !== g) return;
-    if (nums(r.asignados).includes(t)) n++;
-  });
+  registros.forEach(r => { if (r.grupo === g && nums(r.asignados).includes(t)) n++; });
   return n;
 }
-function vecesCompletado(g, t){
-  return historial(g, t).filter(r => r.completos.includes(t)).length;
-}
-function vecesParcial(g, t){
-  return historial(g, t).filter(r => r.parciales.includes(t)).length;
-}
+function vecesCompletado(g, t){ return historial(g, t).filter(r => r.completos.includes(t)).length; }
+function vecesParcial(g, t){ return historial(g, t).filter(r => r.parciales.includes(t)).length; }
 function ultimaAsignacion(g, t){
   let fecha = null;
   registros.forEach(r => {
@@ -589,7 +590,7 @@ function panelResumen(){
 }
 
 /* ============================================================
-   4. PROGRAMA SEMANAL — CON FALLBACK A COMPLETADOS ANTIGUOS
+   4. PROGRAMA SEMANAL
    ============================================================ */
 const PLANTILLA_SEMANAL = [
   { dia:'LUNES',     hora:'08:50', lugar:'FAMILIA RUALES' },
@@ -646,10 +647,13 @@ function sugerirConductor(dia){
   return CONDUCTOR_DEFAULT[dia] || '';
 }
 
-/* *** CAMBIO CLAVE *** 
-   Ahora incluye TODOS los territorios disponibles (no solo pendientes),
-   priorizando: vencido > sin_datos > parcial > pendiente > completado.
-   Entre los completados, se prefieren los de MAYOR antigüedad (dias desc). */
+/* Conductor para sábado: si hay grupo asignado, usar el del mapa;
+   si no, usar sugerirConductor('SÁBADO') como fallback. */
+function conductorParaSabado(grupoId){
+  if(grupoId && CONDUCTOR_POR_GRUPO_SABADO[grupoId]) return CONDUCTOR_POR_GRUPO_SABADO[grupoId];
+  return sugerirConductor('SÁBADO');
+}
+
 function tomarTerritoriosDeGrupo(grupoId, usados, max){
   const g = GRUPOS.find(x=>x.id===grupoId);
   if(!g) return [];
@@ -664,7 +668,6 @@ function tomarTerritoriosDeGrupo(grupoId, usados, max){
       dias: est.dias ?? 99999
     });
   }
-  // Ordenar: prioridad asc (vencido primero), luego dias desc (más antiguo primero)
   arr.sort((a,b)=> a.prio - b.prio || b.dias - a.dias || a.t - b.t);
   const tomados = [];
   const lim = Math.min(max, arr.length);
@@ -672,8 +675,6 @@ function tomarTerritoriosDeGrupo(grupoId, usados, max){
   return tomados;
 }
 
-/* Devuelve el grupo con más territorios pendientes; si no hay ninguno,
-   devuelve el grupo con más territorios disponibles (completados). */
 function elegirGrupoParaAsignar(usados){
   const info = GRUPOS.map(g=>{
     let pendientes = 0, total = 0;
@@ -701,13 +702,16 @@ function sugerirPrograma(fechaInicio){
   const items = [];
   PLANTILLA_SEMANAL.forEach((p)=>{
     const fecha = addDays(fechaInicio, DIAS_OFFSET[p.dia]);
-    const conductor = sugerirConductor(p.dia);
+    const esSabado = p.dia === 'SÁBADO';
+    let conductor = null;
     let grupoElegido = null, territorios = [];
 
+    // 1) Intentar con el grupo preferido (sábados)
     if(p.grupoPreferido){
       const tomados = tomarTerritoriosDeGrupo(p.grupoPreferido, usados, 4);
       if(tomados.length){ grupoElegido = p.grupoPreferido; territorios = tomados; }
     }
+    // 2) Fallback: elegir otro grupo
     if(!territorios.length){
       const g = elegirGrupoParaAsignar(usados);
       if(g !== null){
@@ -715,6 +719,16 @@ function sugerirPrograma(fechaInicio){
         grupoElegido = g; territorios = tomados;
       }
     }
+
+    // 3) Determinar conductor
+    if(esSabado){
+      // Sábados: conductor fijo por grupo
+      conductor = conductorParaSabado(grupoElegido);
+    } else {
+      // Otros días: lógica basada en historial
+      conductor = sugerirConductor(p.dia);
+    }
+
     const terrTexto = territorios.length ? `${territorios.join(', ')}${grupoElegido ? ' DEL GRUPO ' + grupoElegido : ''}` : '';
     items.push({ fecha, dia:p.dia, hora:p.hora, lugar:p.lugar, conductor, grupo:grupoElegido, territorios, terrTexto });
   });
@@ -872,7 +886,6 @@ function abrirModalInfoTerritorios(grupoInicial){
       const uA = ultimaAsignacion(grupoActivo, t);
       filas.push({ t, est, vA, vC, uA });
     }
-    // Orden: más antiguo primero (más días desde última cobertura)
     filas.sort((a, b) => {
       const da = a.est.dias ?? 99999;
       const db = b.est.dias ?? 99999;
@@ -917,20 +930,17 @@ function abrirModalInfoTerritorios(grupoInicial){
 
   function actualizarContenido(){
     document.getElementById('modalBody').innerHTML = construirHTML();
-
     document.querySelectorAll('.tab-grupo').forEach(b => {
       b.addEventListener('click', ()=>{
         grupoActivo = +b.dataset.grupo;
         actualizarContenido();
       });
     });
-
     document.querySelectorAll('.btn-copiar-num').forEach(b => {
       b.addEventListener('click', async ()=>{
         const n = b.dataset.num;
-        try{
-          await navigator.clipboard.writeText(n);
-        }catch(e){
+        try{ await navigator.clipboard.writeText(n); }
+        catch(e){
           const ta = document.createElement('textarea');
           ta.value = n;
           document.body.appendChild(ta);
