@@ -94,6 +94,10 @@
   .prog-table td.cell-fijo{text-align:center;font-weight:600;color:#1f3a5f;padding:8px}
   .prog-table select.sel-casa{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:8px 26px 8px 8px;text-align:left;font-family:inherit;font-weight:500;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg, transparent 50%, #6b7c93 50%), linear-gradient(135deg, #6b7c93 50%, transparent 50%);background-position: calc(100% - 15px) 15px, calc(100% - 10px) 15px;background-size: 5px 5px, 5px 5px;background-repeat: no-repeat}
   .prog-table select.sel-casa:focus{outline:2px solid #2b5486;outline-offset:-2px;background-color:#fffbe6}
+  .prog-table select.sel-conductor{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:8px 26px 8px 8px;text-align:left;font-family:inherit;font-weight:500;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg, transparent 50%, #6b7c93 50%), linear-gradient(135deg, #6b7c93 50%, transparent 50%);background-position: calc(100% - 15px) 15px, calc(100% - 10px) 15px;background-size: 5px 5px, 5px 5px;background-repeat: no-repeat}
+  .prog-table select.sel-conductor:focus{outline:2px solid #2b5486;outline-offset:-2px;background-color:#fffbe6}
+  .prog-table select.sel-telefonica{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:8px 26px 8px 8px;text-align:left;font-family:inherit;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg, transparent 50%, #6b7c93 50%), linear-gradient(135deg, #6b7c93 50%, transparent 50%);background-position: calc(100% - 15px) 15px, calc(100% - 10px) 15px;background-size: 5px 5px, 5px 5px;background-repeat: no-repeat}
+  .prog-table select.sel-telefonica:focus{outline:2px solid #2b5486;outline-offset:-2px;background-color:#fffbe6}
   .aviso-datos{background:#e7f3ff;border-left:4px solid #2b5486;padding:10px 12px;border-radius:8px;color:#1f3a5f;font-size:12.5px;line-height:1.5}
   .aviso-datos strong{display:block;margin-bottom:3px}
   .modal-overlay{position:fixed;inset:0;background:rgba(11,27,46,.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px}
@@ -118,6 +122,8 @@
   .tab-grupo.active{background:#1f3a5f;color:#fff;border-color:#1f3a5f}
   .btn-copiar-num{background:#e6edf5;border:0;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:13px;font-weight:700;color:#1f3a5f}
   .btn-copiar-num:active{background:#cbd6e2}
+  footer.sistema-footer{text-align:center;padding:20px 12px 28px;font-size:11px;color:#8494a8;letter-spacing:.3px}
+  footer.sistema-footer strong{color:#6b7c93;font-weight:700}
   @media (max-width: 720px){
     .topbar{padding:12px 14px;gap:10px}
     .brand h1{font-size:15px;line-height:1.25}
@@ -180,7 +186,7 @@
     .prog-table td.cell-fijo{font-weight:700;color:#1f3a5f;font-size:13px;padding:5px 0 !important}
     .prog-table input.cell{flex:1;border:1px solid #d8e0e8 !important;border-radius:6px;background:#f8fafc;padding:8px 10px !important;text-align:left !important;font-size:12.5px !important;width:auto}
     .prog-table input.cell:focus{background:#fffbe6;border-color:#2b5486 !important;outline:none}
-    .prog-table select.sel-casa{flex:1;border:1px solid #d8e0e8 !important;border-radius:6px;background-color:#f8fafc;padding:8px 26px 8px 10px !important;text-align:left !important;font-size:12.5px !important;width:auto}
+    .prog-table select.sel-casa,.prog-table select.sel-conductor,.prog-table select.sel-telefonica{flex:1;border:1px solid #d8e0e8 !important;border-radius:6px;background-color:#f8fafc;padding:8px 26px 8px 10px !important;text-align:left !important;font-size:12.5px !important;width:auto}
     .prog-table td[data-label="Lugar"]{flex-wrap:wrap}
     .prog-table td[data-label="Lugar"] input.cell{margin-top:4px;flex-basis:100%}
   }
@@ -212,16 +218,14 @@
   <aside class="panel" id="panel"></aside>
 </main>
 
-<details class="card">
+<details class="card" open>
   <summary>📋 Programa de predicación de casa en casa</summary>
   <div class="details-content">
     <div class="prog-toolbar">
       <label>Semana del <input type="date" id="progInicio"></label>
-      <button class="btn" id="btnSugerirProg" type="button">🔄 Sugerir</button>
       <button class="btn sec" id="btnVerTerritorios" type="button">🗂️ Ver territorios</button>
-      <button class="btn sec" id="btnAnadirFila" type="button">➕ Añadir fila</button>
       <button class="btn sec" id="btnExportPNG" type="button">📷 PNG</button>
-      <span class="hint" style="margin-left:auto">Cambia la casa y se recalcula todo</span>
+      <span class="hint" style="margin-left:auto">Cambia la casa o el conductor y se recalcula</span>
     </div>
     <div class="prog-sheet-wrap">
       <div id="progSheet" class="prog-sheet">
@@ -299,6 +303,10 @@
   </div>
 </details>
 
+<footer class="sistema-footer">
+  <strong>Sistema v22.0</strong> · Monitor de Territorios · Última actualización: Octubre 2026
+</footer>
+
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal" id="modalBox">
     <button class="modal-close" type="button" id="modalClose">✕</button>
@@ -333,7 +341,9 @@ const CASA_DEFAULT_POR_DIA = {
   'LUNES':'FAMILIA RUALES','MARTES':'FAMILIA MOXLEY','MIÉRCOLES':'FAMILIA CASTRO',
   'JUEVES':'HERMANA AYMACAÑA','VIERNES':'SALÓN DEL REINO','DOMINGO':'SALÓN DEL REINO',
 };
-const CASA_DEFAULT_POR_GRUPO_SABADO = { 1:'FAMILIA CASTRO', 2:'FAMILIA RUALES', 3:null, 4:null, 5:'FAMILIA MOXLEY' };
+const CASA_DEFAULT_POR_GRUPO_SABADO = {
+  1:'FAMILIA CASTRO',2:'FAMILIA RUALES',3:'FAMILIA RUALES',4:'HERMANA AYMACAÑA',5:'FAMILIA MOXLEY'
+};
 
 const CONDUCTORES_SUGERIDOS = [
   'Jorge Silva','Rolando Mosquera','Patricio Jaramillo','Eduardo Cárdenas',
@@ -342,6 +352,7 @@ const CONDUCTORES_SUGERIDOS = [
   'Emilio Basantes','Carlos Salazar'
 ];
 const CONDUCTOR_POR_GRUPO_SABADO = { 1:'Jorge Silva',2:'Mateo Ruales',3:'Nelson Almeida',4:'Rolando Mosquera',5:'Patricio Jaramillo' };
+const OPCIONES_ESPECIALES = ['PREDICACIÓN TELEFÓNICA','PREDICACIÓN POR CARTA'];
 
 const AFINIDAD_ENTRE_GRUPOS = {
   1: {1:0, 2:1, 3:4, 4:2, 5:6},
@@ -352,7 +363,6 @@ const AFINIDAD_ENTRE_GRUPOS = {
 };
 
 const REGISTROS_BASE = [];
-
 const ESTADOS = {
   completado:{ fill:'#2fb36b', label:'Completado este mes' },
   parcial:   { fill:'#f0a02a', label:'Predicado parcialmente' },
@@ -371,17 +381,7 @@ let seleccion = null;
 function cargar(){ try{ const raw = localStorage.getItem(STORAGE); if(raw) return JSON.parse(raw); }catch(e){} return JSON.parse(JSON.stringify(REGISTROS_BASE)); }
 function guardar(){ try{ localStorage.setItem(STORAGE, JSON.stringify(registros)); }catch(e){} }
 function mesPorDefecto(){ if(!registros.length) return new Date().toISOString().slice(0,7); return registros.map(r=>r.fecha.slice(0,7)).sort().pop(); }
-
-/* *** CORREGIDO: la fecha de referencia es SIEMPRE el último registro ***
-   No usamos la fecha del sistema para que la antigüedad no se infle
-   cuando el usuario trabaja "en el pasado". */
-function fechaRef(){
-  if(registros.length){
-    return registros.map(r=>r.fecha).sort().pop();
-  }
-  return new Date().toISOString().slice(0,10);
-}
-
+function fechaRef(){ if(registros.length){ return registros.map(r=>r.fecha).sort().pop(); } return new Date().toISOString().slice(0,10); }
 const DIAS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 function diaDe(f){ return DIAS[new Date(f+'T00:00:00').getDay()]; }
 function fmt(f){ if(!f) return '—'; return new Date(f+'T00:00:00').toLocaleDateString('es-EC',{day:'2-digit',month:'short',year:'numeric'}); }
@@ -399,26 +399,16 @@ function listaConductoresCanonica(){
   return [...mapa.values()].sort((a,b)=> a.localeCompare(b,'es'));
 }
 
-function historial(g,t){
-  return registros.filter(r => r.grupo===g && (r.completos.includes(t) || r.parciales.includes(t))).sort((a,b)=> a.fecha.localeCompare(b.fecha));
-}
-
-/* *** NUEVA: antigüedad real independiente del mes ***
-   Devuelve días desde la última cobertura completa (o parcial si no hay). */
+function historial(g,t){ return registros.filter(r => r.grupo===g && (r.completos.includes(t) || r.parciales.includes(t))).sort((a,b)=> a.fecha.localeCompare(b.fecha)); }
 function antiguedadReal(g, t){
   const h = historial(g, t);
   if(!h.length) return null;
   const completos = h.filter(r => r.completos.includes(t));
-  if(completos.length){
-    return diasEntre(completos[completos.length-1].fecha, fechaRef());
-  }
+  if(completos.length) return diasEntre(completos[completos.length-1].fecha, fechaRef());
   const parciales = h.filter(r => r.parciales.includes(t));
-  if(parciales.length){
-    return diasEntre(parciales[parciales.length-1].fecha, fechaRef());
-  }
+  if(parciales.length) return diasEntre(parciales[parciales.length-1].fecha, fechaRef());
   return null;
 }
-
 function estadoTerritorio(g,t,mes){
   const h = historial(g,t);
   if(!h.length) return { estado:'sin_datos', ultima:null, dias:null };
@@ -615,12 +605,18 @@ function elegirGrupoParaAsignar(usados){
    5. PROGRAMA SEMANAL
    ============================================================ */
 const PLANTILLA_SEMANAL = [
-  { dia:'LUNES',hora:'08:50' },{ dia:'MARTES',hora:'08:50' },{ dia:'MIÉRCOLES',hora:'08:50' },
-  { dia:'JUEVES',hora:'08:50' },{ dia:'VIERNES',hora:'08:50' },
-  { dia:'SÁBADO',hora:'09:15',grupoPreferido:1 },{ dia:'SÁBADO',hora:'09:15',grupoPreferido:2 },
-  { dia:'SÁBADO',hora:'09:15',grupoPreferido:3 },{ dia:'SÁBADO',hora:'09:15',grupoPreferido:4 },
-  { dia:'SÁBADO',hora:'09:15',grupoPreferido:5 },
-  { dia:'DOMINGO',hora:'10:45' },
+  { dia:'LUNES', hora:'08:50' },
+  { dia:'LUNES', hora:'18:00', tipoEspecial:'telefonica' },
+  { dia:'MARTES', hora:'08:50' },
+  { dia:'MIÉRCOLES', hora:'08:50' },
+  { dia:'JUEVES', hora:'08:50' },
+  { dia:'VIERNES', hora:'08:50' },
+  { dia:'SÁBADO', hora:'09:15', grupoPreferido:1 },
+  { dia:'SÁBADO', hora:'09:15', grupoPreferido:2 },
+  { dia:'SÁBADO', hora:'09:15', grupoPreferido:3 },
+  { dia:'SÁBADO', hora:'09:15', grupoPreferido:4 },
+  { dia:'SÁBADO', hora:'09:15', grupoPreferido:5 },
+  { dia:'DOMINGO', hora:'10:45' },
 ];
 const DIAS_OFFSET = { 'LUNES':0, 'MARTES':1, 'MIÉRCOLES':2, 'JUEVES':3, 'VIERNES':4, 'SÁBADO':5, 'DOMINGO':6 };
 const CONDUCTOR_DEFAULT = { 'LUNES':'Jorge Silva','MARTES':'Rolando Mosquera','MIÉRCOLES':'Patricio Jaramillo','JUEVES':'Eduardo Cárdenas','VIERNES':'Adrián Noboa','SÁBADO':'Jorge Silva','DOMINGO':'Alberto Vásquez' };
@@ -638,72 +634,60 @@ function sugerirConductor(dia){
 }
 function conductorParaSabado(grupoId){ if(grupoId && CONDUCTOR_POR_GRUPO_SABADO[grupoId]) return CONDUCTOR_POR_GRUPO_SABADO[grupoId]; return sugerirConductor('SÁBADO'); }
 
-/* ============================================================
-   ALGORITMO DEFINITIVO
-   
-   Prio: 0=sin_datos, 1=parcial, 2=vencido, 3=completado antiguo, 4=reciente
-   Orden: prio ASC → antigüedad (dias) DESC → distancia al ancla ASC → número ASC
-   Cada elegido se añade a `usados` para no repetir en la semana.
-   ============================================================ */
 const MIN_DIAS_COMPLETADO = 15;
 
 function tomarTerritoriosDeGrupo(grupoId, usados, max){
   const g = GRUPOS.find(x=>x.id===grupoId);
   if(!g) return [];
-
   const candidatos = [];
   for(let t=1; t<=g.territorios; t++){
     if(usados.has(`${grupoId}-${t}`)) continue;
     const est = estadoTerritorio(grupoId, t, mesActual);
-    const antig = antiguedadReal(grupoId, t); // días reales, o null si nunca
+    const antig = antiguedadReal(grupoId, t);
     const dias = antig === null ? 9999 : antig;
-
     let prio;
     if(est.estado === 'sin_datos') prio = 0;
     else if(est.estado === 'parcial') prio = 1;
     else if(est.estado === 'vencido') prio = 2;
     else if(dias >= MIN_DIAS_COMPLETADO) prio = 3;
     else prio = 4;
-
     candidatos.push({ t, prio, dias });
   }
   if(!candidatos.length) return [];
-
   const seleccionados = [];
-
   while(seleccionados.length < max){
     const disponibles = candidatos.filter(c => !seleccionados.includes(c.t));
     if(!disponibles.length) break;
-
-    // Excluir recientes si hay otras opciones
     const noRecientes = disponibles.filter(c => c.prio < 4);
     const pool = noRecientes.length ? noRecientes : disponibles;
-
-    // Ancla = primer elegido del día
     const anchor = seleccionados.length > 0 ? { g: grupoId, t: seleccionados[0] } : null;
-
-    pool.forEach(c => {
-      c.dist = anchor ? distanciaTerritorio(grupoId, c.t, anchor.g, anchor.t) : 0;
-    });
-
+    pool.forEach(c => { c.dist = anchor ? distanciaTerritorio(grupoId, c.t, anchor.g, anchor.t) : 0; });
     pool.sort((a,b)=>{
       if(a.prio !== b.prio) return a.prio - b.prio;
       if(a.dias !== b.dias) return b.dias - a.dias;
       if(a.dist !== b.dist) return a.dist - b.dist;
       return a.t - b.t;
     });
-
     const elegido = pool[0];
     seleccionados.push(elegido.t);
     usados.add(`${grupoId}-${elegido.t}`);
   }
-
   return seleccionados;
 }
 
 function recalcularPrograma(items){
   const usados = new Set();
   items.forEach(r => {
+    // Conservar conductor manual (si lo cambió el usuario) - solo recalculamos territorios
+    const conductorActual = r.conductor;
+
+    if (r.tipoEspecial === 'telefonica'){
+      r.grupo = null;
+      r.territorios = [];
+      r.terrTexto = r.terrTexto || OPCIONES_ESPECIALES[0];
+      if (!conductorActual) r.conductor = sugerirConductor(r.dia);
+      return;
+    }
     let grupoElegido = null;
     if (r.dia === 'SÁBADO' && r.grupoPreferido){
       grupoElegido = r.grupoPreferido;
@@ -721,7 +705,11 @@ function recalcularPrograma(items){
     r.grupo = grupoElegido;
     r.territorios = ordenados;
     r.terrTexto = ordenados.length ? `${ordenados.join(', ')} DEL GRUPO ${grupoElegido}` : '';
-    if (r.dia === 'SÁBADO') r.conductor = conductorParaSabado(grupoElegido);
+    // Solo sugerir conductor si el campo está vacío
+    if (!conductorActual){
+      if (r.dia === 'SÁBADO') r.conductor = conductorParaSabado(grupoElegido);
+      else r.conductor = sugerirConductor(r.dia);
+    }
   });
 }
 
@@ -730,13 +718,20 @@ function sugerirPrograma(fechaInicio){
   PLANTILLA_SEMANAL.forEach((p)=>{
     const fecha = addDays(fechaInicio, DIAS_OFFSET[p.dia]);
     const esSabado = p.dia === 'SÁBADO';
-    let casaNombre = esSabado && p.grupoPreferido ? (CASA_DEFAULT_POR_GRUPO_SABADO[p.grupoPreferido] || '__OTRO__') : (CASA_DEFAULT_POR_DIA[p.dia] || '__OTRO__');
+    const esTelefonica = p.tipoEspecial === 'telefonica';
+
+    let casaNombre = '';
+    if (esTelefonica){ casaNombre = CASA_DEFAULT_POR_DIA[p.dia] || '__OTRO__'; }
+    else if (esSabado && p.grupoPreferido){ casaNombre = CASA_DEFAULT_POR_GRUPO_SABADO[p.grupoPreferido] || '__OTRO__'; }
+    else { casaNombre = CASA_DEFAULT_POR_DIA[p.dia] || '__OTRO__'; }
     let lugarTexto = casaNombre !== '__OTRO__' ? casaNombre : '';
+
     items.push({
       fecha, dia:p.dia, hora:p.hora, casa:casaNombre, lugar:lugarTexto,
-      conductor: p.dia !== 'SÁBADO' ? sugerirConductor(p.dia) : '',
-      grupo:null, territorios:[], terrTexto:'',
+      conductor:'',
+      grupo:null, territorios:[], terrTexto: esTelefonica ? OPCIONES_ESPECIALES[0] : '',
       grupoPreferido: p.grupoPreferido || null,
+      tipoEspecial: p.tipoEspecial || null,
     });
   });
   recalcularPrograma(items);
@@ -749,9 +744,30 @@ function renderProgramaSemanal(){
   if(!tbody) return;
   if(!programaSemanal.length){ tbody.innerHTML=''; actualizarRangoProg(); return; }
   const opcionesCasas = CASAS_CONSIDERACION.map(c => c.nombre);
+  const opcionesConductores = listaConductoresCanonica();
+
   tbody.innerHTML = programaSemanal.map((r,i)=>{
     const fechaCorta = new Date(r.fecha+'T00:00:00').getDate();
     const esOtro = r.casa === '__OTRO__';
+    const esTelefonica = r.tipoEspecial === 'telefonica';
+
+    const celdaTerritorio = esTelefonica
+      ? `<select class="sel-telefonica" data-idx="${i}">
+           ${OPCIONES_ESPECIALES.map(op => `<option value="${esc(op)}" ${r.terrTexto===op?'selected':''}>${esc(op)}</option>`).join('')}
+         </select>`
+      : `<input type="text" class="cell edit-terr" data-field="terrTexto" value="${esc(r.terrTexto)}">`;
+
+    // Asegurar que el conductor sugerido esté en las opciones (por si no está en la lista canónica)
+    const conductoresDisponibles = [...opcionesConductores];
+    if (r.conductor && !conductoresDisponibles.includes(r.conductor)){
+      conductoresDisponibles.push(r.conductor);
+      conductoresDisponibles.sort((a,b)=> a.localeCompare(b,'es'));
+    }
+
+    const celdaConductor = `<select class="sel-conductor" data-idx="${i}">
+      ${conductoresDisponibles.map(c => `<option value="${esc(c)}" ${norm(c)===norm(r.conductor)?'selected':''}>${esc(c)}</option>`).join('')}
+    </select>`;
+
     return `<tr data-idx="${i}">
       <td class="cell-fijo" data-label="Fecha">${fechaCorta}</td>
       <td class="cell-fijo" data-label="Día">${r.dia}</td>
@@ -764,8 +780,8 @@ function renderProgramaSemanal(){
         </select>
         ${esOtro ? `<input type="text" class="cell edit-lugar" data-field="lugar" value="${esc(r.lugar||'')}" placeholder="Escribe el lugar...">` : ''}
       </td>
-      <td data-label="Conductor"><input type="text" class="cell edit-conductor" data-field="conductor" value="${esc(r.conductor)}"></td>
-      <td data-label="Territorio"><input type="text" class="cell edit-terr" data-field="terrTexto" value="${esc(r.terrTexto)}"></td>
+      <td data-label="Conductor">${celdaConductor}</td>
+      <td data-label="Territorio">${celdaTerritorio}</td>
     </tr>`;
   }).join('');
   actualizarRangoProg();
@@ -859,7 +875,20 @@ function aplicarImportacion(nuevos){
   if(!Array.isArray(nuevos)) throw new Error('Formato inválido');
   abrirModal({ title:'📥 Importar datos', bodyHTML:`<p>Contiene <strong>${nuevos.length}</strong> registro(s). Actualmente tienes <strong>${registros.length}</strong>.</p><p>¿Qué hacer?</p>`, actions:[ { label:`🔁 Reemplazar todo`, className:'danger', onClick: ()=>{ registros = nuevos; finalizarImportacion(); } }, { label:`➕ Combinar (sin duplicar)`, className:'data', onClick: ()=>{ const key = r => `${r.fecha}|${norm(r.conductor)}|${r.grupo}|${(r.completos||[]).join(',')}|${(r.parciales||[]).join(',')}`; const existentes = new Set(registros.map(key)); let añadidos = 0; nuevos.forEach(r=>{ if(!existentes.has(key(r))){ registros.push(r); existentes.add(key(r)); añadidos++; } }); alert(`✔ ${añadidos} registro(s) añadido(s).`); finalizarImportacion(); } }, { label:'Cancelar', className:'sec', onClick: cerrarModal } ] });
 }
-function finalizarImportacion(){ guardar(); mesActual = registros.length ? registros.map(r=>r.fecha.slice(0,7)).sort().pop() : new Date().toISOString().slice(0,7); document.getElementById('mesInput').value = mesActual; seleccion = null; cerrarModal(); renderTodo(); }
+function finalizarImportacion(){
+  guardar();
+  mesActual = registros.length ? registros.map(r=>r.fecha.slice(0,7)).sort().pop() : new Date().toISOString().slice(0,7);
+  document.getElementById('mesInput').value = mesActual;
+  seleccion = null;
+  if(registros.length){
+    const ultimaFecha = registros.map(r=>r.fecha).sort().pop();
+    const lunesSiguiente = addDays(lunesDeSemana(ultimaFecha), 7);
+    document.getElementById('progInicio').value = lunesSiguiente;
+    programaSemanal = sugerirPrograma(lunesSiguiente);
+  }
+  cerrarModal();
+  renderTodo();
+}
 function parsearTextoImportado(texto){ const data = JSON.parse(texto); return Array.isArray(data) ? data : (data.registros || []); }
 
 document.getElementById('btnImportJSON').addEventListener('click', ()=>{
@@ -905,18 +934,34 @@ document.getElementById('btnReset').addEventListener('click', ()=>{
 });
 
 document.getElementById('progInicio').addEventListener('change', e=>{ const inicio = lunesDeSemana(e.target.value || new Date().toISOString().slice(0,10)); programaSemanal = sugerirPrograma(inicio); renderProgramaSemanal(); });
-document.getElementById('btnSugerirProg').addEventListener('click', ()=>{ const inicio = lunesDeSemana(document.getElementById('progInicio').value || new Date().toISOString().slice(0,10)); programaSemanal = sugerirPrograma(inicio); renderProgramaSemanal(); });
 document.getElementById('btnVerTerritorios').addEventListener('click', ()=>{ abrirModalInfoTerritorios(1); });
-document.getElementById('btnAnadirFila').addEventListener('click', ()=>{ const last = programaSemanal[programaSemanal.length-1]; if(!last) return; programaSemanal.push({ fecha:last.fecha, dia:last.dia, hora:last.hora, casa:last.casa, lugar:last.lugar, conductor:'', grupo:null, territorios:[], terrTexto:'', grupoPreferido:null }); renderProgramaSemanal(); });
 
 document.getElementById('progBody').addEventListener('change', e=>{
-  const sel = e.target.closest('select.sel-casa'); if(!sel) return;
-  const idx = +sel.dataset.idx, valor = sel.value;
-  if (valor === '__OTRO__'){ programaSemanal[idx].casa = '__OTRO__'; const eraCasa = CASAS_CONSIDERACION.some(c => c.nombre === programaSemanal[idx].lugar); if (eraCasa) programaSemanal[idx].lugar = ''; renderProgramaSemanal(); return; }
-  if (!valor){ programaSemanal[idx].casa = ''; programaSemanal[idx].lugar = ''; recalcularPrograma(programaSemanal); renderProgramaSemanal(); return; }
-  programaSemanal[idx].casa = valor; programaSemanal[idx].lugar = valor;
-  recalcularPrograma(programaSemanal);
-  renderProgramaSemanal();
+  // Cambio del selector de casa → recalcular territorios (mantiene conductores)
+  const selCasa = e.target.closest('select.sel-casa');
+  if (selCasa){
+    const idx = +selCasa.dataset.idx, valor = selCasa.value;
+    if (valor === '__OTRO__'){ programaSemanal[idx].casa = '__OTRO__'; const eraCasa = CASAS_CONSIDERACION.some(c => c.nombre === programaSemanal[idx].lugar); if (eraCasa) programaSemanal[idx].lugar = ''; renderProgramaSemanal(); return; }
+    if (!valor){ programaSemanal[idx].casa = ''; programaSemanal[idx].lugar = ''; recalcularPrograma(programaSemanal); renderProgramaSemanal(); return; }
+    programaSemanal[idx].casa = valor; programaSemanal[idx].lugar = valor;
+    recalcularPrograma(programaSemanal);
+    renderProgramaSemanal();
+    return;
+  }
+  // Cambio del selector de conductor
+  const selCond = e.target.closest('select.sel-conductor');
+  if (selCond){
+    const idx = +selCond.dataset.idx;
+    programaSemanal[idx].conductor = selCond.value;
+    return;
+  }
+  // Cambio del selector de predicación telefónica/carta
+  const selTel = e.target.closest('select.sel-telefonica');
+  if (selTel){
+    const idx = +selTel.dataset.idx;
+    programaSemanal[idx].terrTexto = selTel.value;
+    return;
+  }
 });
 document.getElementById('progBody').addEventListener('input', e=>{ const inp = e.target.closest('input[data-field]'); if(!inp) return; const idx = +inp.closest('tr').dataset.idx; programaSemanal[idx][inp.dataset.field] = inp.value; });
 
@@ -943,12 +988,14 @@ document.getElementById('btnExportPNG').addEventListener('click', async ()=>{
         #progSheet .prog-table td.cell-fijo{text-align:center !important;font-weight:600 !important;color:#1f3a5f !important;padding:8px !important;font-size:13px !important}
         #progSheet .prog-table input.cell{width:100% !important;border:0 !important;background:transparent !important;padding:8px !important;font-size:12.5px !important;text-align:center !important}
         #progSheet .prog-table input.cell.edit-lugar,#progSheet .prog-table input.cell.edit-conductor,#progSheet .prog-table input.cell.edit-terr{text-align:left !important}
-        #progSheet .prog-table select.sel-casa{display:none !important}`;
+        #progSheet .prog-table select.sel-casa,#progSheet .prog-table select.sel-conductor,#progSheet .prog-table select.sel-telefonica{display:none !important}`;
       clonedDoc.head.appendChild(st);
       const cloned = clonedDoc.getElementById('progSheet');
       if(!cloned) return;
       cloned.querySelectorAll('input.cell').forEach(inp => { const isLeft = inp.classList.contains('edit-lugar') || inp.classList.contains('edit-conductor') || inp.classList.contains('edit-terr'); const div = clonedDoc.createElement('div'); div.textContent = inp.value || ''; div.style.cssText = ['width:100%','padding:8px','box-sizing:border-box','font-family:Arial,Helvetica,sans-serif','font-size:12.5px','font-weight:500','color:#12233b','line-height:1.25','white-space:nowrap','overflow:hidden','text-overflow:ellipsis','text-align:' + (isLeft ? 'left' : 'center')].join(';'); inp.parentNode.replaceChild(div, inp); });
       cloned.querySelectorAll('select.sel-casa').forEach(sel => { const opt = sel.options[sel.selectedIndex]; const texto = opt && opt.value !== '__OTRO__' && opt.value !== '' ? opt.textContent : '—'; const div = clonedDoc.createElement('div'); div.textContent = texto; div.style.cssText = ['width:100%','padding:8px','box-sizing:border-box','font-family:Arial,Helvetica,sans-serif','font-size:12.5px','font-weight:500','color:#12233b','line-height:1.25','white-space:nowrap','overflow:hidden','text-overflow:ellipsis','text-align:left'].join(';'); sel.parentNode.replaceChild(div, sel); });
+      cloned.querySelectorAll('select.sel-conductor').forEach(sel => { const opt = sel.options[sel.selectedIndex]; const texto = opt ? opt.textContent : ''; const div = clonedDoc.createElement('div'); div.textContent = texto; div.style.cssText = ['width:100%','padding:8px','box-sizing:border-box','font-family:Arial,Helvetica,sans-serif','font-size:12.5px','font-weight:500','color:#12233b','line-height:1.25','white-space:nowrap','overflow:hidden','text-overflow:ellipsis','text-align:left'].join(';'); sel.parentNode.replaceChild(div, sel); });
+      cloned.querySelectorAll('select.sel-telefonica').forEach(sel => { const opt = sel.options[sel.selectedIndex]; const texto = opt ? opt.textContent : ''; const div = clonedDoc.createElement('div'); div.textContent = texto; div.style.cssText = ['width:100%','padding:8px','box-sizing:border-box','font-family:Arial,Helvetica,sans-serif','font-size:12.5px','font-weight:600','color:#12233b','line-height:1.25','white-space:nowrap','overflow:hidden','text-overflow:ellipsis','text-align:left'].join(';'); sel.parentNode.replaceChild(div, sel); });
     }
   });
   const nombre = `programa_ofelia_${document.getElementById('progInicio').value}.png`;
@@ -956,7 +1003,21 @@ document.getElementById('btnExportPNG').addEventListener('click', async ()=>{
   catch(e){ const dataUrl = canvas.toDataURL('image/png'); abrirModal({ title:'📷 Imagen generada', bodyHTML:`<p>Si no se descargó, mantén presionada la imagen para guardarla.</p><img src="${dataUrl}" class="previsualizacion" alt="Programa">`, actions:[{ label:'Cerrar', className:'sec', onClick: cerrarModal }] }); }
 });
 
-(function initPrograma(){ const inp = document.getElementById('progInicio'); if(!inp) return; inp.value = lunesDeSemana(new Date().toISOString().slice(0,10)); programaSemanal = sugerirPrograma(inp.value); })();
+(function initPrograma(){
+  const inp = document.getElementById('progInicio');
+  if(!inp) return;
+  if(registros.length){
+    const ultimaFecha = registros.map(r=>r.fecha).sort().pop();
+    const lunesSiguiente = addDays(lunesDeSemana(ultimaFecha), 7);
+    inp.value = lunesSiguiente;
+    programaSemanal = sugerirPrograma(lunesSiguiente);
+  } else {
+    const hoy = new Date().toISOString().slice(0,10);
+    inp.value = lunesDeSemana(hoy);
+    programaSemanal = sugerirPrograma(inp.value);
+  }
+})();
+
 initComboConductor();
 document.getElementById('mesInput').value = mesActual;
 renderTodo();
