@@ -14,21 +14,17 @@
   .brand p{margin:2px 0 0;font-size:12.5px;opacity:.75}
   .controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
   .controls label{font-size:12.5px;display:flex;align-items:center;gap:7px;opacity:.9}
-  input[type=month],input[type=date],input[type=text],select,textarea{
-    font:inherit;font-size:13px;padding:6px 9px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;color:#12233b}
+  input[type=month],input[type=date],input[type=text],select,textarea{font:inherit;font-size:13px;padding:6px 9px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;color:#12233b}
   .switch{display:flex;background:rgba(255,255,255,.14);border-radius:9px;padding:3px}
   .switch button{background:none;border:0;color:#fff;font:inherit;font-size:12.5px;padding:6px 13px;border-radius:7px;cursor:pointer;opacity:.7}
   .switch button.active{background:#fff;color:#1f3a5f;opacity:1;font-weight:600}
-
   .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;padding:16px 22px 0}
   .kpi{background:#fff;border-radius:14px;padding:13px 15px;box-shadow:0 1px 3px rgba(18,35,59,.08);border-left:5px solid #2b5486}
   .kpi span{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:#6b7c93;font-weight:600}
   .kpi strong{font-size:26px;line-height:1.25}
   .kpi small{color:#8494a8;font-size:11.5px}
-
   main{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:16px;padding:16px 22px}
   @media(max-width:1050px){main{grid-template-columns:1fr}}
-
   .card{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(18,35,59,.09);padding:14px}
   .legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px;font-size:12px;color:#41566f}
   .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
@@ -37,7 +33,6 @@
   .tile rect{transition:fill .25s, stroke .15s}
   .tile:hover rect{stroke:#0b1b2e;stroke-width:3;filter:brightness(1.03)}
   .zona-titulo{font-size:18px;font-weight:800;letter-spacing:1.4px;pointer-events:none}
-
   .panel{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(18,35,59,.09);padding:16px;max-height:calc(100vh - 120px);overflow:auto;position:sticky;top:16px}
   .panel h2{font-size:17px}
   .pill{display:inline-block;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:99px;color:#fff}
@@ -54,7 +49,6 @@
   .barra{height:8px;background:#e6edf5;border-radius:99px;overflow:hidden;margin-top:5px}
   .barra i{display:block;height:100%;background:#2fb36b;border-radius:99px}
   .grow{display:flex;justify-content:space-between;font-size:13px;margin-top:12px}
-
   details.card{margin:0 22px 16px;padding:0}
   details.card > summary{cursor:pointer;font-weight:700;font-size:15px;padding:14px 18px;color:#1f3a5f;list-style:none;display:flex;align-items:center;gap:10px;border-radius:16px;user-select:none;transition:background .15s}
   details.card > summary:hover{background:#f4f7fb}
@@ -63,7 +57,6 @@
   details.card > summary::after{content:'▾';margin-left:auto;font-size:14px;color:#6b7c93;transition:transform .2s;display:inline-block}
   details.card[open] > summary::after{transform:rotate(180deg)}
   details.card > .details-content{padding:16px 18px}
-
   .formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;align-items:end}
   .formgrid label{display:block;font-size:11.5px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
   .formgrid input,.formgrid select,.formgrid textarea{width:100%}
@@ -74,21 +67,16 @@
   .btn.danger:hover{background:#b53c38}
   .btn.data{background:#2fb36b;color:#fff}
   .btn.data:hover{background:#259a5a}
-  .btn.mini{font-size:12px;padding:7px 12px}
   .hint{font-size:11.5px;color:#8494a8;margin-top:6px}
   #tablaRegistros td:nth-child(1){white-space:nowrap}
   .vacio{text-align:center;padding:30px 10px;color:#8494a8;font-size:13px}
-
   .filtros{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;padding:12px 14px;background:#f4f7fb;border-radius:12px}
   .filtros label{font-size:10.5px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px}
   .filtros select,.filtros input[type=month]{display:block;margin-top:5px;font-size:13px;padding:6px 9px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;color:#12233b;min-width:170px;font-family:inherit}
-  .filtros select:focus,.filtros input:focus{outline:2px solid #2b5486;outline-offset:-1px;border-color:#2b5486}
   .contador{font-size:12.5px;color:#41566f;font-weight:600;margin-left:auto;background:#fff;padding:6px 12px;border-radius:99px;border:1px solid #dbe4ee}
-
   .prog-toolbar{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;padding:12px 14px;background:#f4f7fb;border-radius:12px}
   .prog-toolbar label{font-size:11px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px}
   .prog-toolbar input[type=date]{display:block;margin-top:4px;font-size:13px;padding:6px 9px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;font-family:inherit}
-
   .prog-sheet-wrap{margin-top:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;background:#f8fafc;padding:16px;border-radius:12px}
   .prog-sheet{background:#fff;max-width:1100px;margin:0 auto;border:1px solid #cbd6e2;border-radius:6px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);font-family:Arial,Helvetica,sans-serif}
   .prog-header{background:#1f3a5f;color:#fff;text-align:center;padding:18px 16px 14px}
@@ -100,14 +88,14 @@
   .prog-table td{padding:0;border:1px solid #d8e0e8;vertical-align:middle;height:36px}
   .prog-table tr:nth-child(even) td{background:#eaf0f7}
   .prog-table tr:nth-child(odd) td{background:#fff}
-  .prog-table input.cell{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:8px 8px;text-align:center;font-family:inherit;font-weight:500}
+  .prog-table input.cell{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:8px;text-align:center;font-family:inherit;font-weight:500}
   .prog-table input.cell.edit-lugar,.prog-table input.cell.edit-conductor,.prog-table input.cell.edit-terr{text-align:left}
   .prog-table input.cell:focus{outline:2px solid #2b5486;outline-offset:-2px;background:#fffbe6;border-radius:0}
   .prog-table td.cell-fijo{text-align:center;font-weight:600;color:#1f3a5f;padding:8px}
-
+  .prog-table select.sel-casa{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:8px 26px 8px 8px;text-align:left;font-family:inherit;font-weight:500;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg, transparent 50%, #6b7c93 50%), linear-gradient(135deg, #6b7c93 50%, transparent 50%);background-position: calc(100% - 15px) 15px, calc(100% - 10px) 15px;background-size: 5px 5px, 5px 5px;background-repeat: no-repeat}
+  .prog-table select.sel-casa:focus{outline:2px solid #2b5486;outline-offset:-2px;background-color:#fffbe6}
   .aviso-datos{background:#e7f3ff;border-left:4px solid #2b5486;padding:10px 12px;border-radius:8px;color:#1f3a5f;font-size:12.5px;line-height:1.5}
   .aviso-datos strong{display:block;margin-bottom:3px}
-
   .modal-overlay{position:fixed;inset:0;background:rgba(11,27,46,.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px}
   .modal-overlay.show{display:flex}
   .modal{background:#fff;border-radius:16px;max-width:760px;width:100%;max-height:90vh;overflow:auto;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
@@ -117,7 +105,6 @@
   .modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
   .modal-close{position:sticky;top:0;float:right;background:#e6edf5;border:0;border-radius:8px;width:32px;height:32px;font-size:16px;cursor:pointer;color:#1f3a5f;font-weight:700}
   .modal img.previsualizacion{max-width:100%;border-radius:10px;border:1px solid #dbe4ee;margin-top:10px}
-
   .combo-wrap{position:relative}
   .combo-wrap input{padding-right:34px}
   .combo-toggle{position:absolute;right:0;top:0;bottom:0;width:34px;background:transparent;border:0;border-left:1px solid #e6edf5;cursor:pointer;color:#6b7c93;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;border-radius:0 8px 8px 0;-webkit-tap-highlight-color:transparent}
@@ -127,12 +114,10 @@
   .combo-list button{display:block;width:100%;text-align:left;background:none;border:0;padding:10px 12px;border-radius:7px;font:inherit;font-size:13px;color:#12233b;cursor:pointer;-webkit-tap-highlight-color:rgba(43,84,134,.15)}
   .combo-list button:hover,.combo-list button:active{background:#e6edf5}
   .combo-list .sin-resultados{padding:12px;color:#8494a8;font-size:12px;text-align:center}
-
   .tab-grupo{background:#f4f7fb;border:2px solid #cbd6e2;border-radius:8px;padding:6px 12px;font:inherit;font-size:12px;font-weight:700;color:#1f3a5f;cursor:pointer;transition:all .15s}
   .tab-grupo.active{background:#1f3a5f;color:#fff;border-color:#1f3a5f}
   .btn-copiar-num{background:#e6edf5;border:0;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:13px;font-weight:700;color:#1f3a5f}
   .btn-copiar-num:active{background:#cbd6e2}
-
   @media (max-width: 720px){
     .topbar{padding:12px 14px;gap:10px}
     .brand h1{font-size:15px;line-height:1.25}
@@ -195,6 +180,9 @@
     .prog-table td.cell-fijo{font-weight:700;color:#1f3a5f;font-size:13px;padding:5px 0 !important}
     .prog-table input.cell{flex:1;border:1px solid #d8e0e8 !important;border-radius:6px;background:#f8fafc;padding:8px 10px !important;text-align:left !important;font-size:12.5px !important;width:auto}
     .prog-table input.cell:focus{background:#fffbe6;border-color:#2b5486 !important;outline:none}
+    .prog-table select.sel-casa{flex:1;border:1px solid #d8e0e8 !important;border-radius:6px;background-color:#f8fafc;padding:8px 26px 8px 10px !important;text-align:left !important;font-size:12.5px !important;width:auto}
+    .prog-table td[data-label="Lugar"]{flex-wrap:wrap}
+    .prog-table td[data-label="Lugar"] input.cell{margin-top:4px;flex-basis:100%}
   }
 </style>
 </head>
@@ -233,7 +221,7 @@
       <button class="btn sec" id="btnVerTerritorios" type="button">🗂️ Ver territorios</button>
       <button class="btn sec" id="btnAnadirFila" type="button">➕ Añadir fila</button>
       <button class="btn sec" id="btnExportPNG" type="button">📷 PNG</button>
-      <span class="hint" style="margin-left:auto">Toca cualquier celda para editarla</span>
+      <span class="hint" style="margin-left:auto">Cambia la casa y se recalcula todo</span>
     </div>
     <div class="prog-sheet-wrap">
       <div id="progSheet" class="prog-sheet">
@@ -288,38 +276,20 @@
   <summary>🗂️ Registro completo</summary>
   <div class="details-content">
     <div class="filtros">
-      <label>Conductor
-        <select id="filtroConductor"><option value="">Todos</option></select>
-      </label>
-      <label>Grupo
-        <select id="filtroGrupo">
-          <option value="">Todos</option>
-          <option value="1">Grupo 1</option>
-          <option value="2">Grupo 2</option>
-          <option value="3">Grupo 3</option>
-          <option value="4">Grupo 4</option>
-          <option value="5">Grupo 5</option>
-        </select>
-      </label>
-      <label>Mes
-        <input type="month" id="filtroMes">
-      </label>
+      <label>Conductor<select id="filtroConductor"><option value="">Todos</option></select></label>
+      <label>Grupo<select id="filtroGrupo"><option value="">Todos</option><option value="1">Grupo 1</option><option value="2">Grupo 2</option><option value="3">Grupo 3</option><option value="4">Grupo 4</option><option value="5">Grupo 5</option></select></label>
+      <label>Mes<input type="month" id="filtroMes"></label>
       <button class="btn sec" type="button" id="btnLimpiarFiltros">Limpiar filtros</button>
       <span class="contador" id="contadorRegistros"></span>
     </div>
-    <div style="overflow:auto;margin-top:10px">
-      <table id="tablaRegistros"></table>
-    </div>
+    <div style="overflow:auto;margin-top:10px"><table id="tablaRegistros"></table></div>
   </div>
 </details>
 
 <details class="card">
   <summary>💾 Respaldo de datos (exportar / importar)</summary>
   <div class="details-content">
-    <div class="aviso-datos">
-      <strong>📱 Cómo pasar los datos entre dispositivos</strong>
-      Los registros viven en el navegador de cada dispositivo. Usa estos botones para transferirlos entre tu PC y tu teléfono, o para guardar un respaldo.
-    </div>
+    <div class="aviso-datos"><strong>📱 Cómo pasar los datos entre dispositivos</strong>Los registros viven en el navegador de cada dispositivo. Usa estos botones para transferirlos.</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
       <button class="btn data" id="btnExportJSON" type="button">💾 Exportar datos</button>
       <button class="btn data" id="btnImportJSON" type="button">📥 Importar datos</button>
@@ -350,37 +320,28 @@ const GRUPOS = [
   { id:5, nombre:'Grupo 5', color:'#9b7fd4', x:780, y: 20, w:400, h:760, cols:4,  territorios:20 },
 ];
 
+const CASAS_CONSIDERACION = [
+  { nombre:'FAMILIA RUALES',    g:2, t:6  },
+  { nombre:'FAMILIA MOXLEY',    g:5, t:1  },
+  { nombre:'FAMILIA CASTRO',    g:1, t:2  },
+  { nombre:'HERMANA AYMACAÑA',  g:4, t:2  },
+  { nombre:'HERMANA CONSUELO',  g:4, t:10 },
+  { nombre:'SALÓN DEL REINO',   g:2, t:10 },
+];
+
+const CASA_DEFAULT_POR_DIA = {
+  'LUNES':'FAMILIA RUALES','MARTES':'FAMILIA MOXLEY','MIÉRCOLES':'FAMILIA CASTRO',
+  'JUEVES':'HERMANA AYMACAÑA','VIERNES':'SALÓN DEL REINO','DOMINGO':'SALÓN DEL REINO',
+};
+const CASA_DEFAULT_POR_GRUPO_SABADO = { 1:'FAMILIA CASTRO', 2:'FAMILIA RUALES', 3:null, 4:null, 5:'FAMILIA MOXLEY' };
+
 const CONDUCTORES_SUGERIDOS = [
   'Jorge Silva','Rolando Mosquera','Patricio Jaramillo','Eduardo Cárdenas',
   'Adrián Noboa','Nelson Almeida','Mateo Ruales','Andres Paredes',
   'Cesar Prado','Alberto Vázquez','David Leon','Marcelo Taipe',
   'Emilio Basantes','Carlos Salazar'
 ];
-
-const CONDUCTOR_POR_GRUPO_SABADO = {
-  1: 'Jorge Silva',
-  2: 'Mateo Ruales',
-  3: 'Nelson Almeida',
-  4: 'Rolando Mosquera',
-  5: 'Patricio Jaramillo',
-};
-
-const PUNTO_BASE_POR_DIA = {
-  'LUNES':     { g:2, t:6,  casa:'FAMILIA RUALES' },
-  'MARTES':    { g:5, t:1,  casa:'FAMILIA MOXLEY' },
-  'MIÉRCOLES': { g:1, t:2,  casa:'FAMILIA CASTRO' },
-  'JUEVES':    { g:4, t:2,  casa:'HERMANA AYMACAÑA' },
-  'VIERNES':   { g:2, t:10, casa:'SALÓN DEL REINO' },
-  'DOMINGO':   { g:2, t:10, casa:'SALÓN DEL REINO' },
-};
-
-const CASA_BASE_GRUPO_SABADO = {
-  1: { g:1, t:2 },
-  2: { g:2, t:6 },
-  3: null,
-  4: null,
-  5: { g:5, t:1 },
-};
+const CONDUCTOR_POR_GRUPO_SABADO = { 1:'Jorge Silva',2:'Mateo Ruales',3:'Nelson Almeida',4:'Rolando Mosquera',5:'Patricio Jaramillo' };
 
 const AFINIDAD_ENTRE_GRUPOS = {
   1: {1:0, 2:1, 3:4, 4:2, 5:6},
@@ -407,47 +368,57 @@ let mesActual = mesPorDefecto();
 let vista = 'estado';
 let seleccion = null;
 
-function cargar(){
-  try{ const raw = localStorage.getItem(STORAGE); if(raw) return JSON.parse(raw); }catch(e){}
-  return JSON.parse(JSON.stringify(REGISTROS_BASE));
-}
+function cargar(){ try{ const raw = localStorage.getItem(STORAGE); if(raw) return JSON.parse(raw); }catch(e){} return JSON.parse(JSON.stringify(REGISTROS_BASE)); }
 function guardar(){ try{ localStorage.setItem(STORAGE, JSON.stringify(registros)); }catch(e){} }
-function mesPorDefecto(){
-  if(!registros.length) return new Date().toISOString().slice(0,7);
-  return registros.map(r=>r.fecha.slice(0,7)).sort().pop();
-}
+function mesPorDefecto(){ if(!registros.length) return new Date().toISOString().slice(0,7); return registros.map(r=>r.fecha.slice(0,7)).sort().pop(); }
+
+/* *** CORREGIDO: la fecha de referencia es SIEMPRE el último registro ***
+   No usamos la fecha del sistema para que la antigüedad no se infle
+   cuando el usuario trabaja "en el pasado". */
 function fechaRef(){
-  const hoy = new Date().toISOString().slice(0,10);
-  const max = registros.length ? registros.map(r=>r.fecha).sort().pop() : hoy;
-  return max > hoy ? max : hoy;
+  if(registros.length){
+    return registros.map(r=>r.fecha).sort().pop();
+  }
+  return new Date().toISOString().slice(0,10);
 }
+
 const DIAS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 function diaDe(f){ return DIAS[new Date(f+'T00:00:00').getDay()]; }
 function fmt(f){ if(!f) return '—'; return new Date(f+'T00:00:00').toLocaleDateString('es-EC',{day:'2-digit',month:'short',year:'numeric'}); }
 function diasEntre(a,b){ return Math.round((new Date(b+'T00:00:00') - new Date(a+'T00:00:00'))/86400000); }
 function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function nums(str){ return String(str||'').split(/[,\s;]+/).map(x=>parseInt(x,10)).filter(x=>!isNaN(x)); }
-
-function norm(s){
-  return String(s||'')
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .toLowerCase().replace(/\s+/g,' ').trim();
-}
+function norm(s){ return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim(); }
+function casaPorNombre(nombre){ return CASAS_CONSIDERACION.find(c => c.nombre === nombre) || null; }
 
 function listaConductoresCanonica(){
   const mapa = new Map();
   CONDUCTORES_SUGERIDOS.forEach(n => mapa.set(norm(n), n));
   Object.values(CONDUCTOR_POR_GRUPO_SABADO).forEach(n => mapa.set(norm(n), n));
-  registros.forEach(r => {
-    const k = norm(r.conductor);
-    if(k && !mapa.has(k)) mapa.set(k, r.conductor);
-  });
+  registros.forEach(r => { const k = norm(r.conductor); if(k && !mapa.has(k)) mapa.set(k, r.conductor); });
   return [...mapa.values()].sort((a,b)=> a.localeCompare(b,'es'));
 }
 
 function historial(g,t){
   return registros.filter(r => r.grupo===g && (r.completos.includes(t) || r.parciales.includes(t))).sort((a,b)=> a.fecha.localeCompare(b.fecha));
 }
+
+/* *** NUEVA: antigüedad real independiente del mes ***
+   Devuelve días desde la última cobertura completa (o parcial si no hay). */
+function antiguedadReal(g, t){
+  const h = historial(g, t);
+  if(!h.length) return null;
+  const completos = h.filter(r => r.completos.includes(t));
+  if(completos.length){
+    return diasEntre(completos[completos.length-1].fecha, fechaRef());
+  }
+  const parciales = h.filter(r => r.parciales.includes(t));
+  if(parciales.length){
+    return diasEntre(parciales[parciales.length-1].fecha, fechaRef());
+  }
+  return null;
+}
+
 function estadoTerritorio(g,t,mes){
   const h = historial(g,t);
   if(!h.length) return { estado:'sin_datos', ultima:null, dias:null };
@@ -463,33 +434,18 @@ function estadoTerritorio(g,t,mes){
   const dias = diasEntre(ultima, fechaRef());
   return { estado: dias > 30 ? 'vencido' : 'pendiente', ultima, dias };
 }
-
-function vecesAsignado(g, t){
-  let n = 0;
-  registros.forEach(r => { if (r.grupo === g && nums(r.asignados).includes(t)) n++; });
-  return n;
-}
+function vecesAsignadoRaw(g, t){ let n = 0; registros.forEach(r => { if (r.grupo === g && nums(r.asignados).includes(t)) n++; }); return n; }
+function vecesAsignado(g, t){ return vecesAsignadoRaw(g, t); }
 function vecesCompletado(g, t){ return historial(g, t).filter(r => r.completos.includes(t)).length; }
 function vecesParcial(g, t){ return historial(g, t).filter(r => r.parciales.includes(t)).length; }
 function ultimaAsignacion(g, t){
   let fecha = null;
-  registros.forEach(r => {
-    if (r.grupo !== g) return;
-    if (nums(r.asignados).includes(t)){
-      if (!fecha || r.fecha > fecha) fecha = r.fecha;
-    }
-  });
+  registros.forEach(r => { if (r.grupo !== g) return; if (nums(r.asignados).includes(t)){ if (!fecha || r.fecha > fecha) fecha = r.fecha; } });
   return fecha;
 }
-
 function resumenMes(mes){
   const r = { total:0, completado:0, parcial:0, pendiente:0, vencido:0, sin_datos:0 };
-  GRUPOS.forEach(g=>{
-    for(let t=1;t<=g.territorios;t++){
-      const e = estadoTerritorio(g.id,t,mes).estado;
-      r.total++; r[e]++;
-    }
-  });
+  GRUPOS.forEach(g=>{ for(let t=1;t<=g.territorios;t++){ const e = estadoTerritorio(g.id,t,mes).estado; r.total++; r[e]++; } });
   return r;
 }
 
@@ -511,9 +467,7 @@ function layoutGrupo(g){
 }
 function renderMapa(){
   const svg = document.getElementById('mapa');
-  let html = `<defs><filter id="sombra" x="-20%" y="-20%" width="140%" height="140%">
-    <feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#0b1b2e" flood-opacity="0.18"/>
-  </filter></defs>`;
+  let html = `<defs><filter id="sombra" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#0b1b2e" flood-opacity="0.18"/></filter></defs>`;
   GRUPOS.forEach(g=>{
     html += `<rect x="${g.x}" y="${g.y}" width="${g.w}" height="${g.h}" rx="16" fill="${g.color}" fill-opacity="0.08" stroke="${g.color}" stroke-width="2.5" stroke-opacity="0.55"/>`;
     html += `<text class="zona-titulo" x="${g.x+16}" y="${g.y+23}" fill="${g.color}">${g.nombre.toUpperCase()}</text>`;
@@ -524,19 +478,13 @@ function renderMapa(){
       const claro = enGrupo || !(est.estado === 'sin_datos' || est.estado === 'pendiente');
       const fs = Math.min(30, Math.min(tl.w, tl.h) * 0.42);
       const sel = seleccion && seleccion.g === g.id && seleccion.t === tl.t;
-      html += `<g class="tile" data-g="${g.id}" data-t="${tl.t}">
-        <rect x="${tl.x}" y="${tl.y}" width="${tl.w}" height="${tl.h}" rx="9" fill="${fill}" filter="url(#sombra)" stroke="${sel ? '#0b1b2e' : (enGrupo ? 'rgba(0,0,0,.25)' : 'rgba(255,255,255,.65)')}" stroke-width="${sel ? 3.5 : 1.5}"/>
-        <text x="${tl.x+tl.w/2}" y="${tl.y+tl.h/2}" font-size="${fs}" font-weight="800" text-anchor="middle" dominant-baseline="central" pointer-events="none" fill="${claro ? '#ffffff' : '#1c2b3d'}">${tl.t}</text>
-        ${enGrupo ? `<circle cx="${tl.x+tl.w-11}" cy="${tl.y+11}" r="7" fill="${ESTADOS[est.estado].fill}" stroke="#fff" stroke-width="1.8" pointer-events="none"/>` : ''}
-      </g>`;
+      html += `<g class="tile" data-g="${g.id}" data-t="${tl.t}"><rect x="${tl.x}" y="${tl.y}" width="${tl.w}" height="${tl.h}" rx="9" fill="${fill}" filter="url(#sombra)" stroke="${sel ? '#0b1b2e' : (enGrupo ? 'rgba(0,0,0,.25)' : 'rgba(255,255,255,.65)')}" stroke-width="${sel ? 3.5 : 1.5}"/><text x="${tl.x+tl.w/2}" y="${tl.y+tl.h/2}" font-size="${fs}" font-weight="800" text-anchor="middle" dominant-baseline="central" pointer-events="none" fill="${claro ? '#ffffff' : '#1c2b3d'}">${tl.t}</text>${enGrupo ? `<circle cx="${tl.x+tl.w-11}" cy="${tl.y+11}" r="7" fill="${ESTADOS[est.estado].fill}" stroke="#fff" stroke-width="1.8" pointer-events="none"/>` : ''}</g>`;
     });
   });
   svg.innerHTML = html;
 }
 function renderLeyenda(){
-  const items = vista === 'grupo'
-    ? GRUPOS.map(g=>`<span><i style="background:${g.color}"></i>${g.nombre} (${g.territorios} terr.)</span>`).join('')
-    : Object.entries(ESTADOS).map(([k,v])=>`<span><i style="background:${v.fill}"></i>${v.label}</span>`).join('');
+  const items = vista === 'grupo' ? GRUPOS.map(g=>`<span><i style="background:${g.color}"></i>${g.nombre} (${g.territorios} terr.)</span>`).join('') : Object.entries(ESTADOS).map(([k,v])=>`<span><i style="background:${v.fill}"></i>${v.label}</span>`).join('');
   document.getElementById('legend').innerHTML = items;
 }
 function renderKPIs(){
@@ -548,8 +496,7 @@ function renderKPIs(){
     <div class="kpi" style="border-color:#2fb36b"><span>Completados</span><strong>${r.completado}</strong><small>${pct}% de cobertura del mes</small></div>
     <div class="kpi" style="border-color:#f0a02a"><span>Parciales</span><strong>${r.parcial}</strong><small>Requieren repaso</small></div>
     <div class="kpi" style="border-color:#d9534f"><span>Vencidos +30d</span><strong>${r.vencido}</strong><small>Prioridad alta</small></div>
-    <div class="kpi" style="border-color:#c9d2dd"><span>Sin registro</span><strong>${r.sin_datos}</strong><small>Nunca predicados</small></div>
-  `;
+    <div class="kpi" style="border-color:#c9d2dd"><span>Sin registro</span><strong>${r.sin_datos}</strong><small>Nunca predicados</small></div>`;
 }
 
 /* ============================================================
@@ -566,14 +513,7 @@ function renderPanel(){
   const vC = vecesCompletado(g.id, t);
   const vP = vecesParcial(g.id, t);
   const uA = ultimaAsignacion(g.id, t);
-
-  let filas = h.map(r=>`
-    <tr>
-      <td><strong>${fmt(r.fecha)}</strong><br><span class="obs">${diaDe(r.fecha)}</span></td>
-      <td>${esc(r.conductor)}</td>
-      <td>${r.completos.includes(t) ? '<span style="color:#2fb36b;font-weight:700">Completo</span>' : '<span style="color:#f0a02a;font-weight:700">Parcial</span>'}</td>
-      <td class="obs">${esc(r.obs || '—')}</td>
-    </tr>`).join('');
+  let filas = h.map(r=>`<tr><td><strong>${fmt(r.fecha)}</strong><br><span class="obs">${diaDe(r.fecha)}</span></td><td>${esc(r.conductor)}</td><td>${r.completos.includes(t) ? '<span style="color:#2fb36b;font-weight:700">Completo</span>' : '<span style="color:#f0a02a;font-weight:700">Parcial</span>'}</td><td class="obs">${esc(r.obs || '—')}</td></tr>`).join('');
   if(!filas) filas = `<tr><td colspan="4" class="obs">Sin registros de predicación para este territorio.</td></tr>`;
   p.innerHTML = `
     <span class="badge" style="background:${g.color}">${g.nombre}</span>
@@ -589,8 +529,7 @@ function renderPanel(){
     </div>
     <h3 style="font-size:13px;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px">Historial de predicación</h3>
     <table style="margin-top:6px"><thead><tr><th>Fecha</th><th>Conductor</th><th>Resultado</th><th>Observación</th></tr></thead><tbody>${filas}</tbody></table>
-    ${est.estado === 'vencido' || est.estado === 'sin_datos' ? `<p class="hint" style="color:#d9534f;font-weight:600;margin-top:12px">⚠ Este territorio debería incluirse en el programa de esta semana.</p>` : ''}
-  `;
+    ${est.estado === 'vencido' || est.estado === 'sin_datos' ? `<p class="hint" style="color:#d9534f;font-weight:600;margin-top:12px">⚠ Este territorio debería incluirse en el programa de esta semana.</p>` : ''}`;
 }
 function panelResumen(){
   let rows = GRUPOS.map(g=>{
@@ -606,11 +545,8 @@ function panelResumen(){
     ${vacio}
     <div style="margin-top:14px">${rows}</div>
     <h3 style="font-size:13px;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px;margin-top:20px">Cómo leer los colores</h3>
-    <table style="margin-top:6px"><tbody>
-      ${Object.entries(ESTADOS).map(([k,v])=>`<tr><td style="width:22px"><i style="display:inline-block;width:14px;height:14px;border-radius:4px;background:${v.fill}"></i></td><td>${v.label}</td></tr>`).join('')}
-    </tbody></table>
-    <p class="hint" style="margin-top:14px">Fecha de referencia: <strong>${fmt(fechaRef())}</strong></p>
-  `;
+    <table style="margin-top:6px"><tbody>${Object.entries(ESTADOS).map(([k,v])=>`<tr><td style="width:22px"><i style="display:inline-block;width:14px;height:14px;border-radius:4px;background:${v.fill}"></i></td><td>${v.label}</td></tr>`).join('')}</tbody></table>
+    <p class="hint" style="margin-top:14px">Fecha de referencia: <strong>${fmt(fechaRef())}</strong></p>`;
 }
 
 /* ============================================================
@@ -629,7 +565,6 @@ function centroideTerritorio(grupoId, t){
   _centroidesCache[key] = c;
   return c;
 }
-
 function distanciaTerritorio(gA, tA, gB, tB){
   if (gA === gB) {
     const a = centroideTerritorio(gA, tA);
@@ -639,7 +574,6 @@ function distanciaTerritorio(gA, tA, gB, tB){
   }
   return (AFINIDAD_ENTRE_GRUPOS[gA]?.[gB] ?? 10) * 10000;
 }
-
 function elegirGrupoCercanoConPendientes(puntoBase, usados){
   if (!puntoBase) return elegirGrupoParaAsignar(usados);
   const afinidad = AFINIDAD_ENTRE_GRUPOS[puntoBase.g] || {};
@@ -654,14 +588,11 @@ function elegirGrupoCercanoConPendientes(puntoBase, usados){
   }
   for (const g of gruposOrdenados){
     let disp = 0;
-    for (let t = 1; t <= g.territorios; t++){
-      if (!usados.has(`${g.id}-${t}`)) disp++;
-    }
+    for (let t = 1; t <= g.territorios; t++) if (!usados.has(`${g.id}-${t}`)) disp++;
     if (disp > 0) return g.id;
   }
   return puntoBase.g;
 }
-
 function elegirGrupoParaAsignar(usados){
   const info = GRUPOS.map(g=>{
     let pendientes = 0, total = 0;
@@ -674,13 +605,9 @@ function elegirGrupoParaAsignar(usados){
     return { id: g.id, pendientes, total };
   });
   const conPendientes = info.filter(x => x.pendientes > 0);
-  if(conPendientes.length){
-    return conPendientes.sort((a,b)=> b.pendientes - a.pendientes)[0].id;
-  }
+  if(conPendientes.length) return conPendientes.sort((a,b)=> b.pendientes - a.pendientes)[0].id;
   const conDisponibles = info.filter(x => x.total > 0);
-  if(conDisponibles.length){
-    return conDisponibles.sort((a,b)=> b.total - a.total)[0].id;
-  }
+  if(conDisponibles.length) return conDisponibles.sort((a,b)=> b.total - a.total)[0].id;
   return null;
 }
 
@@ -688,76 +615,39 @@ function elegirGrupoParaAsignar(usados){
    5. PROGRAMA SEMANAL
    ============================================================ */
 const PLANTILLA_SEMANAL = [
-  { dia:'LUNES',     hora:'08:50', lugar:'FAMILIA RUALES' },
-  { dia:'MARTES',    hora:'08:50', lugar:'FAMILIA MOXLEY' },
-  { dia:'MIÉRCOLES', hora:'08:50', lugar:'FAMILIA CASTRO' },
-  { dia:'JUEVES',    hora:'08:50', lugar:'HERMANA AYMACAÑA' },
-  { dia:'VIERNES',   hora:'08:50', lugar:'SALÓN DEL REINO' },
-  { dia:'SÁBADO',    hora:'09:15', lugar:'GRUPO 1 · FAMILIA CASTRO',   grupoPreferido:1 },
-  { dia:'SÁBADO',    hora:'09:15', lugar:'GRUPO 2 · FAMILIA RUALES',   grupoPreferido:2 },
-  { dia:'SÁBADO',    hora:'09:15', lugar:'GRUPO 3 · FAMILIA RUALES',   grupoPreferido:3 },
-  { dia:'SÁBADO',    hora:'09:15', lugar:'GRUPO 4 · HERMANA AYMACAÑA', grupoPreferido:4 },
-  { dia:'SÁBADO',    hora:'09:15', lugar:'GRUPO 5 · FAMILIA MOXLEY',   grupoPreferido:5 },
-  { dia:'DOMINGO',   hora:'10:45', lugar:'SALÓN DEL REINO' },
+  { dia:'LUNES',hora:'08:50' },{ dia:'MARTES',hora:'08:50' },{ dia:'MIÉRCOLES',hora:'08:50' },
+  { dia:'JUEVES',hora:'08:50' },{ dia:'VIERNES',hora:'08:50' },
+  { dia:'SÁBADO',hora:'09:15',grupoPreferido:1 },{ dia:'SÁBADO',hora:'09:15',grupoPreferido:2 },
+  { dia:'SÁBADO',hora:'09:15',grupoPreferido:3 },{ dia:'SÁBADO',hora:'09:15',grupoPreferido:4 },
+  { dia:'SÁBADO',hora:'09:15',grupoPreferido:5 },
+  { dia:'DOMINGO',hora:'10:45' },
 ];
 const DIAS_OFFSET = { 'LUNES':0, 'MARTES':1, 'MIÉRCOLES':2, 'JUEVES':3, 'VIERNES':4, 'SÁBADO':5, 'DOMINGO':6 };
-const CONDUCTOR_DEFAULT = {
-  'LUNES':'Jorge Silva','MARTES':'Rolando Mosquera','MIÉRCOLES':'Patricio Jaramillo',
-  'JUEVES':'Eduardo Cárdenas','VIERNES':'Adrián Noboa','SÁBADO':'Jorge Silva','DOMINGO':'Alberto Vásquez',
-};
+const CONDUCTOR_DEFAULT = { 'LUNES':'Jorge Silva','MARTES':'Rolando Mosquera','MIÉRCOLES':'Patricio Jaramillo','JUEVES':'Eduardo Cárdenas','VIERNES':'Adrián Noboa','SÁBADO':'Jorge Silva','DOMINGO':'Alberto Vásquez' };
 let programaSemanal = [];
 
 function addDays(f,n){ const d=new Date(f+'T00:00:00'); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
-function lunesDeSemana(fechaStr){
-  const d = new Date(fechaStr+'T00:00:00');
-  const dow = d.getDay();
-  const diff = dow === 0 ? -6 : 1 - dow;
-  d.setDate(d.getDate() + diff);
-  return d.toISOString().slice(0,10);
-}
-function fmtRango(a,b){
-  const da = new Date(a+'T00:00:00'), db = new Date(b+'T00:00:00');
-  const ma = da.toLocaleDateString('es-EC',{month:'long'}).toUpperCase();
-  const mb = db.toLocaleDateString('es-EC',{month:'long'}).toUpperCase();
-  const ya = da.getFullYear(), yb = db.getFullYear();
-  if(ma===mb && ya===yb) return `${da.getDate()} AL ${db.getDate()} DE ${ma} DEL ${ya}`;
-  return `${da.getDate()} DE ${ma} AL ${db.getDate()} DE ${mb} DEL ${yb}`;
-}
-
+function lunesDeSemana(fechaStr){ const d = new Date(fechaStr+'T00:00:00'); const dow = d.getDay(); const diff = dow === 0 ? -6 : 1 - dow; d.setDate(d.getDate() + diff); return d.toISOString().slice(0,10); }
+function fmtRango(a,b){ const da = new Date(a+'T00:00:00'), db = new Date(b+'T00:00:00'); const ma = da.toLocaleDateString('es-EC',{month:'long'}).toUpperCase(); const mb = db.toLocaleDateString('es-EC',{month:'long'}).toUpperCase(); const ya = da.getFullYear(), yb = db.getFullYear(); if(ma===mb && ya===yb) return `${da.getDate()} AL ${db.getDate()} DE ${ma} DEL ${ya}`; return `${da.getDate()} DE ${ma} AL ${db.getDate()} DE ${mb} DEL ${yb}`; }
 function sugerirConductor(dia){
   const counts = {};
-  registros.forEach(r=>{
-    const nombreDia = DIAS[new Date(r.fecha+'T00:00:00').getDay()];
-    if(norm(nombreDia) === norm(dia)){
-      const k = norm(r.conductor);
-      if(!counts[k]) counts[k] = { count:0, nombre:r.conductor };
-      counts[k].count++;
-    }
-  });
+  registros.forEach(r=>{ const nombreDia = DIAS[new Date(r.fecha+'T00:00:00').getDay()]; if(norm(nombreDia) === norm(dia)){ const k = norm(r.conductor); if(!counts[k]) counts[k] = { count:0, nombre:r.conductor }; counts[k].count++; } });
   const best = Object.entries(counts).sort((a,b)=> b[1].count - a[1].count)[0];
-  if(best){
-    const canon = CONDUCTORES_SUGERIDOS.find(n => norm(n) === best[0]);
-    return canon || best[1].nombre;
-  }
+  if(best){ const canon = CONDUCTORES_SUGERIDOS.find(n => norm(n) === best[0]); return canon || best[1].nombre; }
   return CONDUCTOR_DEFAULT[dia] || '';
 }
+function conductorParaSabado(grupoId){ if(grupoId && CONDUCTOR_POR_GRUPO_SABADO[grupoId]) return CONDUCTOR_POR_GRUPO_SABADO[grupoId]; return sugerirConductor('SÁBADO'); }
 
-function conductorParaSabado(grupoId){
-  if(grupoId && CONDUCTOR_POR_GRUPO_SABADO[grupoId]) return CONDUCTOR_POR_GRUPO_SABADO[grupoId];
-  return sugerirConductor('SÁBADO');
-}
+/* ============================================================
+   ALGORITMO DEFINITIVO
+   
+   Prio: 0=sin_datos, 1=parcial, 2=vencido, 3=completado antiguo, 4=reciente
+   Orden: prio ASC → antigüedad (dias) DESC → distancia al ancla ASC → número ASC
+   Cada elegido se añade a `usados` para no repetir en la semana.
+   ============================================================ */
+const MIN_DIAS_COMPLETADO = 15;
 
-function rankEstado(estado){
-  return {
-    vencido:    0.0,
-    sin_datos:  0.1,
-    parcial:    0.3,
-    pendiente:  0.7,
-    completado: 1.0
-  }[estado] ?? 1.0;
-}
-
-function tomarTerritoriosDeGrupo(grupoId, usados, max, puntoBase){
+function tomarTerritoriosDeGrupo(grupoId, usados, max){
   const g = GRUPOS.find(x=>x.id===grupoId);
   if(!g) return [];
 
@@ -765,122 +655,115 @@ function tomarTerritoriosDeGrupo(grupoId, usados, max, puntoBase){
   for(let t=1; t<=g.territorios; t++){
     if(usados.has(`${grupoId}-${t}`)) continue;
     const est = estadoTerritorio(grupoId, t, mesActual);
-    candidatos.push({
-      t,
-      estado: est.estado,
-      estadoRank: rankEstado(est.estado),
-      dias: est.dias ?? 99999
-    });
+    const antig = antiguedadReal(grupoId, t); // días reales, o null si nunca
+    const dias = antig === null ? 9999 : antig;
+
+    let prio;
+    if(est.estado === 'sin_datos') prio = 0;
+    else if(est.estado === 'parcial') prio = 1;
+    else if(est.estado === 'vencido') prio = 2;
+    else if(dias >= MIN_DIAS_COMPLETADO) prio = 3;
+    else prio = 4;
+
+    candidatos.push({ t, prio, dias });
   }
   if(!candidatos.length) return [];
 
-  const escala = Math.max(g.w, g.h);
   const seleccionados = [];
 
-  while(seleccionados.length < max && candidatos.length > 0){
-    let elegido;
+  while(seleccionados.length < max){
+    const disponibles = candidatos.filter(c => !seleccionados.includes(c.t));
+    if(!disponibles.length) break;
 
-    if(seleccionados.length === 0){
-      elegido = candidatos.slice().sort((a,b)=>
-        a.estadoRank - b.estadoRank ||
-        b.dias - a.dias ||
-        a.t - b.t
-      )[0];
-    } else {
-      let mejor = null, mejorScore = Infinity;
-      for(const c of candidatos){
-        let distMin = Infinity;
-        for(const s of seleccionados){
-          const d = distanciaTerritorio(grupoId, c.t, grupoId, s);
-          if(d < distMin) distMin = d;
-        }
-        const distNorm = Math.min(distMin / escala, 1);
-        const edadNorm = 1 - Math.min(c.dias / 90, 1);
+    // Excluir recientes si hay otras opciones
+    const noRecientes = disponibles.filter(c => c.prio < 4);
+    const pool = noRecientes.length ? noRecientes : disponibles;
 
-        const score =
-            3.0 * distNorm +
-            1.5 * c.estadoRank +
-            0.8 * edadNorm;
+    // Ancla = primer elegido del día
+    const anchor = seleccionados.length > 0 ? { g: grupoId, t: seleccionados[0] } : null;
 
-        if(score < mejorScore){ mejorScore = score; mejor = c; }
-      }
-      elegido = mejor;
-    }
+    pool.forEach(c => {
+      c.dist = anchor ? distanciaTerritorio(grupoId, c.t, anchor.g, anchor.t) : 0;
+    });
 
-    if(!elegido) break;
+    pool.sort((a,b)=>{
+      if(a.prio !== b.prio) return a.prio - b.prio;
+      if(a.dias !== b.dias) return b.dias - a.dias;
+      if(a.dist !== b.dist) return a.dist - b.dist;
+      return a.t - b.t;
+    });
+
+    const elegido = pool[0];
     seleccionados.push(elegido.t);
     usados.add(`${grupoId}-${elegido.t}`);
-    candidatos.splice(candidatos.indexOf(elegido), 1);
   }
 
   return seleccionados;
 }
 
-function sugerirPrograma(fechaInicio){
+function recalcularPrograma(items){
   const usados = new Set();
+  items.forEach(r => {
+    let grupoElegido = null;
+    if (r.dia === 'SÁBADO' && r.grupoPreferido){
+      grupoElegido = r.grupoPreferido;
+    } else {
+      let puntoBase = null;
+      if (r.casa && r.casa !== '__OTRO__'){
+        const c = casaPorNombre(r.casa);
+        if (c) puntoBase = { g: c.g, t: c.t };
+      }
+      grupoElegido = puntoBase ? elegirGrupoCercanoConPendientes(puntoBase, usados) : elegirGrupoParaAsignar(usados);
+    }
+    if (grupoElegido === null){ r.grupo = null; r.territorios = []; r.terrTexto = ''; return; }
+    const terr = tomarTerritoriosDeGrupo(grupoElegido, usados, 4);
+    const ordenados = terr.slice().sort((a,b)=> a-b);
+    r.grupo = grupoElegido;
+    r.territorios = ordenados;
+    r.terrTexto = ordenados.length ? `${ordenados.join(', ')} DEL GRUPO ${grupoElegido}` : '';
+    if (r.dia === 'SÁBADO') r.conductor = conductorParaSabado(grupoElegido);
+  });
+}
+
+function sugerirPrograma(fechaInicio){
   const items = [];
   PLANTILLA_SEMANAL.forEach((p)=>{
     const fecha = addDays(fechaInicio, DIAS_OFFSET[p.dia]);
     const esSabado = p.dia === 'SÁBADO';
-    let conductor = null;
-    let grupoElegido = null, territorios = [];
-
-    let puntoBase = null;
-    if (esSabado && p.grupoPreferido){
-      puntoBase = CASA_BASE_GRUPO_SABADO[p.grupoPreferido] || null;
-    } else if (!esSabado){
-      puntoBase = PUNTO_BASE_POR_DIA[p.dia] || null;
-    }
-
-    if(p.grupoPreferido){
-      const tomados = tomarTerritoriosDeGrupo(p.grupoPreferido, usados, 4, puntoBase);
-      if(tomados.length){ grupoElegido = p.grupoPreferido; territorios = tomados; }
-    }
-    if(!territorios.length){
-      const g = puntoBase
-        ? elegirGrupoCercanoConPendientes(puntoBase, usados)
-        : elegirGrupoParaAsignar(usados);
-      if(g !== null){
-        const tomados = tomarTerritoriosDeGrupo(g, usados, 4, puntoBase);
-        grupoElegido = g; territorios = tomados;
-      }
-    }
-
-    if(esSabado){
-      conductor = conductorParaSabado(grupoElegido);
-    } else {
-      conductor = sugerirConductor(p.dia);
-    }
-
-    /* *** CAMBIO: ordenar territorios ascendentemente antes de mostrarlos *** */
-    const territoriosOrdenados = territorios.slice().sort((a,b)=> a - b);
-    const terrTexto = territoriosOrdenados.length
-      ? `${territoriosOrdenados.join(', ')}${grupoElegido ? ' DEL GRUPO ' + grupoElegido : ''}`
-      : '';
-    items.push({ fecha, dia:p.dia, hora:p.hora, lugar:p.lugar, conductor, grupo:grupoElegido, territorios:territoriosOrdenados, terrTexto });
+    let casaNombre = esSabado && p.grupoPreferido ? (CASA_DEFAULT_POR_GRUPO_SABADO[p.grupoPreferido] || '__OTRO__') : (CASA_DEFAULT_POR_DIA[p.dia] || '__OTRO__');
+    let lugarTexto = casaNombre !== '__OTRO__' ? casaNombre : '';
+    items.push({
+      fecha, dia:p.dia, hora:p.hora, casa:casaNombre, lugar:lugarTexto,
+      conductor: p.dia !== 'SÁBADO' ? sugerirConductor(p.dia) : '',
+      grupo:null, territorios:[], terrTexto:'',
+      grupoPreferido: p.grupoPreferido || null,
+    });
   });
+  recalcularPrograma(items);
   return items;
 }
 
-function actualizarRangoProg(){
-  const el = document.getElementById('progRango');
-  if(!el) return;
-  if(!programaSemanal.length){ el.textContent = '—'; return; }
-  const min = programaSemanal.map(x=>x.fecha).sort()[0];
-  const max = programaSemanal.map(x=>x.fecha).sort().pop();
-  el.textContent = fmtRango(min, max);
-}
+function actualizarRangoProg(){ const el = document.getElementById('progRango'); if(!el) return; if(!programaSemanal.length){ el.textContent = '—'; return; } const min = programaSemanal.map(x=>x.fecha).sort()[0]; const max = programaSemanal.map(x=>x.fecha).sort().pop(); el.textContent = fmtRango(min, max); }
 function renderProgramaSemanal(){
   const tbody = document.getElementById('progBody');
   if(!tbody) return;
   if(!programaSemanal.length){ tbody.innerHTML=''; actualizarRangoProg(); return; }
+  const opcionesCasas = CASAS_CONSIDERACION.map(c => c.nombre);
   tbody.innerHTML = programaSemanal.map((r,i)=>{
     const fechaCorta = new Date(r.fecha+'T00:00:00').getDate();
+    const esOtro = r.casa === '__OTRO__';
     return `<tr data-idx="${i}">
       <td class="cell-fijo" data-label="Fecha">${fechaCorta}</td>
       <td class="cell-fijo" data-label="Día">${r.dia}</td>
       <td data-label="Hora"><input type="text" class="cell edit-hora" data-field="hora" value="${esc(r.hora)}"></td>
-      <td data-label="Lugar"><input type="text" class="cell edit-lugar" data-field="lugar" value="${esc(r.lugar)}"></td>
+      <td data-label="Lugar">
+        <select class="sel-casa" data-idx="${i}">
+          <option value="" ${!r.casa?'selected':''}>— Elegir casa —</option>
+          ${opcionesCasas.map(n => `<option value="${esc(n)}" ${r.casa===n?'selected':''}>${esc(n)}</option>`).join('')}
+          <option value="__OTRO__" ${esOtro?'selected':''}>Otro (escribir)</option>
+        </select>
+        ${esOtro ? `<input type="text" class="cell edit-lugar" data-field="lugar" value="${esc(r.lugar||'')}" placeholder="Escribe el lugar...">` : ''}
+      </td>
       <td data-label="Conductor"><input type="text" class="cell edit-conductor" data-field="conductor" value="${esc(r.conductor)}"></td>
       <td data-label="Territorio"><input type="text" class="cell edit-terr" data-field="terrTexto" value="${esc(r.terrTexto)}"></td>
     </tr>`;
@@ -892,357 +775,106 @@ function renderProgramaSemanal(){
    6. TABLA DE REGISTROS
    ============================================================ */
 function actualizarOpcionesConductores(){
-  const sel = document.getElementById('filtroConductor');
-  const actual = sel.value;
+  const sel = document.getElementById('filtroConductor'); const actual = sel.value;
   const conductores = listaConductoresCanonica();
   sel.innerHTML = '<option value="">Todos</option>' + conductores.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
-  const actualNorm = norm(actual);
-  const match = conductores.find(c => norm(c) === actualNorm);
-  if(match) sel.value = match;
+  const match = conductores.find(c => norm(c) === norm(actual)); if(match) sel.value = match;
 }
-
 function renderTabla(){
-  const fc = document.getElementById('filtroConductor').value;
-  const fg = document.getElementById('filtroGrupo').value;
-  const fm = document.getElementById('filtroMes').value;
+  const fc = document.getElementById('filtroConductor').value, fg = document.getElementById('filtroGrupo').value, fm = document.getElementById('filtroMes').value;
   let filtrados = registros.slice().sort((a,b)=> b.fecha.localeCompare(a.fecha));
   if(fc){ const fcNorm = norm(fc); filtrados = filtrados.filter(r => norm(r.conductor) === fcNorm); }
   if(fg) filtrados = filtrados.filter(r => String(r.grupo) === fg);
   if(fm) filtrados = filtrados.filter(r => r.fecha.slice(0,7) === fm);
-  const filas = filtrados.map(r=>`
-    <tr>
-      <td>${fmt(r.fecha)}<br><span class="obs">${diaDe(r.fecha)}</span></td>
-      <td>${esc(r.conductor)}</td>
-      <td>Grupo ${r.grupo}</td>
-      <td>${esc(r.asignados || '—')}</td>
-      <td>${r.completos.length ? r.completos.join(', ') : '—'}</td>
-      <td>${r.parciales.length ? r.parciales.join(', ') : '—'}</td>
-      <td class="obs">${esc(r.obs || '')}</td>
-    </tr>`).join('');
-  document.getElementById('tablaRegistros').innerHTML = `
-    <thead><tr><th>Fecha</th><th>Conductor</th><th>Grupo</th><th>Asignados</th><th>Completados</th><th>Parciales</th><th>Observación</th></tr></thead>
-    <tbody>${filas || '<tr><td colspan="7" class="vacio">Sin registros que coincidan con los filtros.</td></tr>'}</tbody>`;
+  const filas = filtrados.map(r=>`<tr><td>${fmt(r.fecha)}<br><span class="obs">${diaDe(r.fecha)}</span></td><td>${esc(r.conductor)}</td><td>Grupo ${r.grupo}</td><td>${esc(r.asignados || '—')}</td><td>${r.completos.length ? r.completos.join(', ') : '—'}</td><td>${r.parciales.length ? r.parciales.join(', ') : '—'}</td><td class="obs">${esc(r.obs || '')}</td></tr>`).join('');
+  document.getElementById('tablaRegistros').innerHTML = `<thead><tr><th>Fecha</th><th>Conductor</th><th>Grupo</th><th>Asignados</th><th>Completados</th><th>Parciales</th><th>Observación</th></tr></thead><tbody>${filas || '<tr><td colspan="7" class="vacio">Sin registros que coincidan con los filtros.</td></tr>'}</tbody>`;
   const cnt = document.getElementById('contadorRegistros');
-  if(cnt){
-    const fa = (fc?1:0) + (fg?1:0) + (fm?1:0);
-    cnt.textContent = fa ? `${filtrados.length} de ${registros.length} registros` : `${registros.length} registro${registros.length===1?'':'s'}`;
-  }
+  if(cnt){ const fa = (fc?1:0)+(fg?1:0)+(fm?1:0); cnt.textContent = fa ? `${filtrados.length} de ${registros.length} registros` : `${registros.length} registro${registros.length===1?'':'s'}`; }
 }
 
 /* ============================================================
    7. COMBOBOX CONDUCTOR
    ============================================================ */
 function initComboConductor(){
-  const input = document.getElementById('fConductor');
-  const toggle = document.getElementById('comboToggleConductor');
-  const lista = document.getElementById('comboListaConductor');
-  if(!input || !toggle || !lista) return;
-
-  function pintar(filtro){
-    const q = norm(filtro);
-    const items = CONDUCTORES_SUGERIDOS.filter(n => norm(n).includes(q));
-    if(!items.length){
-      lista.innerHTML = '<div class="sin-resultados">Sin coincidencias. Puedes escribir el nombre igualmente.</div>';
-    } else {
-      lista.innerHTML = items.map(n => `<button type="button" data-nombre="${esc(n)}">${esc(n)}</button>`).join('');
-    }
-    lista.hidden = false;
-  }
+  const input = document.getElementById('fConductor'), toggle = document.getElementById('comboToggleConductor'), lista = document.getElementById('comboListaConductor');
+  if(!input||!toggle||!lista) return;
+  function pintar(filtro){ const q = norm(filtro); const items = CONDUCTORES_SUGERIDOS.filter(n => norm(n).includes(q)); lista.innerHTML = items.length ? items.map(n => `<button type="button" data-nombre="${esc(n)}">${esc(n)}</button>`).join('') : '<div class="sin-resultados">Sin coincidencias. Puedes escribir el nombre igualmente.</div>'; lista.hidden = false; }
   function cerrar(){ lista.hidden = true; }
-
   input.addEventListener('focus', ()=> pintar(input.value));
   input.addEventListener('input', ()=> pintar(input.value));
   input.addEventListener('click', ()=> pintar(input.value));
-  toggle.addEventListener('click', (e)=>{
-    e.preventDefault(); e.stopPropagation();
-    if(lista.hidden) pintar(input.value); else cerrar();
-  });
-  lista.addEventListener('click', (e)=>{
-    const b = e.target.closest('button[data-nombre]');
-    if(!b) return;
-    input.value = b.dataset.nombre;
-    cerrar();
-    input.focus();
-    setTimeout(()=>{ input.dispatchEvent(new Event('change', {bubbles:true})); }, 10);
-  });
+  toggle.addEventListener('click', (e)=>{ e.preventDefault(); e.stopPropagation(); if(lista.hidden) pintar(input.value); else cerrar(); });
+  lista.addEventListener('click', (e)=>{ const b = e.target.closest('button[data-nombre]'); if(!b) return; input.value = b.dataset.nombre; cerrar(); input.focus(); });
   document.addEventListener('click', (e)=>{ if(!e.target.closest('.combo-wrap')) cerrar(); });
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') cerrar(); });
 }
-
-/* ============================================================
-   8. MODAL GENÉRICO
-   ============================================================ */
-function abrirModal({ title, bodyHTML, actions }){
+function abrirModal({title, bodyHTML, actions}){
   document.getElementById('modalTitle').textContent = title;
   document.getElementById('modalBody').innerHTML = bodyHTML;
-  const act = document.getElementById('modalActions');
-  act.innerHTML = '';
-  (actions||[]).forEach(a=>{
-    const b = document.createElement('button');
-    b.className = 'btn ' + (a.className || '');
-    b.type = 'button';
-    b.textContent = a.label;
-    b.addEventListener('click', ()=> a.onClick && a.onClick());
-    act.appendChild(b);
-  });
+  const act = document.getElementById('modalActions'); act.innerHTML = '';
+  (actions||[]).forEach(a=>{ const b = document.createElement('button'); b.className = 'btn ' + (a.className||''); b.type = 'button'; b.textContent = a.label; b.addEventListener('click', ()=> a.onClick && a.onClick()); act.appendChild(b); });
   document.getElementById('modalOverlay').classList.add('show');
 }
 function cerrarModal(){ document.getElementById('modalOverlay').classList.remove('show'); }
 document.getElementById('modalClose').addEventListener('click', cerrarModal);
-document.getElementById('modalOverlay').addEventListener('click', (e)=>{
-  if(e.target.id === 'modalOverlay') cerrarModal();
-});
+document.getElementById('modalOverlay').addEventListener('click', (e)=>{ if(e.target.id === 'modalOverlay') cerrarModal(); });
 
-/* ============================================================
-   9. MODAL DE INFORMACIÓN DE TERRITORIOS
-   ============================================================ */
 function abrirModalInfoTerritorios(grupoInicial){
   let grupoActivo = grupoInicial || 1;
-
   function construirHTML(){
-    const tabs = GRUPOS.map(g =>
-      `<button type="button" class="tab-grupo ${g.id===grupoActivo?'active':''}" data-grupo="${g.id}">${g.nombre}</button>`
-    ).join('');
-
+    const tabs = GRUPOS.map(g => `<button type="button" class="tab-grupo ${g.id===grupoActivo?'active':''}" data-grupo="${g.id}">${g.nombre}</button>`).join('');
     const g = GRUPOS.find(x => x.id === grupoActivo);
     const filas = [];
     for (let t = 1; t <= g.territorios; t++){
+      const antig = antiguedadReal(grupoActivo, t);
       const est = estadoTerritorio(grupoActivo, t, mesActual);
-      const vA = vecesAsignado(grupoActivo, t);
-      const vC = vecesCompletado(grupoActivo, t);
-      const uA = ultimaAsignacion(grupoActivo, t);
-      filas.push({ t, est, vA, vC, uA });
+      filas.push({ t, est, antig, vA: vecesAsignado(grupoActivo, t), vC: vecesCompletado(grupoActivo, t), uA: ultimaAsignacion(grupoActivo, t) });
     }
-    filas.sort((a, b) => {
-      const da = a.est.dias ?? 99999;
-      const db = b.est.dias ?? 99999;
-      return db - da;
-    });
-
-    const filasHTML = filas.map(f => {
-      const color = ESTADOS[f.est.estado].fill;
-      const label = ESTADOS[f.est.estado].label;
-      return `<tr>
-        <td style="text-align:center"><strong>${f.t}</strong></td>
-        <td><span class="pill" style="background:${color};font-size:10px;padding:3px 8px">${label}</span></td>
-        <td>${f.est.ultima ? fmt(f.est.ultima) : '—'}</td>
-        <td>${f.est.dias === null ? '—' : f.est.dias + ' d'}</td>
-        <td>${f.uA ? fmt(f.uA) : '—'}</td>
-        <td style="text-align:center">${f.vA}</td>
-        <td style="text-align:center">${f.vC}</td>
-        <td style="text-align:center"><button type="button" class="btn-copiar-num" data-num="${f.t}" title="Copiar número">📋</button></td>
-      </tr>`;
-    }).join('');
-
-    return `
-      <p class="hint" style="margin-bottom:10px">Ordenados del territorio <strong>más antiguo</strong> al más reciente. Usa 📋 para copiar el número y luego pégalo en la celda "Territorio" del programa semanal.</p>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">${tabs}</div>
-      <div style="overflow:auto;max-height:48vh">
-        <table style="font-size:12px">
-          <thead><tr>
-            <th style="text-align:center">Nº</th>
-            <th>Estado</th>
-            <th>Última cobertura</th>
-            <th>Antigüedad</th>
-            <th>Última asignación</th>
-            <th style="text-align:center">Veces asig.</th>
-            <th style="text-align:center">Veces comp.</th>
-            <th></th>
-          </tr></thead>
-          <tbody>${filasHTML}</tbody>
-        </table>
-      </div>
-    `;
+    filas.sort((a,b)=> (b.antig ?? 99999) - (a.antig ?? 99999));
+    const filasHTML = filas.map(f => `<tr><td style="text-align:center"><strong>${f.t}</strong></td><td><span class="pill" style="background:${ESTADOS[f.est.estado].fill};font-size:10px;padding:3px 8px">${ESTADOS[f.est.estado].label}</span></td><td>${f.est.ultima ? fmt(f.est.ultima) : '—'}</td><td>${f.antig === null ? '—' : f.antig + ' d'}</td><td>${f.uA ? fmt(f.uA) : '—'}</td><td style="text-align:center">${f.vA}</td><td style="text-align:center">${f.vC}</td><td style="text-align:center"><button type="button" class="btn-copiar-num" data-num="${f.t}" title="Copiar número">📋</button></td></tr>`).join('');
+    return `<p class="hint" style="margin-bottom:10px">Ordenados del territorio <strong>más antiguo</strong> al más reciente (según fecha ref ${fmt(fechaRef())}). Usa 📋 para copiar el número.</p><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">${tabs}</div><div style="overflow:auto;max-height:48vh"><table style="font-size:12px"><thead><tr><th style="text-align:center">Nº</th><th>Estado</th><th>Última cobertura</th><th>Antigüedad</th><th>Última asignación</th><th style="text-align:center">Veces asig.</th><th style="text-align:center">Veces comp.</th><th></th></tr></thead><tbody>${filasHTML}</tbody></table></div>`;
   }
-
   function actualizarContenido(){
     document.getElementById('modalBody').innerHTML = construirHTML();
-    document.querySelectorAll('.tab-grupo').forEach(b => {
-      b.addEventListener('click', ()=>{
-        grupoActivo = +b.dataset.grupo;
-        actualizarContenido();
-      });
-    });
-    document.querySelectorAll('.btn-copiar-num').forEach(b => {
-      b.addEventListener('click', async ()=>{
-        const n = b.dataset.num;
-        try{ await navigator.clipboard.writeText(n); }
-        catch(e){
-          const ta = document.createElement('textarea');
-          ta.value = n;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-        }
-        b.textContent = '✓';
-        b.style.background = '#2fb36b';
-        b.style.color = '#fff';
-        setTimeout(()=>{
-          b.textContent = '📋';
-          b.style.background = '';
-          b.style.color = '';
-        }, 1200);
-      });
-    });
+    document.querySelectorAll('.tab-grupo').forEach(b => { b.addEventListener('click', ()=>{ grupoActivo = +b.dataset.grupo; actualizarContenido(); }); });
+    document.querySelectorAll('.btn-copiar-num').forEach(b => { b.addEventListener('click', async ()=>{ const n = b.dataset.num; try{ await navigator.clipboard.writeText(n); }catch(e){ const ta = document.createElement('textarea'); ta.value = n; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); } b.textContent = '✓'; b.style.background = '#2fb36b'; b.style.color = '#fff'; setTimeout(()=>{ b.textContent = '📋'; b.style.background = ''; b.style.color = ''; }, 1200); }); });
   }
-
   document.getElementById('modalTitle').textContent = '🗂️ Información de territorios';
   actualizarContenido();
-
-  const act = document.getElementById('modalActions');
-  act.innerHTML = '';
-  const btnCerrar = document.createElement('button');
-  btnCerrar.className = 'btn sec';
-  btnCerrar.textContent = 'Cerrar';
-  btnCerrar.type = 'button';
-  btnCerrar.addEventListener('click', cerrarModal);
-  act.appendChild(btnCerrar);
-
+  const act = document.getElementById('modalActions'); act.innerHTML = '';
+  const btnCerrar = document.createElement('button'); btnCerrar.className = 'btn sec'; btnCerrar.textContent = 'Cerrar'; btnCerrar.type = 'button'; btnCerrar.addEventListener('click', cerrarModal); act.appendChild(btnCerrar);
   document.getElementById('modalOverlay').classList.add('show');
 }
 
-/* ============================================================
-   10. EXPORTAR / IMPORTAR JSON
-   ============================================================ */
-function payloadActual(){
-  return { app:'ofelia_monitor', version:1, exportado:new Date().toISOString(), total:registros.length, registros:registros };
-}
+function payloadActual(){ return { app:'ofelia_monitor', version:1, exportado:new Date().toISOString(), total:registros.length, registros:registros }; }
 function textoJSON(){ return JSON.stringify(payloadActual(), null, 2); }
 function nombreArchivo(){ return `ofelia_datos_${new Date().toISOString().slice(0,10)}.json`; }
 
 document.getElementById('btnExportJSON').addEventListener('click', async ()=>{
-  const texto = textoJSON();
-  const nombre = nombreArchivo();
-  try{
-    const blob = new Blob([texto], { type:'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = nombre;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(()=>URL.revokeObjectURL(url), 1500);
-  }catch(e){}
-  abrirModal({
-    title:'💾 Datos exportados',
-    bodyHTML:`<p>Se ha intentado descargar <strong>${esc(nombre)}</strong>. Si no se descargó (típico en iPhone), copia el texto de abajo.</p><textarea id="exportText" readonly>${esc(texto)}</textarea><p class="hint">Total: <strong>${registros.length}</strong> registro(s).</p>`,
-    actions:[
-      { label:'📋 Copiar todo', className:'data', onClick: async ()=>{
-          const ta = document.getElementById('exportText');
-          ta.select(); ta.setSelectionRange(0, 999999);
-          try{ await navigator.clipboard.writeText(ta.value); alert('✔ Copiado al portapapeles.'); }
-          catch(e){ document.execCommand('copy'); alert('✔ Copiado.'); }
-        }},
-      { label:'Cerrar', className:'sec', onClick: cerrarModal }
-    ]
-  });
+  const texto = textoJSON(), nombre = nombreArchivo();
+  try{ const blob = new Blob([texto], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = nombre; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url), 1500); }catch(e){}
+  abrirModal({ title:'💾 Datos exportados', bodyHTML:`<p>Se intentó descargar <strong>${esc(nombre)}</strong>. Si no se descargó (típico en iPhone), copia el texto.</p><textarea id="exportText" readonly>${esc(texto)}</textarea><p class="hint">Total: <strong>${registros.length}</strong> registro(s).</p>`, actions:[ { label:'📋 Copiar todo', className:'data', onClick: async ()=>{ const ta = document.getElementById('exportText'); ta.select(); ta.setSelectionRange(0,999999); try{ await navigator.clipboard.writeText(ta.value); alert('✔ Copiado.'); }catch(e){ document.execCommand('copy'); alert('✔ Copiado.'); } } }, { label:'Cerrar', className:'sec', onClick: cerrarModal } ] });
 });
-
 function aplicarImportacion(nuevos){
   if(!Array.isArray(nuevos)) throw new Error('Formato inválido');
-  abrirModal({
-    title:'📥 Importar datos',
-    bodyHTML:`<p>El archivo contiene <strong>${nuevos.length}</strong> registro(s). Actualmente tienes <strong>${registros.length}</strong>.</p><p>¿Qué quieres hacer?</p>`,
-    actions:[
-      { label:`🔁 Reemplazar todo`, className:'danger', onClick: ()=>{ registros = nuevos; finalizarImportacion(); }},
-      { label:`➕ Combinar (sin duplicar)`, className:'data', onClick: ()=>{
-          const key = r => `${r.fecha}|${norm(r.conductor)}|${r.grupo}|${(r.completos||[]).join(',')}|${(r.parciales||[]).join(',')}`;
-          const existentes = new Set(registros.map(key));
-          let añadidos = 0;
-          nuevos.forEach(r=>{ if(!existentes.has(key(r))){ registros.push(r); existentes.add(key(r)); añadidos++; } });
-          alert(`✔ ${añadidos} registro(s) añadido(s).`);
-          finalizarImportacion();
-        }},
-      { label:'Cancelar', className:'sec', onClick: cerrarModal }
-    ]
-  });
+  abrirModal({ title:'📥 Importar datos', bodyHTML:`<p>Contiene <strong>${nuevos.length}</strong> registro(s). Actualmente tienes <strong>${registros.length}</strong>.</p><p>¿Qué hacer?</p>`, actions:[ { label:`🔁 Reemplazar todo`, className:'danger', onClick: ()=>{ registros = nuevos; finalizarImportacion(); } }, { label:`➕ Combinar (sin duplicar)`, className:'data', onClick: ()=>{ const key = r => `${r.fecha}|${norm(r.conductor)}|${r.grupo}|${(r.completos||[]).join(',')}|${(r.parciales||[]).join(',')}`; const existentes = new Set(registros.map(key)); let añadidos = 0; nuevos.forEach(r=>{ if(!existentes.has(key(r))){ registros.push(r); existentes.add(key(r)); añadidos++; } }); alert(`✔ ${añadidos} registro(s) añadido(s).`); finalizarImportacion(); } }, { label:'Cancelar', className:'sec', onClick: cerrarModal } ] });
 }
-function finalizarImportacion(){
-  guardar();
-  mesActual = registros.length ? registros.map(r=>r.fecha.slice(0,7)).sort().pop() : new Date().toISOString().slice(0,7);
-  document.getElementById('mesInput').value = mesActual;
-  seleccion = null;
-  cerrarModal();
-  renderTodo();
-}
-function parsearTextoImportado(texto){
-  const data = JSON.parse(texto);
-  return Array.isArray(data) ? data : (data.registros || []);
-}
+function finalizarImportacion(){ guardar(); mesActual = registros.length ? registros.map(r=>r.fecha.slice(0,7)).sort().pop() : new Date().toISOString().slice(0,7); document.getElementById('mesInput').value = mesActual; seleccion = null; cerrarModal(); renderTodo(); }
+function parsearTextoImportado(texto){ const data = JSON.parse(texto); return Array.isArray(data) ? data : (data.registros || []); }
 
 document.getElementById('btnImportJSON').addEventListener('click', ()=>{
-  abrirModal({
-    title:'📥 Importar datos',
-    bodyHTML:`
-      <p><strong>Opción A:</strong> Pega aquí el texto JSON que exportaste desde otro dispositivo.</p>
-      <textarea id="importText" placeholder='Pega aquí el contenido…'></textarea>
-      <p><strong>Opción B:</strong> Si tienes el archivo .json guardado en Archivos/iCloud, ábrelo con el botón de abajo.</p>
-      <input type="file" id="importFileInline" accept=".json,application/json,text/plain" style="margin-top:6px">
-    `,
-    actions:[
-      { label:'📥 Importar desde texto pegado', className:'data', onClick: ()=>{
-          const t = document.getElementById('importText').value.trim();
-          if(!t){ alert('Pega primero el contenido JSON.'); return; }
-          try{ const nuevos = parsearTextoImportado(t); cerrarModal(); aplicarImportacion(nuevos); }
-          catch(e){ alert('El texto no es un JSON válido.'); }
-        }},
-      { label:'Cerrar', className:'sec', onClick: cerrarModal }
-    ]
-  });
+  abrirModal({ title:'📥 Importar datos', bodyHTML:`<p><strong>Opción A:</strong> Pega aquí el texto JSON.</p><textarea id="importText" placeholder='Pega aquí el contenido…'></textarea><p><strong>Opción B:</strong> Si tienes el archivo .json en Archivos/iCloud, ábrelo aquí.</p><input type="file" id="importFileInline" accept=".json,application/json,text/plain" style="margin-top:6px">`, actions:[ { label:'📥 Importar desde texto pegado', className:'data', onClick: ()=>{ const t = document.getElementById('importText').value.trim(); if(!t){ alert('Pega primero el contenido JSON.'); return; } try{ const nuevos = parsearTextoImportado(t); cerrarModal(); aplicarImportacion(nuevos); }catch(e){ alert('El texto no es un JSON válido.'); } } }, { label:'Cerrar', className:'sec', onClick: cerrarModal } ] });
   const fileInput = document.getElementById('importFileInline');
-  fileInput.addEventListener('change', e=>{
-    const file = e.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = evt=>{
-      try{ const nuevos = parsearTextoImportado(evt.target.result); cerrarModal(); aplicarImportacion(nuevos); }
-      catch(err){ alert('No se pudo leer el archivo.'); }
-    };
-    reader.readAsText(file);
-  });
+  fileInput.addEventListener('change', e=>{ const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = evt=>{ try{ const nuevos = parsearTextoImportado(evt.target.result); cerrarModal(); aplicarImportacion(nuevos); }catch(err){ alert('No se pudo leer el archivo.'); } }; reader.readAsText(file); });
 });
 
-/* ============================================================
-   11. RENDER GLOBAL + EVENTOS
-   ============================================================ */
-function renderTodo(){
-  renderKPIs();
-  renderLeyenda();
-  renderMapa();
-  renderPanel();
-  renderProgramaSemanal();
-  actualizarOpcionesConductores();
-  renderTabla();
-}
+function renderTodo(){ renderKPIs(); renderLeyenda(); renderMapa(); renderPanel(); renderProgramaSemanal(); actualizarOpcionesConductores(); renderTabla(); }
 
-document.getElementById('mesInput').addEventListener('change', e=>{
-  mesActual = e.target.value || mesActual;
-  seleccion = null;
-  renderTodo();
-});
-document.querySelectorAll('.switch button').forEach(b=>{
-  b.addEventListener('click', ()=>{
-    document.querySelectorAll('.switch button').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    vista = b.dataset.view;
-    renderLeyenda(); renderMapa();
-  });
-});
-document.getElementById('mapa').addEventListener('click', e=>{
-  const tile = e.target.closest('.tile');
-  if(!tile){ seleccion = null; renderPanel(); renderMapa(); return; }
-  const g = +tile.dataset.g, t = +tile.dataset.t;
-  seleccion = (seleccion && seleccion.g===g && seleccion.t===t) ? null : {g,t};
-  renderMapa(); renderPanel();
-});
-['filtroConductor','filtroGrupo','filtroMes'].forEach(id=>{
-  document.getElementById(id).addEventListener('change', renderTabla);
-});
-document.getElementById('btnLimpiarFiltros').addEventListener('click', ()=>{
-  document.getElementById('filtroConductor').value = '';
-  document.getElementById('filtroGrupo').value = '';
-  document.getElementById('filtroMes').value = '';
-  renderTabla();
-});
+document.getElementById('mesInput').addEventListener('change', e=>{ mesActual = e.target.value || mesActual; seleccion = null; renderTodo(); });
+document.querySelectorAll('.switch button').forEach(b=>{ b.addEventListener('click', ()=>{ document.querySelectorAll('.switch button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); vista = b.dataset.view; renderLeyenda(); renderMapa(); }); });
+document.getElementById('mapa').addEventListener('click', e=>{ const tile = e.target.closest('.tile'); if(!tile){ seleccion = null; renderPanel(); renderMapa(); return; } const g = +tile.dataset.g, t = +tile.dataset.t; seleccion = (seleccion && seleccion.g===g && seleccion.t===t) ? null : {g,t}; renderMapa(); renderPanel(); });
+['filtroConductor','filtroGrupo','filtroMes'].forEach(id=>{ document.getElementById(id).addEventListener('change', renderTabla); });
+document.getElementById('btnLimpiarFiltros').addEventListener('click', ()=>{ document.getElementById('filtroConductor').value = ''; document.getElementById('filtroGrupo').value = ''; document.getElementById('filtroMes').value = ''; renderTabla(); });
 
 const selGrupo = document.getElementById('fGrupo');
 selGrupo.innerHTML = GRUPOS.map(g=>`<option value="${g.id}">${g.nombre} (${g.territorios} terr.)</option>`).join('');
@@ -1250,31 +882,19 @@ document.getElementById('fFecha').value = new Date().toISOString().slice(0,10);
 
 document.getElementById('formRegistro').addEventListener('submit', e=>{
   e.preventDefault();
-  const fecha = document.getElementById('fFecha').value;
-  const conductor = document.getElementById('fConductor').value.trim();
-  const grupo = +document.getElementById('fGrupo').value;
+  const fecha = document.getElementById('fFecha').value, conductor = document.getElementById('fConductor').value.trim(), grupo = +document.getElementById('fGrupo').value;
   if(!fecha || !conductor) return;
-  registros.push({
-    fecha, conductor, grupo,
-    asignados: document.getElementById('fAsignados').value.trim(),
-    completos: nums(document.getElementById('fCompletos').value),
-    parciales: nums(document.getElementById('fParciales').value),
-    obs: document.getElementById('fObs').value.trim()
-  });
+  registros.push({ fecha, conductor, grupo, asignados: document.getElementById('fAsignados').value.trim(), completos: nums(document.getElementById('fCompletos').value), parciales: nums(document.getElementById('fParciales').value), obs: document.getElementById('fObs').value.trim() });
   guardar();
   ['fConductor','fAsignados','fCompletos','fParciales','fObs'].forEach(id=>document.getElementById(id).value='');
   mesActual = registros.map(r=>r.fecha.slice(0,7)).sort().pop();
   document.getElementById('mesInput').value = mesActual;
-  seleccion = null;
-  renderTodo();
-  const det = document.getElementById('filtroConductor').closest('details');
-  if(det) det.open = true;
+  seleccion = null; renderTodo();
+  const det = document.getElementById('filtroConductor').closest('details'); if(det) det.open = true;
 });
-
 document.getElementById('btnReset').addEventListener('click', ()=>{
   if(!confirm('⚠️ ¿Borrar TODOS los registros de este dispositivo? Esta acción no se puede deshacer.')) return;
-  registros = [];
-  guardar();
+  registros = []; guardar();
   mesActual = new Date().toISOString().slice(0,7);
   document.getElementById('mesInput').value = mesActual;
   seleccion = null;
@@ -1284,50 +904,33 @@ document.getElementById('btnReset').addEventListener('click', ()=>{
   renderTodo();
 });
 
-document.getElementById('progInicio').addEventListener('change', e=>{
-  const inicio = lunesDeSemana(e.target.value || new Date().toISOString().slice(0,10));
-  programaSemanal = sugerirPrograma(inicio);
+document.getElementById('progInicio').addEventListener('change', e=>{ const inicio = lunesDeSemana(e.target.value || new Date().toISOString().slice(0,10)); programaSemanal = sugerirPrograma(inicio); renderProgramaSemanal(); });
+document.getElementById('btnSugerirProg').addEventListener('click', ()=>{ const inicio = lunesDeSemana(document.getElementById('progInicio').value || new Date().toISOString().slice(0,10)); programaSemanal = sugerirPrograma(inicio); renderProgramaSemanal(); });
+document.getElementById('btnVerTerritorios').addEventListener('click', ()=>{ abrirModalInfoTerritorios(1); });
+document.getElementById('btnAnadirFila').addEventListener('click', ()=>{ const last = programaSemanal[programaSemanal.length-1]; if(!last) return; programaSemanal.push({ fecha:last.fecha, dia:last.dia, hora:last.hora, casa:last.casa, lugar:last.lugar, conductor:'', grupo:null, territorios:[], terrTexto:'', grupoPreferido:null }); renderProgramaSemanal(); });
+
+document.getElementById('progBody').addEventListener('change', e=>{
+  const sel = e.target.closest('select.sel-casa'); if(!sel) return;
+  const idx = +sel.dataset.idx, valor = sel.value;
+  if (valor === '__OTRO__'){ programaSemanal[idx].casa = '__OTRO__'; const eraCasa = CASAS_CONSIDERACION.some(c => c.nombre === programaSemanal[idx].lugar); if (eraCasa) programaSemanal[idx].lugar = ''; renderProgramaSemanal(); return; }
+  if (!valor){ programaSemanal[idx].casa = ''; programaSemanal[idx].lugar = ''; recalcularPrograma(programaSemanal); renderProgramaSemanal(); return; }
+  programaSemanal[idx].casa = valor; programaSemanal[idx].lugar = valor;
+  recalcularPrograma(programaSemanal);
   renderProgramaSemanal();
 });
-document.getElementById('btnSugerirProg').addEventListener('click', ()=>{
-  const inicio = lunesDeSemana(document.getElementById('progInicio').value || new Date().toISOString().slice(0,10));
-  programaSemanal = sugerirPrograma(inicio);
-  renderProgramaSemanal();
-});
-document.getElementById('btnVerTerritorios').addEventListener('click', ()=>{
-  abrirModalInfoTerritorios(1);
-});
-document.getElementById('btnAnadirFila').addEventListener('click', ()=>{
-  const last = programaSemanal[programaSemanal.length-1];
-  if(!last) return;
-  programaSemanal.push({ fecha:last.fecha, dia:last.dia, hora:last.hora, lugar:'', conductor:'', grupo:null, territorios:[], terrTexto:'' });
-  renderProgramaSemanal();
-});
-document.getElementById('progBody').addEventListener('input', e=>{
-  const inp = e.target.closest('input[data-field]');
-  if(!inp) return;
-  const idx = +inp.closest('tr').dataset.idx;
-  programaSemanal[idx][inp.dataset.field] = inp.value;
-});
+document.getElementById('progBody').addEventListener('input', e=>{ const inp = e.target.closest('input[data-field]'); if(!inp) return; const idx = +inp.closest('tr').dataset.idx; programaSemanal[idx][inp.dataset.field] = inp.value; });
 
 document.getElementById('btnExportPNG').addEventListener('click', async ()=>{
-  if(typeof html2canvas === 'undefined'){
-    alert('La librería de exportación aún está cargando. Espera unos segundos.');
-    return;
-  }
+  if(typeof html2canvas === 'undefined'){ alert('La librería está cargando.'); return; }
   const sheet = document.getElementById('progSheet');
   const ANCHO_FIJO = 1200;
-  const canvas = await html2canvas(sheet, {
-    backgroundColor:'#ffffff', scale:2, useCORS:true, logging:false,
-    width: ANCHO_FIJO, windowWidth: ANCHO_FIJO,
+  const canvas = await html2canvas(sheet, { backgroundColor:'#ffffff', scale:2, useCORS:true, logging:false, width: ANCHO_FIJO, windowWidth: ANCHO_FIJO,
     onclone: (clonedDoc)=>{
       const st = clonedDoc.createElement('style');
       st.textContent = `
         #progSheet{max-width:${ANCHO_FIJO}px !important;width:${ANCHO_FIJO}px !important;border:1px solid #cbd6e2 !important;border-radius:6px !important;box-shadow:0 2px 8px rgba(0,0,0,.06) !important;background:#fff !important;overflow:visible !important}
         #progSheet .prog-header{padding:18px 16px 14px !important; border-radius:0 !important; margin:0 !important}
         #progSheet .prog-cong{font-size:20px !important;letter-spacing:1.5px !important;margin-bottom:18px !important}
-        #progSheet .prog-title{font-size:15px !important}
-        #progSheet .prog-sub{font-size:13px !important}
         #progSheet .prog-table{display:table !important;min-width:${ANCHO_FIJO-2}px !important;width:${ANCHO_FIJO-2}px !important;border-collapse:collapse !important;table-layout:fixed !important}
         #progSheet .prog-table thead{display:table-header-group !important}
         #progSheet .prog-table tbody{display:table-row-group !important}
@@ -1340,50 +943,21 @@ document.getElementById('btnExportPNG').addEventListener('click', async ()=>{
         #progSheet .prog-table td.cell-fijo{text-align:center !important;font-weight:600 !important;color:#1f3a5f !important;padding:8px !important;font-size:13px !important}
         #progSheet .prog-table input.cell{width:100% !important;border:0 !important;background:transparent !important;padding:8px !important;font-size:12.5px !important;text-align:center !important}
         #progSheet .prog-table input.cell.edit-lugar,#progSheet .prog-table input.cell.edit-conductor,#progSheet .prog-table input.cell.edit-terr{text-align:left !important}
-      `;
+        #progSheet .prog-table select.sel-casa{display:none !important}`;
       clonedDoc.head.appendChild(st);
       const cloned = clonedDoc.getElementById('progSheet');
       if(!cloned) return;
-      cloned.querySelectorAll('input.cell').forEach(inp => {
-        const isLeft = inp.classList.contains('edit-lugar') || inp.classList.contains('edit-conductor') || inp.classList.contains('edit-terr');
-        const div = clonedDoc.createElement('div');
-        div.textContent = inp.value || '';
-        div.style.cssText = [
-          'width:100%','padding:8px','box-sizing:border-box',
-          'font-family:Arial,Helvetica,sans-serif','font-size:12.5px','font-weight:500',
-          'color:#12233b','line-height:1.25','white-space:nowrap',
-          'overflow:hidden','text-overflow:ellipsis',
-          'text-align:' + (isLeft ? 'left' : 'center')
-        ].join(';');
-        inp.parentNode.replaceChild(div, inp);
-      });
+      cloned.querySelectorAll('input.cell').forEach(inp => { const isLeft = inp.classList.contains('edit-lugar') || inp.classList.contains('edit-conductor') || inp.classList.contains('edit-terr'); const div = clonedDoc.createElement('div'); div.textContent = inp.value || ''; div.style.cssText = ['width:100%','padding:8px','box-sizing:border-box','font-family:Arial,Helvetica,sans-serif','font-size:12.5px','font-weight:500','color:#12233b','line-height:1.25','white-space:nowrap','overflow:hidden','text-overflow:ellipsis','text-align:' + (isLeft ? 'left' : 'center')].join(';'); inp.parentNode.replaceChild(div, inp); });
+      cloned.querySelectorAll('select.sel-casa').forEach(sel => { const opt = sel.options[sel.selectedIndex]; const texto = opt && opt.value !== '__OTRO__' && opt.value !== '' ? opt.textContent : '—'; const div = clonedDoc.createElement('div'); div.textContent = texto; div.style.cssText = ['width:100%','padding:8px','box-sizing:border-box','font-family:Arial,Helvetica,sans-serif','font-size:12.5px','font-weight:500','color:#12233b','line-height:1.25','white-space:nowrap','overflow:hidden','text-overflow:ellipsis','text-align:left'].join(';'); sel.parentNode.replaceChild(div, sel); });
     }
   });
   const nombre = `programa_ofelia_${document.getElementById('progInicio').value}.png`;
-  try{
-    const dataUrl = canvas.toDataURL('image/png');
-    const a = document.createElement('a');
-    a.href = dataUrl; a.download = nombre;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  }catch(e){
-    const dataUrl = canvas.toDataURL('image/png');
-    abrirModal({
-      title:'📷 Imagen generada',
-      bodyHTML:`<p>Si no se descargó, mantén presionada la imagen para guardarla.</p><img src="${dataUrl}" class="previsualizacion" alt="Programa">`,
-      actions:[{ label:'Cerrar', className:'sec', onClick: cerrarModal }]
-    });
-  }
+  try{ const dataUrl = canvas.toDataURL('image/png'); const a = document.createElement('a'); a.href = dataUrl; a.download = nombre; document.body.appendChild(a); a.click(); document.body.removeChild(a); }
+  catch(e){ const dataUrl = canvas.toDataURL('image/png'); abrirModal({ title:'📷 Imagen generada', bodyHTML:`<p>Si no se descargó, mantén presionada la imagen para guardarla.</p><img src="${dataUrl}" class="previsualizacion" alt="Programa">`, actions:[{ label:'Cerrar', className:'sec', onClick: cerrarModal }] }); }
 });
 
-(function initPrograma(){
-  const inp = document.getElementById('progInicio');
-  if(!inp) return;
-  inp.value = lunesDeSemana(new Date().toISOString().slice(0,10));
-  programaSemanal = sugerirPrograma(inp.value);
-})();
-
+(function initPrograma(){ const inp = document.getElementById('progInicio'); if(!inp) return; inp.value = lunesDeSemana(new Date().toISOString().slice(0,10)); programaSemanal = sugerirPrograma(inp.value); })();
 initComboConductor();
-
 document.getElementById('mesInput').value = mesActual;
 renderTodo();
 </script>
