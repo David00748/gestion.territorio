@@ -2,38 +2,57 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f3a5f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Monitor de Territorios · Congregación Ofelia</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-  *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#eef2f7;color:#12233b}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#eef2f7;color:#12233b;overscroll-behavior-y:contain;padding-bottom:env(safe-area-inset-bottom)}
   h1,h2,h3{margin:0}
-  .topbar{background:linear-gradient(90deg,#1f3a5f,#2b5486);color:#fff;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
-  .brand h1{font-size:19px;letter-spacing:.4px}
-  .brand p{margin:2px 0 0;font-size:12.5px;opacity:.75}
-  .controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  .controls label{font-size:12.5px;display:flex;align-items:center;gap:7px;opacity:.9}
-  input[type=month],input[type=date],input[type=text],select,textarea{font:inherit;font-size:13px;padding:6px 9px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;color:#12233b}
-  .switch{display:flex;background:rgba(255,255,255,.14);border-radius:9px;padding:3px}
-  .switch button{background:none;border:0;color:#fff;font:inherit;font-size:12.5px;padding:6px 13px;border-radius:7px;cursor:pointer;opacity:.7}
+  button,input,select,textarea{font-family:inherit}
+  ::selection{background:#2b5486;color:#fff}
+
+  /* ========= TOPBAR ========= */
+  .topbar{background:linear-gradient(90deg,#1f3a5f,#2b5486);color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding-top:calc(12px + env(safe-area-inset-top))}
+  .brand h1{font-size:17px;letter-spacing:.3px;line-height:1.25}
+  .brand p{margin:2px 0 0;font-size:12px;opacity:.78}
+  .controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .controls label{font-size:12.5px;display:flex;align-items:center;gap:7px;opacity:.92}
+  input[type=month],input[type=date],input[type=text],select,textarea{font:inherit;font-size:13px;padding:7px 10px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;color:#12233b;min-height:38px}
+  input:focus,select:focus,textarea:focus{outline:2px solid #2b5486;outline-offset:-1px;border-color:#2b5486}
+  .switch{display:flex;background:rgba(255,255,255,.16);border-radius:9px;padding:3px}
+  .switch button{background:none;border:0;color:#fff;font:inherit;font-size:12.5px;padding:7px 13px;border-radius:7px;cursor:pointer;opacity:.72;min-height:34px}
   .switch button.active{background:#fff;color:#1f3a5f;opacity:1;font-weight:600}
+
+  /* ========= KPIs ========= */
   .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;padding:16px 22px 0}
   .kpi{background:#fff;border-radius:14px;padding:13px 15px;box-shadow:0 1px 3px rgba(18,35,59,.08);border-left:5px solid #2b5486}
   .kpi span{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:#6b7c93;font-weight:600}
   .kpi strong{font-size:26px;line-height:1.25}
   .kpi small{color:#8494a8;font-size:11.5px}
+
+  /* ========= MAIN LAYOUT ========= */
   main{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:16px;padding:16px 22px}
   @media(max-width:1050px){main{grid-template-columns:1fr}}
+
   .card{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(18,35,59,.09);padding:14px}
   .legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px;font-size:12px;color:#41566f}
   .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
-  svg#mapa{width:100%;height:auto;display:block;touch-action:manipulation}
+
+  /* ========= MAPA ========= */
+  svg#mapa{width:100%;height:auto;display:block;touch-action:manipulation;user-select:none;-webkit-user-select:none}
   .tile{cursor:pointer}
-  .tile rect{transition:fill .25s, stroke .15s}
+  .tile rect{transition:fill .22s ease, stroke .15s ease}
   .tile:hover rect{stroke:#0b1b2e;stroke-width:3;filter:brightness(1.03)}
+  .tile:active rect{filter:brightness(.92)}
   .zona-titulo{font-size:18px;font-weight:800;letter-spacing:1.4px;pointer-events:none}
-  .panel{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(18,35,59,.09);padding:16px;max-height:calc(100vh - 120px);overflow:auto;position:sticky;top:16px}
+
+  /* ========= PANEL ========= */
+  .panel{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(18,35,59,.09);padding:16px;max-height:calc(100vh - 120px);overflow:auto;position:sticky;top:16px;-webkit-overflow-scrolling:touch}
   .panel h2{font-size:17px}
   .pill{display:inline-block;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:99px;color:#fff}
   .badge{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:6px;color:#fff;margin-bottom:6px}
@@ -41,28 +60,39 @@
   .meta div{background:#f4f7fb;border-radius:10px;padding:9px 11px}
   .meta span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:#6b7c93;font-weight:700}
   .meta strong{font-size:14px}
+
   table{width:100%;border-collapse:collapse;font-size:12.5px}
   th{text-align:left;color:#6b7c93;font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid #e6edf5;padding:6px 5px}
   td{padding:7px 5px;border-bottom:1px solid #eef3f9;vertical-align:top}
   tr:last-child td{border-bottom:0}
   .obs{color:#5a6b80;font-style:italic}
   .barra{height:8px;background:#e6edf5;border-radius:99px;overflow:hidden;margin-top:5px}
-  .barra i{display:block;height:100%;background:#2fb36b;border-radius:99px}
+  .barra i{display:block;height:100%;background:#2fb36b;border-radius:99px;transition:width .3s ease}
   .grow{display:flex;justify-content:space-between;font-size:13px;margin-top:12px}
+
+  /* ========= DETAILS / SECCIONES ========= */
   details.card{margin:0 22px 16px;padding:0}
-  details.card > summary{cursor:pointer;font-weight:700;font-size:15px;padding:14px 18px;color:#1f3a5f;list-style:none;display:flex;align-items:center;gap:10px;border-radius:16px;user-select:none;transition:background .15s}
+  details.card > summary{cursor:pointer;font-weight:700;font-size:15px;padding:14px 18px;color:#1f3a5f;list-style:none;display:flex;align-items:center;gap:10px;border-radius:16px;user-select:none;transition:background .15s;min-height:52px}
   details.card > summary:hover{background:#f4f7fb}
+  details.card > summary:active{background:#e6edf5}
   details.card[open] > summary{border-bottom:1px solid #e6edf5;border-radius:16px 16px 0 0}
   details.card > summary::-webkit-details-marker{display:none}
   details.card > summary::after{content:'▾';margin-left:auto;font-size:14px;color:#6b7c93;transition:transform .2s;display:inline-block}
   details.card[open] > summary::after{transform:rotate(180deg)}
   details.card > .details-content{padding:16px 18px}
+
+  /* ========= FORMULARIOS ========= */
   .formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;align-items:end}
   .formgrid label{display:block;font-size:11.5px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
   .formgrid input,.formgrid select,.formgrid textarea{width:100%}
-  .btn{background:#2b5486;color:#fff;border:0;border-radius:9px;padding:9px 16px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+
+  /* ========= BOTONES ========= */
+  .btn{background:#2b5486;color:#fff;border:0;border-radius:9px;padding:10px 16px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;min-height:42px;transition:background .15s,transform .05s;touch-action:manipulation}
   .btn:hover{background:#1f3a5f}
+  .btn:active{background:#16304e;transform:scale(.98)}
   .btn.sec{background:#e6edf5;color:#1f3a5f}
+  .btn.sec:hover{background:#d7e1ed}
+  .btn.sec:active{background:#c5d3e3}
   .btn.danger{background:#d9534f;color:#fff}
   .btn.danger:hover{background:#b53c38}
   .btn.data{background:#2fb36b;color:#fff}
@@ -70,13 +100,19 @@
   .hint{font-size:11.5px;color:#8494a8;margin-top:6px}
   #tablaRegistros td:nth-child(1){white-space:nowrap}
   .vacio{text-align:center;padding:30px 10px;color:#8494a8;font-size:13px}
+
+  /* ========= FILTROS ========= */
   .filtros{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;padding:12px 14px;background:#f4f7fb;border-radius:12px}
   .filtros label{font-size:10.5px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px}
-  .filtros select,.filtros input[type=month]{display:block;margin-top:5px;font-size:13px;padding:6px 9px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;color:#12233b;min-width:170px;font-family:inherit}
+  .filtros select,.filtros input[type=month]{display:block;margin-top:5px;font-size:13px;padding:7px 10px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;color:#12233b;min-width:170px;font-family:inherit}
   .contador{font-size:12.5px;color:#41566f;font-weight:600;margin-left:auto;background:#fff;padding:6px 12px;border-radius:99px;border:1px solid #dbe4ee}
-  .prog-toolbar{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;padding:12px 14px;background:#f4f7fb;border-radius:12px}
+
+  /* ========= TOOLBAR PROGRAMA ========= */
+  .prog-toolbar{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;padding:12px 14px;background:#f4f7fb;border-radius:12px}
   .prog-toolbar label{font-size:11px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px}
-  .prog-toolbar input[type=date]{display:block;margin-top:4px;font-size:13px;padding:6px 9px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;font-family:inherit}
+  .prog-toolbar input[type=date]{display:block;margin-top:4px;font-size:13px;padding:7px 10px;border-radius:8px;border:1px solid #cbd6e2;background:#fff;font-family:inherit}
+
+  /* ========= HOJA DEL PROGRAMA ========= */
   .prog-sheet-wrap{margin-top:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;background:#f8fafc;padding:16px;border-radius:12px}
   .prog-sheet{background:#fff;max-width:1100px;margin:0 auto;border:1px solid #cbd6e2;border-radius:6px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);font-family:Arial,Helvetica,sans-serif}
   .prog-header{background:#1f3a5f;color:#fff;text-align:center;padding:18px 16px 14px}
@@ -85,110 +121,230 @@
   .prog-sub{font-size:13px;font-weight:600;letter-spacing:.5px}
   .prog-table{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
   .prog-table th{background:#4a6b8a;color:#fff;padding:9px 8px;font-size:11.5px;font-weight:700;letter-spacing:.5px;text-align:center;border:1px solid #3a5a78}
-  .prog-table td{padding:0;border:1px solid #d8e0e8;vertical-align:middle;height:36px}
+  .prog-table td{padding:0;border:1px solid #d8e0e8;vertical-align:middle;height:38px}
   .prog-table tr:nth-child(even) td{background:#eaf0f7}
   .prog-table tr:nth-child(odd) td{background:#fff}
-  .prog-table input.cell{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:8px;text-align:center;font-family:inherit;font-weight:500}
+  .prog-table input.cell{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:9px;text-align:center;font-family:inherit;font-weight:500}
   .prog-table input.cell.edit-lugar,.prog-table input.cell.edit-conductor,.prog-table input.cell.edit-terr{text-align:left}
   .prog-table input.cell:focus{outline:2px solid #2b5486;outline-offset:-2px;background:#fffbe6;border-radius:0}
-  .prog-table td.cell-fijo{text-align:center;font-weight:600;color:#1f3a5f;padding:8px}
-  .prog-table select.sel-casa{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:8px 26px 8px 8px;text-align:left;font-family:inherit;font-weight:500;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg, transparent 50%, #6b7c93 50%), linear-gradient(135deg, #6b7c93 50%, transparent 50%);background-position: calc(100% - 15px) 15px, calc(100% - 10px) 15px;background-size: 5px 5px, 5px 5px;background-repeat: no-repeat}
-  .prog-table select.sel-casa:focus{outline:2px solid #2b5486;outline-offset:-2px;background-color:#fffbe6}
-  .prog-table select.sel-conductor{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:8px 26px 8px 8px;text-align:left;font-family:inherit;font-weight:500;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg, transparent 50%, #6b7c93 50%), linear-gradient(135deg, #6b7c93 50%, transparent 50%);background-position: calc(100% - 15px) 15px, calc(100% - 10px) 15px;background-size: 5px 5px, 5px 5px;background-repeat: no-repeat}
-  .prog-table select.sel-conductor:focus{outline:2px solid #2b5486;outline-offset:-2px;background-color:#fffbe6}
-  .prog-table select.sel-telefonica{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:8px 26px 8px 8px;text-align:left;font-family:inherit;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg, transparent 50%, #6b7c93 50%), linear-gradient(135deg, #6b7c93 50%, transparent 50%);background-position: calc(100% - 15px) 15px, calc(100% - 10px) 15px;background-size: 5px 5px, 5px 5px;background-repeat: no-repeat}
-  .prog-table select.sel-telefonica:focus{outline:2px solid #2b5486;outline-offset:-2px;background-color:#fffbe6}
+  .prog-table td.cell-fijo{text-align:center;font-weight:600;color:#1f3a5f;padding:9px}
+  .prog-table select.sel-casa,.prog-table select.sel-conductor,.prog-table select.sel-telefonica{width:100%;border:0;background:transparent;font:inherit;font-size:12.5px;color:#12233b;padding:9px 26px 9px 9px;text-align:left;font-family:inherit;font-weight:500;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg, transparent 50%, #6b7c93 50%), linear-gradient(135deg, #6b7c93 50%, transparent 50%);background-position: calc(100% - 15px) 16px, calc(100% - 10px) 16px;background-size: 5px 5px, 5px 5px;background-repeat: no-repeat}
+  .prog-table select.sel-casa:focus,.prog-table select.sel-conductor:focus,.prog-table select.sel-telefonica:focus{outline:2px solid #2b5486;outline-offset:-2px;background-color:#fffbe6}
+  .prog-table select.sel-telefonica{font-weight:600}
+
+  /* ========= AVISO DATOS ========= */
   .aviso-datos{background:#e7f3ff;border-left:4px solid #2b5486;padding:10px 12px;border-radius:8px;color:#1f3a5f;font-size:12.5px;line-height:1.5}
   .aviso-datos strong{display:block;margin-bottom:3px}
-  .modal-overlay{position:fixed;inset:0;background:rgba(11,27,46,.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px}
-  .modal-overlay.show{display:flex}
-  .modal{background:#fff;border-radius:16px;max-width:760px;width:100%;max-height:90vh;overflow:auto;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+
+  /* ========= MODAL ========= */
+  .modal-overlay{position:fixed;inset:0;background:rgba(11,27,46,.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;padding-top:calc(16px + env(safe-area-inset-top));padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+  .modal-overlay.show{display:flex;animation:fadeIn .18s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .modal{background:#fff;border-radius:16px;max-width:760px;width:100%;max-height:90vh;overflow:auto;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3);-webkit-overflow-scrolling:touch}
   .modal h3{font-size:17px;margin-bottom:8px}
   .modal p{font-size:13px;color:#5a6b80;margin:8px 0}
-  .modal textarea{width:100%;min-height:200px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;line-height:1.4;resize:vertical;padding:10px;border-radius:10px;border:1px solid #cbd6e2;background:#f8fafc}
+  .modal textarea{width:100%;min-height:200px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.4;resize:vertical;padding:10px;border-radius:10px;border:1px solid #cbd6e2;background:#f8fafc}
   .modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-  .modal-close{position:sticky;top:0;float:right;background:#e6edf5;border:0;border-radius:8px;width:32px;height:32px;font-size:16px;cursor:pointer;color:#1f3a5f;font-weight:700}
+  .modal-close{position:sticky;top:0;float:right;background:#e6edf5;border:0;border-radius:8px;width:36px;height:36px;font-size:16px;cursor:pointer;color:#1f3a5f;font-weight:700;z-index:10}
   .modal img.previsualizacion{max-width:100%;border-radius:10px;border:1px solid #dbe4ee;margin-top:10px}
+
+  /* ========= COMBOBOX ========= */
   .combo-wrap{position:relative}
-  .combo-wrap input{padding-right:34px}
-  .combo-toggle{position:absolute;right:0;top:0;bottom:0;width:34px;background:transparent;border:0;border-left:1px solid #e6edf5;cursor:pointer;color:#6b7c93;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;border-radius:0 8px 8px 0;-webkit-tap-highlight-color:transparent}
+  .combo-wrap input{padding-right:38px}
+  .combo-toggle{position:absolute;right:0;top:0;bottom:0;width:38px;background:transparent;border:0;border-left:1px solid #e6edf5;cursor:pointer;color:#6b7c93;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;border-radius:0 8px 8px 0}
   .combo-toggle:active{background:#eef3f9}
-  .combo-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid #cbd6e2;border-radius:10px;box-shadow:0 10px 30px rgba(18,35,59,.18);max-height:240px;overflow-y:auto;z-index:1000;padding:5px;-webkit-overflow-scrolling:touch}
+  .combo-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid #cbd6e2;border-radius:10px;box-shadow:0 10px 30px rgba(18,35,59,.18);max-height:260px;overflow-y:auto;z-index:1000;padding:5px;-webkit-overflow-scrolling:touch}
   .combo-list[hidden]{display:none}
-  .combo-list button{display:block;width:100%;text-align:left;background:none;border:0;padding:10px 12px;border-radius:7px;font:inherit;font-size:13px;color:#12233b;cursor:pointer;-webkit-tap-highlight-color:rgba(43,84,134,.15)}
+  .combo-list button{display:block;width:100%;text-align:left;background:none;border:0;padding:12px;border-radius:7px;font:inherit;font-size:14px;color:#12233b;cursor:pointer;min-height:44px}
   .combo-list button:hover,.combo-list button:active{background:#e6edf5}
   .combo-list .sin-resultados{padding:12px;color:#8494a8;font-size:12px;text-align:center}
-  .tab-grupo{background:#f4f7fb;border:2px solid #cbd6e2;border-radius:8px;padding:6px 12px;font:inherit;font-size:12px;font-weight:700;color:#1f3a5f;cursor:pointer;transition:all .15s}
+
+  /* ========= TABS GRUPO (modal info) ========= */
+  .tab-grupo{background:#f4f7fb;border:2px solid #cbd6e2;border-radius:8px;padding:8px 14px;font:inherit;font-size:13px;font-weight:700;color:#1f3a5f;cursor:pointer;transition:all .15s;min-height:40px}
   .tab-grupo.active{background:#1f3a5f;color:#fff;border-color:#1f3a5f}
-  .btn-copiar-num{background:#e6edf5;border:0;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:13px;font-weight:700;color:#1f3a5f}
+  .btn-copiar-num{background:#e6edf5;border:0;border-radius:6px;padding:7px 11px;cursor:pointer;font-size:14px;font-weight:700;color:#1f3a5f;min-height:38px;min-width:38px}
   .btn-copiar-num:active{background:#cbd6e2}
-  footer.sistema-footer{text-align:center;padding:20px 12px 28px;font-size:11px;color:#8494a8;letter-spacing:.3px}
+
+  /* ========= FOOTER ========= */
+  footer.sistema-footer{text-align:center;padding:20px 12px calc(24px + env(safe-area-inset-bottom));font-size:11.5px;color:#8494a8;letter-spacing:.3px}
   footer.sistema-footer strong{color:#6b7c93;font-weight:700}
-  @media (max-width: 720px){
-    .topbar{padding:12px 14px;gap:10px}
-    .brand h1{font-size:15px;line-height:1.25}
+
+  /* ============================================================
+     ============ OPTIMIZACIÓN MÓVIL Y TABLET ============
+     ============================================================ */
+  /* Tablet: mantener estructura pero con menos padding */
+  @media (max-width:1050px) and (min-width:721px){
+    main{grid-template-columns:1fr;gap:14px;padding:14px 16px}
+    .panel{position:static;max-height:none}
+    .kpis{padding:14px 16px 0;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+    details.card{margin:0 16px 14px}
+    .prog-toolbar{padding:12px}
+    .prog-sheet-wrap{padding:12px}
+  }
+
+  /* Móvil */
+  @media (max-width:720px){
+    /* Tipografía general un poco más pequeña */
+    body{font-size:14px}
+
+    /* Topbar compacto */
+    .topbar{padding:10px 14px;gap:8px;flex-direction:column;align-items:stretch}
+    .brand{width:100%}
+    .brand h1{font-size:15px;line-height:1.2}
     .brand p{font-size:11px}
     .controls{width:100%;justify-content:space-between;gap:8px}
-    .controls label{font-size:11px}
-    .controls input[type=month]{font-size:12px;padding:5px 8px}
-    .switch button{font-size:11px;padding:5px 10px}
-    .kpis{padding:12px 12px 0;gap:8px;grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
-    .kpi{padding:10px 12px;border-left-width:4px;border-radius:12px}
-    .kpi strong{font-size:20px}
+    .controls label{font-size:11px;gap:6px}
+    .controls input[type=month]{font-size:14px;min-height:40px;padding:7px 10px;flex:1;max-width:170px}
+    .switch button{font-size:11px;padding:7px 11px;min-height:38px}
+
+    /* KPIs como carrusel horizontal */
+    .kpis{display:flex;overflow-x:auto;gap:10px;padding:12px 12px 0;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .kpis::-webkit-scrollbar{display:none}
+    .kpi{flex:0 0 150px;padding:11px 13px;border-radius:12px;border-left-width:4px;scroll-snap-align:start}
+    .kpi strong{font-size:22px}
     .kpi small{font-size:10.5px}
     .kpi span{font-size:10px}
-    main{padding:12px 12px;gap:12px}
-    .card{padding:12px;border-radius:12px}
-    details.card{margin:0 12px 12px;padding:0}
-    details.card > summary{padding:12px 14px;font-size:14px}
-    details.card > .details-content{padding:12px 14px}
-    .legend{font-size:11px;gap:8px}
-    .legend i{width:10px;height:10px}
-    .zona-titulo{font-size:12px;letter-spacing:.6px}
-    .panel{position:static;max-height:none;padding:12px}
-    .panel h2{font-size:15px}
+
+    /* Main padding reducido */
+    main{padding:12px;gap:12px}
+    .card{padding:12px;border-radius:14px}
+
+    /* Mapa: tocar tiles más fácil */
+    svg#mapa{touch-action:manipulation}
+    .tile rect{stroke-width:1.5}
+    .zona-titulo{font-size:13px;letter-spacing:.6px}
+
+    /* Panel lateral */
+    .panel{padding:14px;position:static;max-height:none;border-radius:14px}
+    .panel h2{font-size:16px}
     .meta{gap:6px}
-    .meta div{padding:7px 9px}
+    .meta div{padding:8px 10px}
     .meta span{font-size:9.5px}
-    .meta strong{font-size:12.5px}
-    table{font-size:11.5px}
-    th{font-size:9.5px;padding:5px 4px}
-    td{padding:6px 4px}
-    .prog-toolbar{padding:10px 12px;gap:8px}
-    .prog-toolbar label{font-size:10.5px;width:100%}
-    .prog-toolbar input[type=date]{width:100%}
-    .prog-toolbar .btn{font-size:12px;padding:8px 12px;flex:1 1 auto;min-width:0}
+    .meta strong{font-size:13px}
+    table{font-size:12px}
+    th{font-size:9.5px;padding:6px 4px}
+    td{padding:7px 4px}
+
+    /* Secciones */
+    details.card{margin:0 12px 12px}
+    details.card > summary{padding:14px 16px;font-size:14.5px;min-height:54px}
+    details.card > .details-content{padding:14px 16px}
+
+    /* Filtros en una sola columna */
+    .filtros{flex-direction:column;align-items:stretch;gap:10px;padding:12px}
+    .filtros label{width:100%;font-size:11px}
+    .filtros select,.filtros input[type=month]{width:100%;min-width:0;font-size:15px;min-height:44px;padding:10px 12px}
+    .filtros .btn{width:100%;min-height:44px}
+    .contador{margin-left:0;text-align:center;width:100%}
+
+    /* Toolbar del programa */
+    .prog-toolbar{padding:12px;gap:10px;flex-direction:column;align-items:stretch}
+    .prog-toolbar label{font-size:11px;width:100%}
+    .prog-toolbar input[type=date]{width:100%;font-size:15px;min-height:44px;padding:10px 12px;margin-top:6px}
+    .prog-toolbar .btn{width:100%;min-height:44px;padding:12px;font-size:14px}
     .prog-toolbar .hint{display:none}
-    .prog-sheet-wrap{padding:8px;margin-top:10px}
-    .prog-sheet{border-radius:5px}
-    .prog-header{padding:14px 10px 12px}
-    .prog-cong{font-size:14px;letter-spacing:1px;margin-bottom:12px}
-    .prog-title{font-size:11px;letter-spacing:.3px}
-    .prog-sub{font-size:10px}
-    .filtros{padding:10px 12px;gap:8px}
-    .filtros label{font-size:10px;flex:1 1 45%}
-    .filtros select,.filtros input[type=month]{min-width:0;width:100%;font-size:12px}
-    .filtros .btn{width:100%}
-    .contador{margin-left:0;width:100%;text-align:center;font-size:11.5px}
-    .formgrid{grid-template-columns:1fr}
-    .formgrid .btn{width:100%}
-    .modal{padding:16px;max-height:95vh}
-    .modal textarea{min-height:160px;font-size:11px}
-    .prog-sheet{max-width:none;width:100%;border:0;box-shadow:none;background:transparent}
-    .prog-header{border-radius:8px;margin-bottom:12px}
+
+    /* Hoja del programa: tarjetas */
+    .prog-sheet-wrap{padding:8px;margin-top:10px;background:transparent}
+    .prog-sheet{max-width:none;width:100%;border:0;box-shadow:none;background:transparent;border-radius:0}
+    .prog-header{padding:16px 12px 14px;border-radius:10px;margin-bottom:14px}
+    .prog-cong{font-size:15px;letter-spacing:1.2px;margin-bottom:12px}
+    .prog-title{font-size:12px;letter-spacing:.3px}
+    .prog-sub{font-size:11px}
     .prog-table{min-width:0;display:block}
     .prog-table thead{display:none}
     .prog-table tbody{display:block}
-    .prog-table tr{display:block;background:#fff;border:1px solid #d8e0e8;border-radius:10px;margin-bottom:10px;padding:10px 12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+    .prog-table tr{display:block;background:#fff;border:1px solid #d8e0e8;border-radius:12px;margin-bottom:12px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
     .prog-table tr:nth-child(even) td,.prog-table tr:nth-child(odd) td{background:transparent}
-    .prog-table td{display:flex;align-items:center;gap:8px;padding:5px 0 !important;border:0 !important;height:auto !important;min-height:0}
-    .prog-table td::before{content: attr(data-label);font-size:10px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px;min-width:82px;flex-shrink:0}
-    .prog-table td.cell-fijo{font-weight:700;color:#1f3a5f;font-size:13px;padding:5px 0 !important}
-    .prog-table input.cell{flex:1;border:1px solid #d8e0e8 !important;border-radius:6px;background:#f8fafc;padding:8px 10px !important;text-align:left !important;font-size:12.5px !important;width:auto}
+    .prog-table td{display:flex;align-items:center;gap:10px;padding:7px 0 !important;border:0 !important;height:auto !important;min-height:0}
+    .prog-table td:not(:last-child){border-bottom:1px solid #eef3f9 !important}
+    .prog-table td::before{content: attr(data-label);font-size:10.5px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px;min-width:88px;flex-shrink:0}
+    .prog-table td.cell-fijo{font-weight:700;color:#1f3a5f;font-size:14px;padding:7px 0 !important}
+    .prog-table input.cell{flex:1;border:1px solid #d8e0e8 !important;border-radius:8px;background:#f8fafc;padding:11px 12px !important;text-align:left !important;font-size:15px !important;width:auto;min-height:42px;font-weight:500}
     .prog-table input.cell:focus{background:#fffbe6;border-color:#2b5486 !important;outline:none}
-    .prog-table select.sel-casa,.prog-table select.sel-conductor,.prog-table select.sel-telefonica{flex:1;border:1px solid #d8e0e8 !important;border-radius:6px;background-color:#f8fafc;padding:8px 26px 8px 10px !important;text-align:left !important;font-size:12.5px !important;width:auto}
+    .prog-table select.sel-casa,.prog-table select.sel-conductor,.prog-table select.sel-telefonica{flex:1;border:1px solid #d8e0e8 !important;border-radius:8px;background-color:#f8fafc;padding:11px 32px 11px 12px !important;text-align:left !important;font-size:15px !important;width:auto;min-height:42px;background-position: calc(100% - 18px) 19px, calc(100% - 13px) 19px}
     .prog-table td[data-label="Lugar"]{flex-wrap:wrap}
-    .prog-table td[data-label="Lugar"] input.cell{margin-top:4px;flex-basis:100%}
+    .prog-table td[data-label="Lugar"] select.sel-casa{flex-basis:100%}
+    .prog-table td[data-label="Lugar"] input.cell{margin-top:6px;flex-basis:100%}
+
+    /* Formulario: una columna */
+    .formgrid{grid-template-columns:1fr;gap:12px}
+    .formgrid label{font-size:11px;margin-bottom:6px}
+    .formgrid input,.formgrid select,.formgrid textarea{font-size:16px;min-height:46px;padding:12px 14px;border-radius:10px}
+    .formgrid .btn{width:100%;min-height:48px;padding:14px;font-size:15px}
+
+    /* Modales como bottom sheet */
+    .modal-overlay{padding:0;align-items:flex-end}
+    .modal{max-width:100%;width:100%;max-height:92vh;border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom));animation:slideUp .25s ease}
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    .modal h3{font-size:17px;padding-right:44px}
+    .modal textarea{font-size:13px;min-height:180px}
+    .modal-actions{position:sticky;bottom:0;background:#fff;padding-top:12px;margin-top:16px}
+    .modal-actions .btn{flex:1;min-height:46px;font-size:14px}
+    .modal-close{width:40px;height:40px;font-size:18px}
+
+    /* Combobox */
+    .combo-list button{font-size:15px;padding:14px;min-height:48px}
+
+    /* Tabs del modal info */
+    .tab-grupo{font-size:12.5px;padding:9px 14px;min-height:42px}
+
+    /* Inputs de mes/mes año */
+    input[type=month]{font-size:14px;min-height:40px}
+
+    /* Ajustes generales */
+    .legend{font-size:11.5px;gap:10px}
+    .legend i{width:11px;height:11px}
+    .hint{font-size:11px}
+    .aviso-datos{font-size:12px;padding:12px}
+
+    /* Tablas internas en móvil */
+    .modal table{font-size:12px}
+    .modal th{font-size:10px;padding:6px 4px}
+    .modal td{padding:7px 4px}
+  }
+
+  /* Móvil en horizontal */
+  @media (max-width:900px) and (orientation:landscape){
+    .topbar{padding:8px 14px;flex-direction:row;align-items:center}
+    .brand h1{font-size:14px}
+    .brand p{display:none}
+    .controls{width:auto}
+    .kpis{padding:10px 14px 0}
+    .kpi{flex:0 0 130px}
+    main{padding:10px 14px}
+    .prog-table{min-width:700px}
+    /* En landscape el programa se ve como tabla otra vez */
+    .prog-table{display:table}
+    .prog-table thead{display:table-header-group}
+    .prog-table tbody{display:table-row-group}
+    .prog-table tr{display:table-row;padding:0;margin:0;border:0;box-shadow:none;background:transparent;border-radius:0}
+    .prog-table tr:nth-child(even) td{background:#eaf0f7}
+    .prog-table tr:nth-child(odd) td{background:#fff}
+    .prog-table td{display:table-cell !important;padding:0 !important;border:1px solid #d8e0e8 !important;height:38px;min-height:0;vertical-align:middle}
+    .prog-table td::before{display:none !important}
+    .prog-table input.cell{padding:8px !important;font-size:13px !important;min-height:0;border:0 !important;background:transparent !important;text-align:center !important;border-radius:0}
+    .prog-table input.cell.edit-lugar,.prog-table input.cell.edit-conductor,.prog-table input.cell.edit-terr{text-align:left !important}
+    .prog-table select.sel-casa,.prog-table select.sel-conductor,.prog-table select.sel-telefonica{padding:8px 26px 8px 8px !important;font-size:13px !important;min-height:0;border:0 !important;background-color:transparent;text-align:left !important}
+    .prog-table td.cell-fijo{text-align:center !important;padding:8px !important;font-size:13px}
+  }
+
+  /* Tablets en horizontal y pantallas medianas */
+  @media (min-width:721px) and (max-width:1050px){
+    .topbar{padding:12px 18px}
+    .kpis{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+    main{grid-template-columns:1fr;padding:14px 18px;gap:14px}
+    .panel{position:static;max-height:none}
+    details.card{margin:0 18px 14px}
+    .prog-sheet-wrap{padding:14px}
+    .formgrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+    .filtros select,.filtros input[type=month]{min-width:180px}
+  }
+
+  /* Dispositivos táctiles: hover states menos agresivos */
+  @media (hover:none){
+    .tile:hover rect{stroke:none;filter:none}
+    .tile:active rect{stroke:#0b1b2e;stroke-width:3}
   }
 </style>
 </head>
@@ -304,7 +460,7 @@
 </details>
 
 <footer class="sistema-footer">
-  <strong>Sistema v22.0</strong> · Monitor de Territorios · Última actualización: Octubre 2026
+  <strong>Sistema v23.0 · Optimizado para móvil y tablet</strong> · Última actualización: Octubre 2026
 </footer>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -482,10 +638,10 @@ function renderKPIs(){
   const pct = r.total ? Math.round(r.completado / r.total * 100) : 0;
   const nombreMes = new Date(mesActual+'-01T00:00:00').toLocaleDateString('es-EC',{month:'long',year:'numeric'});
   document.getElementById('kpis').innerHTML = `
-    <div class="kpi" style="border-color:#2b5486"><span>Periodo</span><strong style="font-size:17px;text-transform:capitalize">${nombreMes}</strong><small>${r.total} territorios en total</small></div>
-    <div class="kpi" style="border-color:#2fb36b"><span>Completados</span><strong>${r.completado}</strong><small>${pct}% de cobertura del mes</small></div>
+    <div class="kpi" style="border-color:#2b5486"><span>Periodo</span><strong style="font-size:17px;text-transform:capitalize">${nombreMes}</strong><small>${r.total} territorios</small></div>
+    <div class="kpi" style="border-color:#2fb36b"><span>Completados</span><strong>${r.completado}</strong><small>${pct}% del mes</small></div>
     <div class="kpi" style="border-color:#f0a02a"><span>Parciales</span><strong>${r.parcial}</strong><small>Requieren repaso</small></div>
-    <div class="kpi" style="border-color:#d9534f"><span>Vencidos +30d</span><strong>${r.vencido}</strong><small>Prioridad alta</small></div>
+    <div class="kpi" style="border-color:#d9534f"><span>Vencidos</span><strong>${r.vencido}</strong><small>+30 días</small></div>
     <div class="kpi" style="border-color:#c9d2dd"><span>Sin registro</span><strong>${r.sin_datos}</strong><small>Nunca predicados</small></div>`;
 }
 
@@ -511,13 +667,13 @@ function renderPanel(){
     <div style="margin-top:10px"><span class="pill" style="background:${ESTADOS[est.estado].fill}">${ESTADOS[est.estado].label}</span></div>
     <div class="meta">
       <div><span>Última cobertura</span><strong>${est.ultima ? fmt(est.ultima) : 'Nunca'}</strong></div>
-      <div><span>Días desde entonces</span><strong>${est.dias === null ? '—' : est.dias + ' días'}</strong></div>
+      <div><span>Días desde</span><strong>${est.dias === null ? '—' : est.dias + ' días'}</strong></div>
       <div><span>Veces asignado</span><strong>${vA}</strong></div>
       <div><span>Veces completado</span><strong>${vC}</strong></div>
       <div><span>Veces parcial</span><strong>${vP}</strong></div>
       <div><span>Última asignación</span><strong>${uA ? fmt(uA) : '—'}</strong></div>
     </div>
-    <h3 style="font-size:13px;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px">Historial de predicación</h3>
+    <h3 style="font-size:13px;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px">Historial</h3>
     <table style="margin-top:6px"><thead><tr><th>Fecha</th><th>Conductor</th><th>Resultado</th><th>Observación</th></tr></thead><tbody>${filas}</tbody></table>
     ${est.estado === 'vencido' || est.estado === 'sin_datos' ? `<p class="hint" style="color:#d9534f;font-weight:600;margin-top:12px">⚠ Este territorio debería incluirse en el programa de esta semana.</p>` : ''}`;
 }
@@ -528,10 +684,10 @@ function panelResumen(){
     const pct = Math.round(comp/tot*100);
     return `<div class="grow"><span><strong style="color:${g.color}">■</strong> ${g.nombre}</span><span>${comp}/${tot} · ${pct}%</span></div><div class="barra"><i style="width:${pct}%;background:${g.color}"></i></div>`;
   }).join('');
-  const vacio = !registros.length ? `<p class="hint" style="background:#fff8e6;border-left:4px solid #f0a02a;padding:10px;border-radius:8px;color:#7a5b1c;margin-top:12px">ℹ️ Aún no hay registros en este dispositivo. Si registraste en otro dispositivo, usa <strong>“📥 Importar datos”</strong> en la sección de respaldo al final.</p>` : '';
+  const vacio = !registros.length ? `<p class="hint" style="background:#fff8e6;border-left:4px solid #f0a02a;padding:10px;border-radius:8px;color:#7a5b1c;margin-top:12px">ℹ️ Aún no hay registros en este dispositivo. Importa datos o registra una salida.</p>` : '';
   return `
     <h2>Resumen del mes</h2>
-    <p class="hint" style="margin-top:6px">Toca cualquier territorio del mapa para ver quién lo predicó, cuándo y con qué observaciones.</p>
+    <p class="hint" style="margin-top:6px">Toca cualquier territorio del mapa para ver su historial.</p>
     ${vacio}
     <div style="margin-top:14px">${rows}</div>
     <h3 style="font-size:13px;color:#6b7c93;text-transform:uppercase;letter-spacing:.5px;margin-top:20px">Cómo leer los colores</h3>
@@ -678,9 +834,7 @@ function tomarTerritoriosDeGrupo(grupoId, usados, max){
 function recalcularPrograma(items){
   const usados = new Set();
   items.forEach(r => {
-    // Conservar conductor manual (si lo cambió el usuario) - solo recalculamos territorios
     const conductorActual = r.conductor;
-
     if (r.tipoEspecial === 'telefonica'){
       r.grupo = null;
       r.territorios = [];
@@ -705,7 +859,6 @@ function recalcularPrograma(items){
     r.grupo = grupoElegido;
     r.territorios = ordenados;
     r.terrTexto = ordenados.length ? `${ordenados.join(', ')} DEL GRUPO ${grupoElegido}` : '';
-    // Solo sugerir conductor si el campo está vacío
     if (!conductorActual){
       if (r.dia === 'SÁBADO') r.conductor = conductorParaSabado(grupoElegido);
       else r.conductor = sugerirConductor(r.dia);
@@ -719,19 +872,15 @@ function sugerirPrograma(fechaInicio){
     const fecha = addDays(fechaInicio, DIAS_OFFSET[p.dia]);
     const esSabado = p.dia === 'SÁBADO';
     const esTelefonica = p.tipoEspecial === 'telefonica';
-
     let casaNombre = '';
     if (esTelefonica){ casaNombre = CASA_DEFAULT_POR_DIA[p.dia] || '__OTRO__'; }
     else if (esSabado && p.grupoPreferido){ casaNombre = CASA_DEFAULT_POR_GRUPO_SABADO[p.grupoPreferido] || '__OTRO__'; }
     else { casaNombre = CASA_DEFAULT_POR_DIA[p.dia] || '__OTRO__'; }
     let lugarTexto = casaNombre !== '__OTRO__' ? casaNombre : '';
-
     items.push({
       fecha, dia:p.dia, hora:p.hora, casa:casaNombre, lugar:lugarTexto,
-      conductor:'',
-      grupo:null, territorios:[], terrTexto: esTelefonica ? OPCIONES_ESPECIALES[0] : '',
-      grupoPreferido: p.grupoPreferido || null,
-      tipoEspecial: p.tipoEspecial || null,
+      conductor:'', grupo:null, territorios:[], terrTexto: esTelefonica ? OPCIONES_ESPECIALES[0] : '',
+      grupoPreferido: p.grupoPreferido || null, tipoEspecial: p.tipoEspecial || null,
     });
   });
   recalcularPrograma(items);
@@ -745,29 +894,19 @@ function renderProgramaSemanal(){
   if(!programaSemanal.length){ tbody.innerHTML=''; actualizarRangoProg(); return; }
   const opcionesCasas = CASAS_CONSIDERACION.map(c => c.nombre);
   const opcionesConductores = listaConductoresCanonica();
-
   tbody.innerHTML = programaSemanal.map((r,i)=>{
     const fechaCorta = new Date(r.fecha+'T00:00:00').getDate();
     const esOtro = r.casa === '__OTRO__';
     const esTelefonica = r.tipoEspecial === 'telefonica';
-
     const celdaTerritorio = esTelefonica
-      ? `<select class="sel-telefonica" data-idx="${i}">
-           ${OPCIONES_ESPECIALES.map(op => `<option value="${esc(op)}" ${r.terrTexto===op?'selected':''}>${esc(op)}</option>`).join('')}
-         </select>`
+      ? `<select class="sel-telefonica" data-idx="${i}">${OPCIONES_ESPECIALES.map(op => `<option value="${esc(op)}" ${r.terrTexto===op?'selected':''}>${esc(op)}</option>`).join('')}</select>`
       : `<input type="text" class="cell edit-terr" data-field="terrTexto" value="${esc(r.terrTexto)}">`;
-
-    // Asegurar que el conductor sugerido esté en las opciones (por si no está en la lista canónica)
     const conductoresDisponibles = [...opcionesConductores];
     if (r.conductor && !conductoresDisponibles.includes(r.conductor)){
       conductoresDisponibles.push(r.conductor);
       conductoresDisponibles.sort((a,b)=> a.localeCompare(b,'es'));
     }
-
-    const celdaConductor = `<select class="sel-conductor" data-idx="${i}">
-      ${conductoresDisponibles.map(c => `<option value="${esc(c)}" ${norm(c)===norm(r.conductor)?'selected':''}>${esc(c)}</option>`).join('')}
-    </select>`;
-
+    const celdaConductor = `<select class="sel-conductor" data-idx="${i}">${conductoresDisponibles.map(c => `<option value="${esc(c)}" ${norm(c)===norm(r.conductor)?'selected':''}>${esc(c)}</option>`).join('')}</select>`;
     return `<tr data-idx="${i}">
       <td class="cell-fijo" data-label="Fecha">${fechaCorta}</td>
       <td class="cell-fijo" data-label="Día">${r.dia}</td>
@@ -848,7 +987,7 @@ function abrirModalInfoTerritorios(grupoInicial){
     }
     filas.sort((a,b)=> (b.antig ?? 99999) - (a.antig ?? 99999));
     const filasHTML = filas.map(f => `<tr><td style="text-align:center"><strong>${f.t}</strong></td><td><span class="pill" style="background:${ESTADOS[f.est.estado].fill};font-size:10px;padding:3px 8px">${ESTADOS[f.est.estado].label}</span></td><td>${f.est.ultima ? fmt(f.est.ultima) : '—'}</td><td>${f.antig === null ? '—' : f.antig + ' d'}</td><td>${f.uA ? fmt(f.uA) : '—'}</td><td style="text-align:center">${f.vA}</td><td style="text-align:center">${f.vC}</td><td style="text-align:center"><button type="button" class="btn-copiar-num" data-num="${f.t}" title="Copiar número">📋</button></td></tr>`).join('');
-    return `<p class="hint" style="margin-bottom:10px">Ordenados del territorio <strong>más antiguo</strong> al más reciente (según fecha ref ${fmt(fechaRef())}). Usa 📋 para copiar el número.</p><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">${tabs}</div><div style="overflow:auto;max-height:48vh"><table style="font-size:12px"><thead><tr><th style="text-align:center">Nº</th><th>Estado</th><th>Última cobertura</th><th>Antigüedad</th><th>Última asignación</th><th style="text-align:center">Veces asig.</th><th style="text-align:center">Veces comp.</th><th></th></tr></thead><tbody>${filasHTML}</tbody></table></div>`;
+    return `<p class="hint" style="margin-bottom:10px">Ordenados del territorio <strong>más antiguo</strong> al más reciente. Fecha ref: ${fmt(fechaRef())}. Toca 📋 para copiar.</p><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">${tabs}</div><div style="overflow:auto;max-height:50vh;-webkit-overflow-scrolling:touch"><table style="font-size:12.5px"><thead><tr><th style="text-align:center">Nº</th><th>Estado</th><th>Última cobertura</th><th>Antigüedad</th><th>Últ. asignación</th><th style="text-align:center">Asig.</th><th style="text-align:center">Comp.</th><th></th></tr></thead><tbody>${filasHTML}</tbody></table></div>`;
   }
   function actualizarContenido(){
     document.getElementById('modalBody').innerHTML = construirHTML();
@@ -869,7 +1008,7 @@ function nombreArchivo(){ return `ofelia_datos_${new Date().toISOString().slice(
 document.getElementById('btnExportJSON').addEventListener('click', async ()=>{
   const texto = textoJSON(), nombre = nombreArchivo();
   try{ const blob = new Blob([texto], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = nombre; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url), 1500); }catch(e){}
-  abrirModal({ title:'💾 Datos exportados', bodyHTML:`<p>Se intentó descargar <strong>${esc(nombre)}</strong>. Si no se descargó (típico en iPhone), copia el texto.</p><textarea id="exportText" readonly>${esc(texto)}</textarea><p class="hint">Total: <strong>${registros.length}</strong> registro(s).</p>`, actions:[ { label:'📋 Copiar todo', className:'data', onClick: async ()=>{ const ta = document.getElementById('exportText'); ta.select(); ta.setSelectionRange(0,999999); try{ await navigator.clipboard.writeText(ta.value); alert('✔ Copiado.'); }catch(e){ document.execCommand('copy'); alert('✔ Copiado.'); } } }, { label:'Cerrar', className:'sec', onClick: cerrarModal } ] });
+  abrirModal({ title:'💾 Datos exportados', bodyHTML:`<p>Se intentó descargar <strong>${esc(nombre)}</strong>. Si no se descargó (típico en iPhone), copia el texto de abajo.</p><textarea id="exportText" readonly>${esc(texto)}</textarea><p class="hint">Total: <strong>${registros.length}</strong> registro(s).</p>`, actions:[ { label:'📋 Copiar todo', className:'data', onClick: async ()=>{ const ta = document.getElementById('exportText'); ta.select(); ta.setSelectionRange(0,999999); try{ await navigator.clipboard.writeText(ta.value); alert('✔ Copiado.'); }catch(e){ document.execCommand('copy'); alert('✔ Copiado.'); } } }, { label:'Cerrar', className:'sec', onClick: cerrarModal } ] });
 });
 function aplicarImportacion(nuevos){
   if(!Array.isArray(nuevos)) throw new Error('Formato inválido');
@@ -937,7 +1076,6 @@ document.getElementById('progInicio').addEventListener('change', e=>{ const inic
 document.getElementById('btnVerTerritorios').addEventListener('click', ()=>{ abrirModalInfoTerritorios(1); });
 
 document.getElementById('progBody').addEventListener('change', e=>{
-  // Cambio del selector de casa → recalcular territorios (mantiene conductores)
   const selCasa = e.target.closest('select.sel-casa');
   if (selCasa){
     const idx = +selCasa.dataset.idx, valor = selCasa.value;
@@ -948,20 +1086,10 @@ document.getElementById('progBody').addEventListener('change', e=>{
     renderProgramaSemanal();
     return;
   }
-  // Cambio del selector de conductor
   const selCond = e.target.closest('select.sel-conductor');
-  if (selCond){
-    const idx = +selCond.dataset.idx;
-    programaSemanal[idx].conductor = selCond.value;
-    return;
-  }
-  // Cambio del selector de predicación telefónica/carta
+  if (selCond){ const idx = +selCond.dataset.idx; programaSemanal[idx].conductor = selCond.value; return; }
   const selTel = e.target.closest('select.sel-telefonica');
-  if (selTel){
-    const idx = +selTel.dataset.idx;
-    programaSemanal[idx].terrTexto = selTel.value;
-    return;
-  }
+  if (selTel){ const idx = +selTel.dataset.idx; programaSemanal[idx].terrTexto = selTel.value; return; }
 });
 document.getElementById('progBody').addEventListener('input', e=>{ const inp = e.target.closest('input[data-field]'); if(!inp) return; const idx = +inp.closest('tr').dataset.idx; programaSemanal[idx][inp.dataset.field] = inp.value; });
 
@@ -974,19 +1102,19 @@ document.getElementById('btnExportPNG').addEventListener('click', async ()=>{
       const st = clonedDoc.createElement('style');
       st.textContent = `
         #progSheet{max-width:${ANCHO_FIJO}px !important;width:${ANCHO_FIJO}px !important;border:1px solid #cbd6e2 !important;border-radius:6px !important;box-shadow:0 2px 8px rgba(0,0,0,.06) !important;background:#fff !important;overflow:visible !important}
-        #progSheet .prog-header{padding:18px 16px 14px !important; border-radius:0 !important; margin:0 !important}
+        #progSheet .prog-header{padding:18px 16px 14px !important; border-radius:0 !important; margin:0 !important; background:#1f3a5f !important}
         #progSheet .prog-cong{font-size:20px !important;letter-spacing:1.5px !important;margin-bottom:18px !important}
         #progSheet .prog-table{display:table !important;min-width:${ANCHO_FIJO-2}px !important;width:${ANCHO_FIJO-2}px !important;border-collapse:collapse !important;table-layout:fixed !important}
         #progSheet .prog-table thead{display:table-header-group !important}
         #progSheet .prog-table tbody{display:table-row-group !important}
         #progSheet .prog-table tr{display:table-row !important;padding:0 !important;margin:0 !important;border:0 !important;box-shadow:none !important;background:transparent !important;border-radius:0 !important}
         #progSheet .prog-table th{display:table-cell !important;padding:9px 8px !important}
-        #progSheet .prog-table td{display:table-cell !important;padding:0 !important;border:1px solid #d8e0e8 !important;height:36px !important;vertical-align:middle !important;overflow:hidden !important}
+        #progSheet .prog-table td{display:table-cell !important;padding:0 !important;border:1px solid #d8e0e8 !important;height:38px !important;vertical-align:middle !important;overflow:hidden !important}
         #progSheet .prog-table tr:nth-child(even) td{background:#eaf0f7 !important}
         #progSheet .prog-table tr:nth-child(odd) td{background:#fff !important}
         #progSheet .prog-table td::before{display:none !important;content:none !important}
-        #progSheet .prog-table td.cell-fijo{text-align:center !important;font-weight:600 !important;color:#1f3a5f !important;padding:8px !important;font-size:13px !important}
-        #progSheet .prog-table input.cell{width:100% !important;border:0 !important;background:transparent !important;padding:8px !important;font-size:12.5px !important;text-align:center !important}
+        #progSheet .prog-table td.cell-fijo{text-align:center !important;font-weight:600 !important;color:#1f3a5f !important;padding:9px !important;font-size:13px !important}
+        #progSheet .prog-table input.cell{width:100% !important;border:0 !important;background:transparent !important;padding:8px !important;font-size:12.5px !important;text-align:center !important;min-height:0 !important}
         #progSheet .prog-table input.cell.edit-lugar,#progSheet .prog-table input.cell.edit-conductor,#progSheet .prog-table input.cell.edit-terr{text-align:left !important}
         #progSheet .prog-table select.sel-casa,#progSheet .prog-table select.sel-conductor,#progSheet .prog-table select.sel-telefonica{display:none !important}`;
       clonedDoc.head.appendChild(st);
