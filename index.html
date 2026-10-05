@@ -89,8 +89,6 @@
   .btn.danger:hover{background:#b53c38}
   .btn.data{background:#2fb36b;color:#fff}
   .btn.data:hover{background:#259a5a}
-  .btn.cloud{background:#0d6efd;color:#fff}
-  .btn.cloud:hover{background:#0a58ca}
   .hint{font-size:11.5px;color:#8494a8;margin-top:6px}
   #tablaRegistros td:nth-child(1){white-space:nowrap}
   .vacio{text-align:center;padding:30px 10px;color:#8494a8;font-size:13px}
@@ -134,18 +132,11 @@
   .aviso-datos{background:#e7f3ff;border-left:4px solid #2b5486;padding:10px 12px;border-radius:8px;color:#1f3a5f;font-size:12.5px;line-height:1.5}
   .aviso-datos strong{display:block;margin-bottom:3px}
 
-  /* ========= NUBE ========= */
-  .cloud-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
-  .cloud-grid .full{grid-column:1/-1}
-  .cloud-grid label{display:block;font-size:11.5px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
-  .cloud-grid input{width:100%}
   .cloud-status{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;color:#fff;font-size:12px;font-weight:700;background:#8494a8}
   .cloud-status::before{content:'';width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.6}
   .cloud-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-  .cloud-help{background:#fff8e6;border-left:4px solid #f0a02a;padding:12px;border-radius:8px;color:#7a5b1c;font-size:12.5px;line-height:1.6;margin-bottom:14px}
+  .cloud-help{background:#fff8e6;border-left:4px solid #f0a02a;padding:12px;border-radius:8px;color:#7a5b1c;font-size:12.5px;line-height:1.6}
   .cloud-help strong{color:#5a4208}
-  .cloud-help ol{margin:6px 0 0;padding-left:20px}
-  .cloud-help li{margin-bottom:4px}
   .cloud-help code{background:#fff;padding:2px 6px;border-radius:4px;font-size:11.5px;border:1px solid #e0d5b8}
 
   .modal-overlay{position:fixed;inset:0;background:rgba(11,27,46,.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;padding-top:calc(16px + env(safe-area-inset-top));padding-bottom:calc(16px + env(safe-area-inset-bottom))}
@@ -236,7 +227,6 @@
     .prog-toolbar .hint{display:none}
     .chk-fusion{width:100%;padding:12px;font-size:13px;min-height:46px;justify-content:flex-start}
 
-    .cloud-grid{grid-template-columns:1fr}
     .cloud-actions .btn{flex:1;min-height:46px}
 
     .prog-sheet-wrap{padding:8px;margin-top:10px;background:transparent}
@@ -339,7 +329,7 @@
   </div>
   <div class="controls">
     <label>Mes <input type="month" id="mesInput"></label>
-    <span class="cloud-status" id="cloudStatusTop">Nube: sin configurar</span>
+    <span class="cloud-status" id="cloudStatusTop">Nube: iniciando…</span>
     <div class="switch">
       <button data-view="estado" class="active">Por estado</button>
       <button data-view="grupo">Por grupo</button>
@@ -433,57 +423,10 @@
   </div>
 </details>
 
-<details class="card" open>
-  <summary>☁️ Sincronización en la nube</summary>
-  <div class="details-content">
-    <div class="cloud-help">
-      <strong>¿Quieres que los datos estén siempre disponibles en línea?</strong>
-      Con <strong>JSONBin.io</strong> (gratis) tus registros viven en la nube. Así, si abres el sitio en cualquier dispositivo, los datos aparecen automáticamente. Sigue estos pasos una sola vez:
-      <ol>
-        <li>Entra a <code>jsonbin.io</code> y crea una cuenta gratis.</li>
-        <li>En <strong>API Keys</strong>, copia tu <strong>Master Key</strong> (empieza con <code>$2a$10$...</code>).</li>
-        <li>Ve a <strong>Bins → Create Bin</strong>, pega <code>{"registros":[]}</code> y guárdalo.</li>
-        <li>Copia el <strong>Bin ID</strong> (aparece en la URL del bin).</li>
-        <li>Pega ambos valores abajo y pulsa <strong>Guardar credenciales</strong>.</li>
-      </ol>
-    </div>
-
-    <div class="cloud-grid">
-      <div class="full">
-        <label>Master Key (JSONBin)</label>
-        <input type="password" id="cloudApiKey" placeholder="$2a$10$...">
-      </div>
-      <div class="full">
-        <label>Bin ID</label>
-        <input type="text" id="cloudBinId" placeholder="Ej: 65f1a2b3c4d5e6f7a8b9c0d1">
-      </div>
-      <div class="full">
-        <label class="chk-fusion" style="text-transform:none;font-weight:600;letter-spacing:0" id="lblAutoSync">
-          <input type="checkbox" id="chkAutoSync">
-          <span>🔁 Sincronizar automáticamente al guardar cambios</span>
-        </label>
-      </div>
-    </div>
-
-    <div class="cloud-actions">
-      <button class="btn cloud" id="btnCloudSave" type="button">💾 Guardar credenciales</button>
-      <button class="btn data" id="btnCloudUpload" type="button">⬆️ Subir datos ahora</button>
-      <button class="btn sec" id="btnCloudDownload" type="button">⬇️ Bajar datos ahora</button>
-      <button class="btn sec" id="btnCloudClear" type="button">🚫 Quitar credenciales</button>
-    </div>
-    <p class="hint">
-      Estado: <span class="cloud-status" id="cloudStatus">Sin configurar</span>
-    </p>
-    <p class="hint">
-      ⚠️ La Master Key queda visible en el navegador. No compartas tu HTML con la clave en un sitio público si te preocupa la seguridad. Para producción usa un Access Key restringido a tu bin.
-    </p>
-  </div>
-</details>
-
 <details class="card">
   <summary>💾 Respaldo local (exportar / importar JSON)</summary>
   <div class="details-content">
-    <div class="aviso-datos"><strong>📱 Respaldo manual</strong>Los registros viven en el navegador. Si no usas la nube, exporta aquí un .json y guárdalo.</div>
+    <div class="aviso-datos"><strong>📱 Respaldo manual</strong>Exporta un .json para guardar un respaldo en tu dispositivo.</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
       <button class="btn data" id="btnExportJSON" type="button">💾 Exportar JSON</button>
       <button class="btn data" id="btnImportJSON" type="button">📥 Importar JSON</button>
@@ -493,8 +436,26 @@
   </div>
 </details>
 
+<details class="card">
+  <summary>⚙️ Administración (solo para el responsable)</summary>
+  <div class="details-content">
+    <div class="cloud-help">
+      <strong>Estado de la sincronización</strong>
+      <p style="margin-top:8px">Los datos están guardados en la nube y se sincronizan automáticamente. Estado actual: <span class="cloud-status" id="cloudStatus">Iniciando…</span></p>
+    </div>
+    <div class="cloud-actions">
+      <button class="btn data" id="btnCloudUpload" type="button">⬆️ Subir cambios ahora</button>
+      <button class="btn sec" id="btnCloudDownload" type="button">⬇️ Bajar datos ahora</button>
+    </div>
+    <p class="hint" style="margin-top:12px">
+      Esta sección es solo informativa. Los cambios se suben solos después de 1,5 segundos de inactividad.
+      Si algo falla, pulsa "Subir cambios ahora".
+    </p>
+  </div>
+</details>
+
 <footer class="sistema-footer">
-  <strong>Sistema v25.0 · Sincronización en la nube</strong> · Última actualización: Octubre 2026
+  <strong>Sistema v26.0 · Datos en la nube (automático)</strong> · Última actualización: Octubre 2026
 </footer>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -508,7 +469,27 @@
 
 <script>
 /* ============================================================
-   1. CONFIGURACIÓN
+   ⚙️ CONFIGURACIÓN DE LA NUBE (rellenar UNA SOLA VEZ)
+   ============================================================
+   Estos dos valores son los que hacen que TODOS los que abran el
+   HTML vean los mismos datos sin configurar nada.
+
+   Pasos para obtenerlos:
+   1. Entra a jsonbin.io y crea cuenta gratis.
+   2. En "API Keys" copia tu Master Key (empieza con $2a$10$...).
+   3. En "Bins → Create Bin", pega {"registros":[]} y crea el bin.
+   4. Copia el Bin ID (parece 65f1a2b3c4d5e6f7a8b9c0d1).
+
+   Pega esos dos valores abajo entre las comillas, guarda el
+   archivo y publícalo donde quieras. Todos verán los datos.
+   ============================================================ */
+const CLOUD_CONFIG_EMBEBIDO = {
+  apiKey: '$2a$10$Y5r9vfBDcB9WGY3h/oqCk.YwkxnZY0zd236KD9oTCD7UQc1bzmZym',   // ← Pega aquí tu Master Key de JSONBin
+  binId: '6ac31511ffd5d160534da6a3'     // ← Pega aquí tu Bin ID
+};
+
+/* ============================================================
+   1. CONFIGURACIÓN GENERAL
    ============================================================ */
 const GRUPOS = [
   { id:1, nombre:'Grupo 1', color:'#f2c14e', x: 20, y: 20, w:340, h:290, cols:4,  territorios:16 },
@@ -565,7 +546,6 @@ const ORDEN_ESTADO = { vencido:0, sin_datos:1, parcial:2, pendiente:3, completad
 
 const STORAGE = 'ofelia_registros_v1';
 const FUSION_STORAGE = 'ofelia_fusion_sabado_v1';
-const CLOUD_STORAGE = 'ofelia_cloud_v2';
 const CLOUD_ENDPOINT = 'https://api.jsonbin.io/v3/b';
 
 let registros = cargar();
@@ -573,24 +553,22 @@ let mesActual = mesPorDefecto();
 let vista = 'estado';
 let seleccion = null;
 let fusionarSabado = localStorage.getItem(FUSION_STORAGE) === 'true';
-let cloudConfig = cargarCloudConfig();
-let cloudStatus = { estado:'idle', mensaje:'Sin configurar' };
 let pushTimeout = null;
+let descargandoInicial = false;
+
+const cloudConfig = {
+  apiKey: CLOUD_CONFIG_EMBEBIDO.apiKey || '',
+  binId:  CLOUD_CONFIG_EMBEBIDO.binId  || '',
+  autoSync: true
+};
+const cloudActiva = !!(cloudConfig.apiKey && cloudConfig.binId);
 
 function cargar(){ try{ const raw = localStorage.getItem(STORAGE); if(raw) return JSON.parse(raw); }catch(e){} return JSON.parse(JSON.stringify(REGISTROS_BASE)); }
-function guardar(){ try{ localStorage.setItem(STORAGE, JSON.stringify(registros)); }catch(e){} if(cloudConfig.autoSync) programarPush(); }
+function guardar(){
+  try{ localStorage.setItem(STORAGE, JSON.stringify(registros)); }catch(e){}
+  if(cloudActiva && cloudConfig.autoSync) programarPush();
+}
 function guardarFusion(){ try{ localStorage.setItem(FUSION_STORAGE, fusionarSabado ? 'true' : 'false'); }catch(e){} }
-
-function cargarCloudConfig(){
-  try{
-    const raw = localStorage.getItem(CLOUD_STORAGE);
-    if(raw) return JSON.parse(raw);
-  }catch(e){}
-  return { apiKey:'', binId:'', autoSync:false };
-}
-function guardarCloudConfig(){
-  try{ localStorage.setItem(CLOUD_STORAGE, JSON.stringify(cloudConfig)); }catch(e){}
-}
 
 function mesPorDefecto(){ if(!registros.length) return new Date().toISOString().slice(0,7); return registros.map(r=>r.fecha.slice(0,7)).sort().pop(); }
 function fechaRef(){ if(registros.length){ return registros.map(r=>r.fecha).sort().pop(); } return new Date().toISOString().slice(0,10); }
@@ -652,10 +630,9 @@ function resumenMes(mes){
 }
 
 /* ============================================================
-   2. SINCRONIZACIÓN EN LA NUBE (JSONBin.io v3)
+   2. SINCRONIZACIÓN EN LA NUBE
    ============================================================ */
 function actualizarEstadoNube(estado, mensaje){
-  cloudStatus = { estado, mensaje };
   const colores = { ok:'#2fb36b', error:'#d9534f', warn:'#f0a02a', idle:'#8494a8', loading:'#0d6efd' };
   const color = colores[estado] || colores.idle;
   ['cloudStatus','cloudStatusTop'].forEach(id=>{
@@ -667,9 +644,8 @@ function actualizarEstadoNube(estado, mensaje){
 }
 
 async function subirANube(silencioso){
-  if(!cloudConfig.apiKey || !cloudConfig.binId){
-    if(!silencioso) alert('Primero configura la API Key y el Bin ID en la sección "Sincronización en la nube".');
-    actualizarEstadoNube('warn', 'Sin configurar');
+  if(!cloudActiva){
+    actualizarEstadoNube('idle', 'Sin configurar');
     return false;
   }
   actualizarEstadoNube('loading', 'Subiendo…');
@@ -688,7 +664,7 @@ async function subirANube(silencioso){
       throw new Error(`HTTP ${res.status} · ${txt.slice(0,120)}`);
     }
     actualizarEstadoNube('ok', `Subido (${registros.length})`);
-    if(!silencioso) alert(`✔ ${registros.length} registros subidos a la nube.`);
+    if(!silencioso) alert(`✔ ${registros.length} registros subidos.`);
     return true;
   }catch(e){
     actualizarEstadoNube('error', 'Error al subir');
@@ -699,11 +675,11 @@ async function subirANube(silencioso){
 }
 
 async function descargarDeNube(silencioso){
-  if(!cloudConfig.apiKey || !cloudConfig.binId){
-    if(!silencioso) alert('Primero configura la API Key y el Bin ID en la sección "Sincronización en la nube".');
-    actualizarEstadoNube('warn', 'Sin configurar');
+  if(!cloudActiva){
+    actualizarEstadoNube('idle', 'Sin configurar');
     return false;
   }
+  descargandoInicial = true;
   actualizarEstadoNube('loading', 'Descargando…');
   try{
     const res = await fetch(`${CLOUD_ENDPOINT}/${cloudConfig.binId}/latest`, {
@@ -733,18 +709,21 @@ async function descargarDeNube(silencioso){
     }
     seleccion = null;
     renderTodo();
-    actualizarEstadoNube('ok', `Bajado (${registros.length})`);
-    if(!silencioso) alert(`✔ ${registros.length} registros descargados de la nube.`);
+    actualizarEstadoNube('ok', `Sincronizado (${registros.length})`);
+    if(!silencioso) alert(`✔ ${registros.length} registros cargados.`);
     return true;
   }catch(e){
-    actualizarEstadoNube('error', 'Error al bajar');
+    actualizarEstadoNube('error', 'Sin conexión');
     if(!silencioso) alert('Error al bajar:\n' + e.message);
     console.error(e);
     return false;
+  }finally{
+    descargandoInicial = false;
   }
 }
 
 function programarPush(){
+  if(!cloudActiva) return;
   if(pushTimeout) clearTimeout(pushTimeout);
   pushTimeout = setTimeout(()=>{ subirANube(true); }, 1500);
 }
@@ -838,7 +817,7 @@ function panelResumen(){
     const pct = Math.round(comp/tot*100);
     return `<div class="grow"><span><strong style="color:${g.color}">■</strong> ${g.nombre}</span><span>${comp}/${tot} · ${pct}%</span></div><div class="barra"><i style="width:${pct}%;background:${g.color}"></i></div>`;
   }).join('');
-  const vacio = !registros.length ? `<p class="hint" style="background:#fff8e6;border-left:4px solid #f0a02a;padding:10px;border-radius:8px;color:#7a5b1c;margin-top:12px">ℹ️ Aún no hay registros. Importa, sincroniza con la nube o registra una salida.</p>` : '';
+  const vacio = !registros.length ? `<p class="hint" style="background:#fff8e6;border-left:4px solid #f0a02a;padding:10px;border-radius:8px;color:#7a5b1c;margin-top:12px">ℹ️ Aún no hay registros. Cargando datos de la nube…</p>` : '';
   return `
     <h2>Resumen del mes</h2>
     <p class="hint" style="margin-top:6px">Toca cualquier territorio del mapa para ver su historial.</p>
@@ -1191,7 +1170,7 @@ function abrirModalInfoTerritorios(grupoInicial){
 }
 
 /* ============================================================
-   9. EXPORTAR / IMPORTAR JSON (respaldo local)
+   9. EXPORTAR / IMPORTAR (respaldo local)
    ============================================================ */
 function payloadActual(){ return { app:'ofelia_monitor', version:1, exportado:new Date().toISOString(), total:registros.length, registros:registros }; }
 function textoJSON(){ return JSON.stringify(payloadActual(), null, 2); }
@@ -1229,58 +1208,7 @@ document.getElementById('btnImportJSON').addEventListener('click', ()=>{
 });
 
 /* ============================================================
-   10. EVENTOS DE NUBE
-   ============================================================ */
-function refrescarInputsNube(){
-  document.getElementById('cloudApiKey').value = cloudConfig.apiKey || '';
-  document.getElementById('cloudBinId').value = cloudConfig.binId || '';
-  document.getElementById('chkAutoSync').checked = !!cloudConfig.autoSync;
-  document.getElementById('lblAutoSync').classList.toggle('activo', !!cloudConfig.autoSync);
-  if(!cloudConfig.apiKey || !cloudConfig.binId){
-    actualizarEstadoNube('idle', 'Sin configurar');
-  } else if(cloudStatus.estado === 'idle'){
-    actualizarEstadoNube('ok', 'Configurado');
-  }
-}
-
-document.getElementById('btnCloudSave').addEventListener('click', ()=>{
-  cloudConfig.apiKey = document.getElementById('cloudApiKey').value.trim();
-  cloudConfig.binId  = document.getElementById('cloudBinId').value.trim();
-  cloudConfig.autoSync = document.getElementById('chkAutoSync').checked;
-  guardarCloudConfig();
-  document.getElementById('lblAutoSync').classList.toggle('activo', cloudConfig.autoSync);
-  if(cloudConfig.apiKey && cloudConfig.binId){
-    actualizarEstadoNube('ok', 'Configurado');
-    alert('✔ Credenciales guardadas.\n\nPulsa "Bajar datos ahora" para traer lo que está en la nube.');
-  } else {
-    actualizarEstadoNube('warn', 'Incompleto');
-    alert('Necesitas pegar la API Key y el Bin ID.');
-  }
-});
-
-document.getElementById('btnCloudUpload').addEventListener('click', ()=>{ subirANube(false); });
-document.getElementById('btnCloudDownload').addEventListener('click', ()=>{ descargarDeNube(false); });
-
-document.getElementById('btnCloudClear').addEventListener('click', ()=>{
-  if(!confirm('¿Quitar las credenciales de la nube de este dispositivo?\n(Los datos en la nube NO se borran, solo se dejan de sincronizar aquí)')) return;
-  cloudConfig = { apiKey:'', binId:'', autoSync:false };
-  guardarCloudConfig();
-  refrescarInputsNube();
-  document.getElementById('cloudApiKey').value = '';
-  document.getElementById('cloudBinId').value = '';
-  document.getElementById('chkAutoSync').checked = false;
-  document.getElementById('lblAutoSync').classList.remove('activo');
-  actualizarEstadoNube('idle', 'Sin configurar');
-});
-
-document.getElementById('chkAutoSync').addEventListener('change', e=>{
-  cloudConfig.autoSync = e.target.checked;
-  guardarCloudConfig();
-  document.getElementById('lblAutoSync').classList.toggle('activo', cloudConfig.autoSync);
-});
-
-/* ============================================================
-   11. RENDER GLOBAL + EVENTOS
+   10. RENDER GLOBAL + EVENTOS
    ============================================================ */
 function renderTodo(){ renderKPIs(); renderLeyenda(); renderMapa(); renderPanel(); renderProgramaSemanal(); actualizarOpcionesConductores(); renderTabla(); }
 
@@ -1307,7 +1235,7 @@ document.getElementById('formRegistro').addEventListener('submit', e=>{
   const det = document.getElementById('filtroConductor').closest('details'); if(det) det.open = true;
 });
 document.getElementById('btnReset').addEventListener('click', ()=>{
-  if(!confirm('⚠️ ¿Borrar TODOS los registros de este dispositivo? Esta acción no se puede deshacer.')) return;
+  if(!confirm('⚠️ ¿Borrar TODOS los registros? Esta acción no se puede deshacer y se sincronizará a la nube.')) return;
   registros = []; guardar();
   mesActual = new Date().toISOString().slice(0,7);
   document.getElementById('mesInput').value = mesActual;
@@ -1347,6 +1275,10 @@ document.getElementById('progBody').addEventListener('change', e=>{
   if (selTel){ const idx = +selTel.dataset.idx; programaSemanal[idx].terrTexto = selTel.value; return; }
 });
 document.getElementById('progBody').addEventListener('input', e=>{ const inp = e.target.closest('input[data-field]'); if(!inp) return; const idx = +inp.closest('tr').dataset.idx; programaSemanal[idx][inp.dataset.field] = inp.value; });
+
+/* Botones manuales de nube (por si acaso) */
+document.getElementById('btnCloudUpload').addEventListener('click', ()=>{ subirANube(false); });
+document.getElementById('btnCloudDownload').addEventListener('click', ()=>{ descargarDeNube(false); });
 
 document.getElementById('btnExportPNG').addEventListener('click', async ()=>{
   if(typeof html2canvas === 'undefined'){ alert('La librería está cargando.'); return; }
@@ -1388,7 +1320,7 @@ document.getElementById('btnExportPNG').addEventListener('click', async ()=>{
 });
 
 /* ============================================================
-   12. ARRANQUE
+   11. ARRANQUE
    ============================================================ */
 (function initPrograma(){
   document.getElementById('chkFusionSabado').checked = fusionarSabado;
@@ -1410,15 +1342,14 @@ document.getElementById('btnExportPNG').addEventListener('click', async ()=>{
 
 initComboConductor();
 document.getElementById('mesInput').value = mesActual;
-refrescarInputsNube();
 renderTodo();
 
-/* Si la nube está configurada, intentar bajar datos al cargar (solo si no hay datos locales o autoSync activo) */
-if(cloudConfig.apiKey && cloudConfig.binId){
-  if(cloudConfig.autoSync || !registros.length){
-    actualizarEstadoNube('loading', 'Sincronizando…');
-    descargarDeNube(true);
-  }
+/* ARRANQUE EN LA NUBE: siempre intenta descargar si hay credenciales */
+if(cloudActiva){
+  actualizarEstadoNube('loading', 'Sincronizando…');
+  descargarDeNube(true);
+} else {
+  actualizarEstadoNube('idle', 'Sin configurar');
 }
 </script>
 </body>
