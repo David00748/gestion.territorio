@@ -170,7 +170,7 @@ footer.sistema-footer strong{color:#6b7c93}
 <aside class="panel" id="panel"></aside>
 </main>
 
-<details class="card"><summary>📋 Programa de predicación de casa en casa</summary>
+<details class="card" id="cardPrograma"><summary>📋 Programa de predicación de casa en casa</summary>
 <div class="details-content">
 <div class="prog-toolbar">
 <label>Semana del <input type="date" id="progInicio"></label>
@@ -187,10 +187,9 @@ footer.sistema-footer strong{color:#6b7c93}
 </div>
 </div></details>
 
-<!-- NUEVO: HISTORIAL DE PROGRAMAS -->
 <details class="card" id="cardHistorial"><summary>📚 Historial de Programas Generados</summary>
 <div class="details-content">
-<p class="hint" style="margin-top:0">Aquí se guardan los programas que has exportado (PNG o WhatsApp). Haz clic en "Cargar" para ver lo que se hizo esa semana y evitar repetir.</p>
+<p class="hint" style="margin-top:0">Aquí se guardan los programas que has exportado (PNG o WhatsApp). Haz clic en "Ver" para cargar ese programa en el calendario principal y evitar repetir.</p>
 <div id="listaHistorial"></div>
 <button class="btn danger" id="btnBorrarHistorial" style="margin-top:10px;">🗑️ Borrar Historial</button>
 </div></details>
@@ -249,7 +248,7 @@ footer.sistema-footer strong{color:#6b7c93}
 <div class="cloud-actions"><button class="btn data" id="btnCloudUpload" type="button">⬆️ Subir cambios</button><button class="btn sec" id="btnCloudDownload" type="button">⬇️ Bajar datos</button></div>
 </div></details>
 
-<footer class="sistema-footer"><strong>Sistema v44.0 · Historial y WhatsApp</strong> · Octubre 2026</footer>
+<footer class="sistema-footer"><strong>Sistema v44.1 · Historial y WhatsApp mejorados</strong> · Octubre 2026</footer>
 
 <!-- Modal Fusión -->
 <div class="modal-overlay" id="modalFusion">
@@ -601,31 +600,55 @@ function renderHistorialUI() {
                 <div class="hist-date">Generado: ${fecha}</div>
             </div>
             <div style="display:flex;gap:8px">
-                <button class="btn sec" onclick="cargarHistorial(${i})" style="padding:6px 12px;min-height:36px;font-size:12px">👁️ Ver</button>
-                <button class="btn danger" onclick="borrarHistItem(${i})" style="padding:6px 12px;min-height:36px;font-size:12px">🗑️</button>
+                <button class="btn sec btn-ver-hist" data-idx="${i}" style="padding:6px 12px;min-height:36px;font-size:12px">👁️ Ver</button>
+                <button class="btn danger btn-borrar-hist" data-idx="${i}" style="padding:6px 12px;min-height:36px;font-size:12px">🗑️</button>
             </div>
         </div>`;
     }).join('');
+
+    // Asignar eventos explícitamente
+    document.querySelectorAll('.btn-ver-hist').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const idx = parseInt(e.currentTarget.dataset.idx);
+            cargarHistorial(idx);
+        });
+    });
+
+    document.querySelectorAll('.btn-borrar-hist').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const idx = parseInt(e.currentTarget.dataset.idx);
+            borrarHistItem(idx);
+        });
+    });
 }
 
-window.cargarHistorial = function(idx) {
+function cargarHistorial(idx) {
     const h = historialProgramas[idx];
     if (!h) return;
+    
+    // Cargar datos
     document.getElementById('progInicio').value = h.fechaInicio;
-    programaSemanal = h.programa;
+    programaSemanal = JSON.parse(JSON.stringify(h.programa));
     gruposFusionSabado = h.fusion || [];
     guardarFusion();
     renderProgramaSemanal();
+    
+    // Cerrar el panel de historial
     document.getElementById('cardHistorial').removeAttribute('open');
-};
+    
+    // Abrir el panel del programa y hacer scroll hacia él
+    const progCard = document.getElementById('cardPrograma');
+    progCard.setAttribute('open', 'true');
+    progCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
-window.borrarHistItem = function(idx) {
+function borrarHistItem(idx) {
     if(confirm('¿Eliminar este registro del historial?')) {
         historialProgramas.splice(idx, 1);
         guardarHistorial();
         renderHistorialUI();
     }
-};
+}
 
 document.getElementById('btnBorrarHistorial').addEventListener('click', () => {
     if(confirm('¿Borrar TODO el historial de programas?')) {
