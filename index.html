@@ -54,11 +54,12 @@ details.card[open] > summary::after{transform:rotate(180deg)}
 details.card > .details-content{padding:16px 18px}
 .formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;align-items:end}
 .formgrid label{display:block;font-size:11.5px;font-weight:700;color:#6b7c93;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
-.btn{background:#2b5486;color:#fff;border:0;border-radius:9px;padding:10px 16px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;min-height:42px;transition:background .15s}
+.btn{background:#2b5486;color:#fff;border:0;border-radius:9px;padding:10px 16px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;min-height:42px;transition:background .15s;display:inline-flex;align-items:center;justify-content:center;gap:6px;}
 .btn:hover{background:#1f3a5f}
 .btn.sec{background:#e6edf5;color:#1f3a5f}.btn.danger{background:#d9534f;color:#fff}
 .btn.data{background:#2fb36b;color:#fff}.btn.pdf{background:#c0392b;color:#fff}
 .btn.pdf:hover{background:#962d22}.btn.docx{background:#2b579a;color:#fff}.btn.docx:hover{background:#1e4278}
+.btn.whatsapp{background:#25D366;color:#fff}.btn.whatsapp:hover{background:#1EBE5D}
 .hint{font-size:11.5px;color:#8494a8;margin-top:6px}
 .vacio{text-align:center;padding:30px 10px;color:#8494a8;font-size:13px}
 .filtros{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;padding:12px 14px;background:#f4f7fb;border-radius:12px}
@@ -144,6 +145,11 @@ footer.sistema-footer strong{color:#6b7c93}
 .s13-preview-wrap{margin-top:14px;max-height:500px;overflow:auto;background:#f0f4f9;padding:16px;border-radius:10px;border:1px solid #d8e0e8}
 .s13-preview-wrap .s13-page{box-shadow:0 4px 16px rgba(0,0,0,.1);margin:0 auto 16px;transform-origin:top left;transform:scale(.7);margin-bottom:-95mm}
 .s13-preview-wrap .s13-page:last-child{margin-bottom:0}
+/* Historial */
+.hist-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border:1px solid #e6edf5;border-radius:8px;margin-bottom:8px;background:#fff;transition:border .2s}
+.hist-item:hover{border-color:#2b5486;background:#f4f7fb}
+.hist-info{font-size:13px;font-weight:600;color:#1f3a5f}
+.hist-date{font-size:11.5px;color:#8494a8;font-weight:normal;margin-left:8px}
 @media(max-width:720px){.topbar{padding:10px 14px;gap:8px;flex-direction:column;align-items:stretch}.brand h1{font-size:15px}.controls{width:100%;justify-content:space-between;gap:8px}.kpis{padding:12px;grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}.kpi{padding:10px}.kpi strong{font-size:20px}main{padding:12px;gap:12px}.panel{position:static;max-height:none;padding:12px}details.card{margin:0 12px 12px}details.card > summary{padding:12px 14px;font-size:14px}details.card > .details-content{padding:12px 14px}.formgrid{grid-template-columns:1fr}.formgrid .btn{width:100%}.filtros{flex-direction:column;align-items:stretch}.filtros select,.filtros input[type=month]{width:100%;min-width:0}.s13-preview-wrap{padding:8px}.s13-preview-wrap .s13-page{transform:scale(.32);margin-bottom:-200mm}}
 </style>
 </head>
@@ -168,8 +174,9 @@ footer.sistema-footer strong{color:#6b7c93}
 <div class="details-content">
 <div class="prog-toolbar">
 <label>Semana del <input type="date" id="progInicio"></label>
-<button class="btn sec" id="btnConfigFusion" type="button">⚙️ Configurar Fusión Sábado</button>
+<button class="btn sec" id="btnConfigFusion" type="button">⚙️ Fusión Sábado</button>
 <button class="btn sec" id="btnVerTerritorios" type="button">🗂️ Ver territorios</button>
+<button class="btn whatsapp" id="btnWhatsApp" type="button">📲 WhatsApp</button>
 <button class="btn sec" id="btnExportPNG" type="button">📷 PNG</button>
 </div>
 <div class="prog-sheet-wrap">
@@ -178,6 +185,14 @@ footer.sistema-footer strong{color:#6b7c93}
 <table class="prog-table"><thead><tr><th style="width:70px">FECHA</th><th style="width:110px">DÍA</th><th style="width:80px">HORA</th><th>LUGAR</th><th>CONDUCTOR</th><th>TERRITORIO</th></tr></thead><tbody id="progBody"></tbody></table>
 </div>
 </div>
+</div></details>
+
+<!-- NUEVO: HISTORIAL DE PROGRAMAS -->
+<details class="card" id="cardHistorial"><summary>📚 Historial de Programas Generados</summary>
+<div class="details-content">
+<p class="hint" style="margin-top:0">Aquí se guardan los programas que has exportado (PNG o WhatsApp). Haz clic en "Cargar" para ver lo que se hizo esa semana y evitar repetir.</p>
+<div id="listaHistorial"></div>
+<button class="btn danger" id="btnBorrarHistorial" style="margin-top:10px;">🗑️ Borrar Historial</button>
 </div></details>
 
 <details class="card"><summary>➕ Registrar una salida de predicación</summary>
@@ -234,7 +249,7 @@ footer.sistema-footer strong{color:#6b7c93}
 <div class="cloud-actions"><button class="btn data" id="btnCloudUpload" type="button">⬆️ Subir cambios</button><button class="btn sec" id="btnCloudDownload" type="button">⬇️ Bajar datos</button></div>
 </div></details>
 
-<footer class="sistema-footer"><strong>Sistema v43.0 · Territorios de fusión sin mezcla</strong> · Octubre 2026</footer>
+<footer class="sistema-footer"><strong>Sistema v44.0 · Historial y WhatsApp</strong> · Octubre 2026</footer>
 
 <!-- Modal Fusión -->
 <div class="modal-overlay" id="modalFusion">
@@ -296,6 +311,7 @@ const ESTADOS = {completado:{fill:'#2fb36b',label:'Completado este mes'},parcial
 const ORDEN_ESTADO = {vencido:0,sin_datos:1,parcial:2,pendiente:3,completado:4};
 const STORAGE = 'ofelia_registros_v1';
 const FUSION_STORAGE = 'ofelia_fusion_grupos_v1';
+const HISTORIAL_STORAGE = 'ofelia_historial_programas_v1';
 const CLOUD_ENDPOINT = 'https://api.jsonbin.io/v3/b';
 
 let registros = cargar();
@@ -304,12 +320,14 @@ let vista = 'estado';
 let seleccion = null;
 let gruposFusionSabado = JSON.parse(localStorage.getItem(FUSION_STORAGE) || '[]');
 let pushTimeout = null;
+let historialProgramas = JSON.parse(localStorage.getItem(HISTORIAL_STORAGE) || '[]');
 const cloudConfig = { apiKey: CLOUD_CONFIG_EMBEBIDO.apiKey||'', binId: CLOUD_CONFIG_EMBEBIDO.binId||'', autoSync: true };
 const cloudActiva = !!(cloudConfig.apiKey && cloudConfig.binId);
 
 function cargar(){try{const raw=localStorage.getItem(STORAGE);if(raw)return JSON.parse(raw);}catch(e){}return JSON.parse(JSON.stringify(REGISTROS_BASE));}
 function guardar(){try{localStorage.setItem(STORAGE,JSON.stringify(registros));}catch(e){}if(cloudActiva&&cloudConfig.autoSync)programarPush();}
 function guardarFusion(){try{localStorage.setItem(FUSION_STORAGE,JSON.stringify(gruposFusionSabado));}catch(e){}}
+function guardarHistorial(){try{localStorage.setItem(HISTORIAL_STORAGE,JSON.stringify(historialProgramas));}catch(e){}}
 function mesPorDefecto(){if(!registros.length)return new Date().toISOString().slice(0,7);return registros.map(r=>r.fecha.slice(0,7)).sort().pop();}
 function fechaRef(){if(registros.length){return registros.map(r=>r.fecha).sort().pop();}return new Date().toISOString().slice(0,10);}
 const DIAS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
@@ -397,7 +415,7 @@ function recalcularPrograma(items){
         terr=tomarTerritoriosDeGrupo(grupoElegido,usados,6);
         r.terrTexto=terr.length?`${terr.join(', ')} DE TODOS LOS GRUPOS`:'';
       }else{
-        // Seleccionar solo territorios del primer grupo de la fusión para evitar mezclas
+        // Seleccionar solo territorios del primer grupo de la fusión
         const grupoAnfitrion = grupos[0];
         terr = tomarTerritoriosDeGrupo(grupoAnfitrion, usados, 6);
         grupoElegido = grupoAnfitrion;
@@ -541,6 +559,162 @@ function initModalFusion(){
   });
 }
 
+/* ============================================================
+   HISTORIAL Y COMPARTIR
+   ============================================================ */
+function guardarEnHistorial() {
+    const inicio = document.getElementById('progInicio').value;
+    if (!inicio) return;
+    
+    // Evitar duplicados del mismo día
+    historialProgramas = historialProgramas.filter(h => h.fechaInicio !== inicio);
+    
+    // Guardar copia profunda del programa actual
+    const copia = JSON.parse(JSON.stringify(programaSemanal));
+    historialProgramas.unshift({
+        fechaInicio: inicio,
+        timestamp: Date.now(),
+        programa: copia,
+        fusion: [...gruposFusionSabado]
+    });
+    
+    // Limitar a los últimos 20 programas para no llenar la memoria
+    if (historialProgramas.length > 20) historialProgramas.pop();
+    
+    guardarHistorial();
+    renderHistorialUI();
+}
+
+function renderHistorialUI() {
+    const cont = document.getElementById('listaHistorial');
+    if (!historialProgramas.length) {
+        cont.innerHTML = '<div class="vacio">No hay programas guardados aún. Al descargar un PNG o enviar por WhatsApp, se guardará aquí.</div>';
+        return;
+    }
+    
+    cont.innerHTML = historialProgramas.map((h, i) => {
+        const fecha = new Date(h.timestamp).toLocaleString('es-EC', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'});
+        return `
+        <div class="hist-item">
+            <div>
+                <div class="hist-info">Semana del ${h.fechaInicio}</div>
+                <div class="hist-date">Generado: ${fecha}</div>
+            </div>
+            <div style="display:flex;gap:8px">
+                <button class="btn sec" onclick="cargarHistorial(${i})" style="padding:6px 12px;min-height:36px;font-size:12px">👁️ Ver</button>
+                <button class="btn danger" onclick="borrarHistItem(${i})" style="padding:6px 12px;min-height:36px;font-size:12px">🗑️</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+window.cargarHistorial = function(idx) {
+    const h = historialProgramas[idx];
+    if (!h) return;
+    document.getElementById('progInicio').value = h.fechaInicio;
+    programaSemanal = h.programa;
+    gruposFusionSabado = h.fusion || [];
+    guardarFusion();
+    renderProgramaSemanal();
+    document.getElementById('cardHistorial').removeAttribute('open');
+};
+
+window.borrarHistItem = function(idx) {
+    if(confirm('¿Eliminar este registro del historial?')) {
+        historialProgramas.splice(idx, 1);
+        guardarHistorial();
+        renderHistorialUI();
+    }
+};
+
+document.getElementById('btnBorrarHistorial').addEventListener('click', () => {
+    if(confirm('¿Borrar TODO el historial de programas?')) {
+        historialProgramas = [];
+        guardarHistorial();
+        renderHistorialUI();
+    }
+});
+
+// Función compartida para generar el Canvas del programa
+async function generarCanvasPrograma() {
+    if(typeof html2canvas === 'undefined') throw new Error('html2canvas no está cargado');
+    const sheet = document.getElementById('progSheet');
+    const ANCHO = 1200;
+    return await html2canvas(sheet, { 
+        backgroundColor:'#fff', 
+        scale:2, 
+        useCORS:true, 
+        logging:false, 
+        width:ANCHO, 
+        windowWidth:ANCHO,
+        onclone: (doc) => {
+            const st = doc.createElement('style');
+            st.textContent = `#progSheet{width:${ANCHO}px !important;max-width:${ANCHO}px !important;overflow:visible !important}#progSheet .cell-combo-btn,#progSheet .cell-combo-menu{display:none !important}#progSheet select.sel-especial{display:none !important}`;
+            doc.head.appendChild(st);
+            const cl = doc.getElementById('progSheet');
+            if(!cl) return;
+            cl.querySelectorAll('input.cell').forEach(inp => { const div = doc.createElement('div'); div.textContent = inp.value || ''; div.style.cssText='width:100%;padding:8px;font-family:Arial;font-size:12.5px;text-align:left'; inp.parentNode.replaceChild(div, inp); });
+            cl.querySelectorAll('select.sel-especial').forEach(sel => { const div = doc.createElement('div'); div.textContent = sel.options[sel.selectedIndex]?.textContent || ''; div.style.cssText='width:100%;padding:8px;font-family:Arial;font-size:12.5px;text-align:left;font-weight:600'; sel.parentNode.replaceChild(div, sel); });
+        }
+    });
+}
+
+/* Botones de Exportar */
+document.getElementById('btnExportPNG').addEventListener('click', async () => {
+    try {
+        const canvas = await generarCanvasPrograma();
+        const a = document.createElement('a'); 
+        a.href = canvas.toDataURL('image/png'); 
+        a.download = `programa_ofelia_${document.getElementById('progInicio').value}.png`; 
+        a.click();
+        guardarEnHistorial();
+    } catch(e) {
+        alert('Error al generar imagen: ' + e.message);
+    }
+});
+
+document.getElementById('btnWhatsApp').addEventListener('click', async () => {
+    try {
+        const canvas = await generarCanvasPrograma();
+        const fechaStr = document.getElementById('progInicio').value;
+        
+        // Convertir canvas a Blob para compartir
+        canvas.toBlob(async (blob) => {
+            const file = new File([blob], `programa_ofelia_${fechaStr}.png`, { type: 'image/png' });
+            
+            // Verificar si el navegador soporta Web Share API
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        files: [file],
+                        title: 'Programa de Predicación',
+                        text: 'Aquí está el programa de predicación de esta semana.'
+                    });
+                    guardarEnHistorial();
+                } catch (err) {
+                    console.log('Error al compartir:', err);
+                }
+            } else {
+                // Fallback para PC: descargar imagen y abrir WhatsApp Web
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `programa_ofelia_${fechaStr}.png`;
+                a.click();
+                guardarEnHistorial();
+                
+                setTimeout(() => {
+                    window.open('https://web.whatsapp.com/', '_blank');
+                }, 800);
+                
+                alert('Se ha descargado la imagen. Se abrirá WhatsApp Web para que la adjuntes manualmente en el chat.');
+            }
+        }, 'image/png');
+    } catch(e) {
+        alert('Error al preparar para WhatsApp: ' + e.message);
+    }
+});
+
+
 function calcularAnioServicio(){const ref=fechaRef();if(!ref)return new Date().getFullYear();const y=parseInt(ref.slice(0,4),10);const m=parseInt(ref.slice(5,7),10);return m>=9?y+1:y;}
 function fmtDDMMYY(iso){if(!iso)return '';const[y,m,d]=iso.split('-');if(!y||!m||!d)return '';return `${d}/${m}/${y.slice(2)}`;}
 function construirDatosS13S(){const datos={};GRUPOS.forEach(g=>{for(let t=1;t<=g.territorios;t++)datos[`${t}G${g.id}`]=[];});GRUPOS.forEach(g=>{const regs=registros.filter(r=>r.grupo===g.id).sort((a,b)=>a.fecha.localeCompare(b.fecha));const pendientes={};regs.forEach(r=>{const asignados=nums(r.asignados);const completos=nums(r.completos);completos.forEach(t=>{const key=`${t}G${g.id}`;if(!datos[key])return;const fechaAsig=pendientes[t]||r.fecha;datos[key].push({conductor:r.conductor,fechaAsigno:fechaAsig,fechaCompleto:r.fecha});delete pendientes[t];});asignados.forEach(t=>{if(!completos.includes(t)&&!pendientes[t])pendientes[t]=r.fecha;});});});return datos;}
@@ -655,8 +829,24 @@ document.getElementById('btnCloudDownload').addEventListener('click',()=>{descar
 document.getElementById('btnGenerarS13S').addEventListener('click',generarPDFS13S);
 document.getElementById('btnGenerarDOCX').addEventListener('click',generarDOCXS13S);
 document.getElementById('btnPrevisualizarS13S').addEventListener('click',previsualizarS13S);
-document.getElementById('btnExportPNG').addEventListener('click',async()=>{if(typeof html2canvas==='undefined'){alert('Cargando.');return;}const sheet=document.getElementById('progSheet');const ANCHO=1200;const canvas=await html2canvas(sheet,{backgroundColor:'#fff',scale:2,useCORS:true,logging:false,width:ANCHO,windowWidth:ANCHO,onclone:doc=>{const st=doc.createElement('style');st.textContent=`#progSheet{width:${ANCHO}px !important;max-width:${ANCHO}px !important;overflow:visible !important}#progSheet .cell-combo-btn,#progSheet .cell-combo-menu{display:none !important}#progSheet select.sel-especial{display:none !important}`;doc.head.appendChild(st);const cl=doc.getElementById('progSheet');if(!cl)return;cl.querySelectorAll('input.cell').forEach(inp=>{const div=doc.createElement('div');div.textContent=inp.value||'';div.style.cssText='width:100%;padding:8px;font-family:Arial;font-size:12.5px;text-align:left';inp.parentNode.replaceChild(div,inp);});cl.querySelectorAll('select.sel-especial').forEach(sel=>{const div=doc.createElement('div');div.textContent=sel.options[sel.selectedIndex]?.textContent||'';div.style.cssText='width:100%;padding:8px;font-family:Arial;font-size:12.5px;text-align:left;font-weight:600';sel.parentNode.replaceChild(div,sel);});}});const a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download=`programa_ofelia_${document.getElementById('progInicio').value}.png`;a.click();});
-(function initPrograma(){initModalFusion();const inp=document.getElementById('progInicio');if(!inp)return;if(registros.length){const ultimaFecha=registros.map(r=>r.fecha).sort().pop();const lunesSiguiente=addDays(lunesDeSemana(ultimaFecha),7);inp.value=lunesSiguiente;programaSemanal=sugerirPrograma(lunesSiguiente);}else{const hoy=new Date().toISOString().slice(0,10);inp.value=lunesDeSemana(hoy);programaSemanal=sugerirPrograma(inp.value);}})();
+
+(function initPrograma(){
+    initModalFusion();
+    renderHistorialUI();
+    const inp=document.getElementById('progInicio');
+    if(!inp)return;
+    if(registros.length){
+        const ultimaFecha=registros.map(r=>r.fecha).sort().pop();
+        const lunesSiguiente=addDays(lunesDeSemana(ultimaFecha),7);
+        inp.value=lunesSiguiente;
+        programaSemanal=sugerirPrograma(lunesSiguiente);
+    }else{
+        const hoy=new Date().toISOString().slice(0,10);
+        inp.value=lunesDeSemana(hoy);
+        programaSemanal=sugerirPrograma(inp.value);
+    }
+})();
+
 initComboConductor();
 document.getElementById('mesInput').value=mesActual;
 renderTodo();
